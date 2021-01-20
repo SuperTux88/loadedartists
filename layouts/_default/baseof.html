@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" charset="UTF-8" content="text/html">
+    <meta name="viewport" content="width=device-width">
+
+    <title>{{ .Title }}</title>
+
+    <link rel="stylesheet" href="{{ "css/norm.css" | relURL }}" media="screen">
+    <link rel="stylesheet" href="{{ "css/style.css" | relURL }}" media="screen">
+
+    <script src="{{ "js/modernizr.js" | relURL }}"></script>
+
+    <!--                                                  ddd
+    dd                                                   dddd
+    ddd                                                 ddddd
+    ddddd                                             ddddddd
+    ddddddd                                         ddddddddd
+    ddddddddd                                      dddddddddd
+    ddddddddddd                                   ddddd  ddddd
+   ddddd ddddddd                                 ddddd   ddddd
+   ddddd   ddddddd                              ddddd    ddddd
+   ddddd    ddddddd                            dddddd    ddddd
+   ddddd     ddddddddddddddddddddddddddddddddddddddd     ddddd
+   ddddd      ddddddddddddddddddddddddddddddddddddd      ddddd
+   ddddd       ddddddddddddddddddddddddddddddddddd       ddddd
+   ddddd                                                 ddddd
+   ddddddddddddddd                                ddddd  ddddd
+   dddddddddddddddddd                       dddddddddddddddddd
+  dddddddd     dddddddd                  ddddddddddddddddddddd
+dddddd             dddddd              ddddddd           ddddddd
+ddddd                 ddddd            ddddd                ddddd
+dddd        ddddd      ddddd          ddddd                  ddddd
+ddddd      ddddddddd     ddddd        dddd        dddddd       dddd
+dddd       ddddddddd      dddd        dddd       dddddddd      dddd
+ddddd       ddddddd       dddd       ddddd       ddddddd       dddd
+ddddd        ddd         dddd       ddddd        ddddd       ddddd
+dddddd                  dddd         ddddd                  dddddd
+dddddddd             dddddd         dddddd               ddddddd
+  ddddddddd      dddddddd            ddddddd          ddddddddd
+  ddddddddddddddddddddd               ddddddddddddddddddddddddd
+ddddddddddddddddddddddddd                    ddddddddddddddddddddddddddddddd
+ddddddddddddd                                   ddddddddddd    ddddddddddddd
+dddddddddd                                                  dddddddd
+  dddddd                                                  ddddddd
+  dddddd                                                  dddddd
+dddddddddddd                                                  ddddddddd
+ddddddddddddd                                                  dddddddddddddddd
+  dddddd                                                  dddddd
+  dddddd                                                  ddddd-->
+
+
+<body class="not-fixed">
+<header>
+    <div class="inner">
+        <a class="hit" href="/">
+            <h1 class="cube"> Loaded Artists </h1>
+        </a>
+
+        <div class="headsup">
+            <div class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener"><img src="/img/header-widgets/bonus-panels.png" alt="Bonus panels on Patreon!"></a></div></div>
+        </div>
+    </div>
+
+    <nav class="main-nav" id="menu-nav">
+        <div class="inner">
+            <button class="ir ir-nav" id="menu-toggle">Open Nav</button>
+            <div class="links">
+                <a href="/latest"> Comic </a>
+                <a href="/archives"> Archive </a>
+                <a href="https://store.loadingartist.com/" target="_blank"> Store </a>
+                <a href="https://www.patreon.com/LoadingArtist" target="_blank"> Patreon </a>
+                <a id="twitchlink" href="https://twitch.tv/loadingartist" target="_blank"> Twitch </a>
+                <a href="/feed" class="ir ir-feed-icon"> Feed </a>
+            </div>
+        </div>
+
+    </nav>
+</header>
+
+<div class="bottomsup">
+    <div class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener"><img src="/img/header-widgets/bonus-panels.png" alt="Bonus panels on Patreon!"></a></div></div>
+</div>
+
+<div id="main">
+    {{- block "main" . }}{{- end }}
+</div>
+
+<footer>
+    <div class="inner">
+        <p class="fineprint right">
+            Copyright &copy; {{ now.Year }} Gregor Czaykowski & Community
+        </p>
+    </div>
+</footer>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+<script src="{{ "js/main.js" | relURL }}"></script>
+</body>
+</html>
+

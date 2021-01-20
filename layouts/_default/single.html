@@ -1,0 +1,68 @@
+{{ define "main" }}
+<div class="page-comic-layout comic type-comic status-publish has-post-thumbnail hentry chapters-comic">
+    <nav class="medium-or-less pagination top">
+        <a title="First" href="#TODO" class="ir ir-first">First</a>
+        <a title="Previous" href="#TODO" class="ir ir-prev">Previous</a>
+    </nav>
+    <div class="columns three">
+        <div class="col wide-only">
+            <a class="normal highlight prev comic-thumb" href="#TODO">
+                <img src="TODO" title="TODO">
+                <span>Previous</span>
+            </a>
+            <a href="#TODO" class="ir first">First</a>
+        </div>
+        <div class="col">
+            <div class="comic">
+                <a href="/comic/images/{{ .File.BaseFileName }}_HD.png" alt="{{ .Title }}" title="{{ .Title }}" >
+                    <img src="/comic/images/{{ .File.BaseFileName }}_scaled.jpg" alt="{{ .Title }}" title="{{ .Title }}" />
+                </a>
+            </div>
+        </div>
+        <div class="col wide-only">
+            <a class="normal highlight next comic-thumb" href="#TODO">
+                <img src="TODO" title="TODO">
+                <span>Next</span>
+            </a>
+            <a href="#TODO" class="ir last">Last</a>
+        </div>
+    </div>
+    <nav class="medium-or-less pagination btm">
+        <a title="First" href="#TODO" class="ir ir-first">First</a>
+        <a title="Previous" href="#TODO" class="ir ir-prev">Previous</a>
+    </nav>
+</div>
+<div class="page-comic-post columns three">
+    <div class="col deco">
+        <div class="finger-snack">
+            <img src="/img/fluff/share-left.gif">
+        </div>
+        <a class="prev bottom ir ir-prev" href="#TODO">Previous</a>
+    </div>
+    <div class="col">
+        <div class="bonus-panel">
+            <a class="bonus panel a" target="_blank" href="https://loadingartist.com/comic/{{ .File.BaseFileName }}"><img src="/img/original_comic.png" alt="Original Comic"></a>
+        </div>
+        <article class="col comic type-comic status-publish has-post-thumbnail hentry chapters-comic">
+            <header>
+                <h1>{{ .Title }}</h1>
+                <div class="meta">
+                    <span class="author">
+                        <a href="#TODO" target="_blank">{{ .Params.author }}</a>
+                    </span>
+                    <span class="date">{{ .Date.Format "January 2, 2006" }}</span>
+                </div>
+            </header>
+            <div class="body">
+                {{ .Content }}
+            </div>
+        </article>
+    </div>
+    <div class="col deco">
+        <div class="finger-snack">
+            <img src="/img/fluff/share-right.gif">
+        </div>
+        <a class="next bottom ir ir-next" href="#TODO">Next</a>
+    </div>
+</div>
+{{ end }}
