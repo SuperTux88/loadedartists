@@ -19,7 +19,7 @@
         <div class="col wide-only">
             {{ with .PrevInSection }}
                 <a class="normal highlight prev comic-thumb" href="{{ .RelPermalink }}">
-                    <img src="TODO" title="{{ .Title }}">
+                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
                     <span>Previous</span>
                 </a>
                 {{ range last 1 .Site.RegularPages }}
@@ -46,7 +46,7 @@
         <div class="col wide-only">
             {{ with .NextInSection }}
                 <a class="normal highlight next comic-thumb" href="{{ .RelPermalink }}">
-                    <img src="TODO" title="{{ .Title }}">
+                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
                     <span>Next</span>
                 </a>
                 {{ range first 1 .Site.RegularPages }}
