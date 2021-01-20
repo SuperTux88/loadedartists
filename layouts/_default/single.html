@@ -1,16 +1,40 @@
 {{ define "main" }}
 <div class="page-comic-layout comic type-comic status-publish has-post-thumbnail hentry chapters-comic">
     <nav class="medium-or-less pagination top">
-        <a title="First" href="#TODO" class="ir ir-first">First</a>
-        <a title="Previous" href="#TODO" class="ir ir-prev">Previous</a>
+        {{ with .PrevInSection }}
+        {{ range last 1 .Site.RegularPages }}
+        <a title="First"    href="{{ .RelPermalink }}" class="ir ir-first"> First </a>
+        {{ end }}
+        <a title="Previous" href="{{ .RelPermalink }}" class="ir ir-prev"> Previous </a>
+        {{ end }}
+
+        {{ with .NextInSection }}
+        <a title="Next" href="{{ .RelPermalink }}" class="ir ir-next"> Next </a>
+        {{ range first 1 .Site.RegularPages }}
+        <a title="Last" href="{{ .RelPermalink }}" class="ir ir-last"> Last </a>
+        {{ end }}
+        {{ end }}
     </nav>
     <div class="columns three">
         <div class="col wide-only">
-            <a class="normal highlight prev comic-thumb" href="#TODO">
-                <img src="TODO" title="TODO">
-                <span>Previous</span>
-            </a>
-            <a href="#TODO" class="ir first">First</a>
+            {{ with .PrevInSection }}
+                <a class="normal highlight prev comic-thumb" href="{{ .RelPermalink }}">
+                    <img src="TODO" title="{{ .Title }}">
+                    <span>Previous</span>
+                </a>
+                {{ range last 1 .Site.RegularPages }}
+                <a href="{{ .RelPermalink }}" class="ir first">First</a>
+                {{ end }}
+            {{ end }}
+            {{ if not .PrevInSection }}
+                <div class="social-links">
+                    <a class="ir ir-dc" target="_blank" href="https://discord.gg/loadingartist"> Discord </a>
+                    <a class="ir ir-fb" target="_blank" href="https://facebook.com/loadingartist"> Facebook </a>
+                    <a class="ir ir-tw" target="_blank" href="https://twitter.com/loadingartist"> Twitter </a>
+                    <a class="ir ir-in" target="_blank" href="https://instagram.com/loading.artist"> Instagram </a>
+                    <h3> Join </h3>
+                </div>
+            {{ end }}
         </div>
         <div class="col">
             <div class="comic">
@@ -20,16 +44,31 @@
             </div>
         </div>
         <div class="col wide-only">
-            <a class="normal highlight next comic-thumb" href="#TODO">
-                <img src="TODO" title="TODO">
-                <span>Next</span>
-            </a>
-            <a href="#TODO" class="ir last">Last</a>
+            {{ with .NextInSection }}
+                <a class="normal highlight next comic-thumb" href="{{ .RelPermalink }}">
+                    <img src="TODO" title="{{ .Title }}">
+                    <span>Next</span>
+                </a>
+                {{ range first 1 .Site.RegularPages }}
+                <a href="{{ .RelPermalink }}" class="ir last">Last</a>
+                {{ end }}
+            {{ end }}
         </div>
     </div>
     <nav class="medium-or-less pagination btm">
-        <a title="First" href="#TODO" class="ir ir-first">First</a>
-        <a title="Previous" href="#TODO" class="ir ir-prev">Previous</a>
+        {{ with .PrevInSection }}
+            {{ range last 1 .Site.RegularPages }}
+            <a title="First"    href="{{ .RelPermalink }}" class="ir ir-first"> First </a>
+            {{ end }}
+            <a title="Previous" href="{{ .RelPermalink }}" class="ir ir-prev"> Previous </a>
+        {{ end }}
+
+        {{ with .NextInSection }}
+            <a title="Next" href="{{ .RelPermalink }}" class="ir ir-next"> Next </a>
+            {{ range first 1 .Site.RegularPages }}
+            <a title="Last" href="{{ .RelPermalink }}" class="ir ir-last"> Last </a>
+            {{ end }}
+        {{ end }}
     </nav>
 </div>
 <div class="page-comic-post columns three">
@@ -37,7 +76,9 @@
         <div class="finger-snack">
             <img src="/img/fluff/share-left.gif">
         </div>
-        <a class="prev bottom ir ir-prev" href="#TODO">Previous</a>
+        {{ with .PrevInSection }}
+        <a class="prev bottom ir ir-prev" href="{{ .RelPermalink }}">Previous</a>
+        {{ end }}
     </div>
     <div class="col">
         <div class="bonus-panel">
@@ -62,7 +103,9 @@
         <div class="finger-snack">
             <img src="/img/fluff/share-right.gif">
         </div>
-        <a class="next bottom ir ir-next" href="#TODO">Next</a>
+        {{ with .NextInSection }}
+        <a class="next bottom ir ir-next" href="{{ .RelPermalink }}">Next</a>
+        {{ end }}
     </div>
 </div>
 {{ end }}

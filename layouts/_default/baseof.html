@@ -66,7 +66,9 @@ ddddddddddddd                                                  dddddddddddddddd
         <div class="inner">
             <button class="ir ir-nav" id="menu-toggle">Open Nav</button>
             <div class="links">
-                <a href="/latest"> Comic </a>
+                {{ range first 1 .Site.RegularPages }}
+                <a href="{{ .RelPermalink }}"> Comic </a>
+                {{ end }}
                 <a href="/archives"> Archive </a>
                 <a href="https://store.loadingartist.com/" target="_blank"> Store </a>
                 <a href="https://www.patreon.com/LoadingArtist" target="_blank"> Patreon </a>
