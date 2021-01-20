@@ -1,0 +1,18 @@
+{{ define "main" }}
+    {{ $pages := where .RegularPages "Type" "in" .Site.Params.mainSections -}}
+    {{ if (eq .Kind "home") -}}
+        {{ $pages = where .Site.RegularPages "Type" "in" .Site.Params.mainSections -}}
+    {{ end -}}
+
+
+    <div class="page-archive-layout">
+        <div class="archive-thumbs">
+            {{ range $pages.Reverse -}}
+                <a class="normal " href="{{ .RelPermalink }}">
+                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                    <span class="valign"><span>{{ .Title }}</span></span>
+                </a>
+            {{ end -}}
+        </div>
+    </div>
+{{ end -}}
