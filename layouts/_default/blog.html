@@ -1,0 +1,10 @@
+{{ define "main" }}
+<div class="columns two-thirds bg-fluff">
+    <div class="col">
+        {{ partial "blog-post" (dict "page" .) }}
+    </div>
+    <div class="col">
+        {{ partial "blog-sidebar" }}
+    </div>
+</div>
+{{ end -}}
