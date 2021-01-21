@@ -2,17 +2,17 @@
 <div class="page-comic-layout comic type-comic status-publish has-post-thumbnail hentry chapters-comic">
     <nav class="medium-or-less pagination top">
         {{ with .PrevInSection }}
-        {{ range last 1 .Site.RegularPages }}
-        <a title="First"    href="{{ .RelPermalink }}" class="ir ir-first"> First </a>
-        {{ end }}
-        <a title="Previous" href="{{ .RelPermalink }}" class="ir ir-prev"> Previous </a>
+            {{ range last 1 (where .Site.RegularPages "Section" "comic") }}
+            <a title="First"    href="{{ .RelPermalink }}" class="ir ir-first"> First </a>
+            {{ end }}
+            <a title="Previous" href="{{ .RelPermalink }}" class="ir ir-prev"> Previous </a>
         {{ end }}
 
         {{ with .NextInSection }}
-        <a title="Next" href="{{ .RelPermalink }}" class="ir ir-next"> Next </a>
-        {{ range first 1 .Site.RegularPages }}
-        <a title="Last" href="{{ .RelPermalink }}" class="ir ir-last"> Last </a>
-        {{ end }}
+            <a title="Next" href="{{ .RelPermalink }}" class="ir ir-next"> Next </a>
+            {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
+            <a title="Last" href="{{ .RelPermalink }}" class="ir ir-last"> Last </a>
+            {{ end }}
         {{ end }}
     </nav>
     <div class="columns three">
@@ -22,7 +22,7 @@
                     <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
                     <span>Previous</span>
                 </a>
-                {{ range last 1 .Site.RegularPages }}
+                {{ range last 1 (where .Site.RegularPages "Section" "comic") }}
                 <a href="{{ .RelPermalink }}" class="ir first">First</a>
                 {{ end }}
             {{ end }}
@@ -49,7 +49,7 @@
                     <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
                     <span>Next</span>
                 </a>
-                {{ range first 1 .Site.RegularPages }}
+                {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
                 <a href="{{ .RelPermalink }}" class="ir last">Last</a>
                 {{ end }}
             {{ end }}
@@ -57,7 +57,7 @@
     </div>
     <nav class="medium-or-less pagination btm">
         {{ with .PrevInSection }}
-            {{ range last 1 .Site.RegularPages }}
+            {{ range last 1 (where .Site.RegularPages "Section" "comic") }}
             <a title="First"    href="{{ .RelPermalink }}" class="ir ir-first"> First </a>
             {{ end }}
             <a title="Previous" href="{{ .RelPermalink }}" class="ir ir-prev"> Previous </a>
@@ -65,7 +65,7 @@
 
         {{ with .NextInSection }}
             <a title="Next" href="{{ .RelPermalink }}" class="ir ir-next"> Next </a>
-            {{ range first 1 .Site.RegularPages }}
+            {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
             <a title="Last" href="{{ .RelPermalink }}" class="ir ir-last"> Last </a>
             {{ end }}
         {{ end }}
@@ -125,7 +125,6 @@
             window.location.href = "{{ .RelPermalink }}";
         }
         {{ end }}
-        
     });
 </script>
 {{ end }}
