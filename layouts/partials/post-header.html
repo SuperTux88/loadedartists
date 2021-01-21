@@ -1,5 +1,5 @@
 <h1>
-    {{ if eq (.pageScratch.Get "kind") "home" }}
+    {{ if or (eq (.pageScratch.Get "kind") "home") (eq (.pageScratch.Get "kind") "section") }}
         <a href="{{ .page.RelPermalink }}" rel="bookmark">{{ .page.Title }}</a>
     {{ else }}
         {{ .page.Title }}

@@ -1,0 +1,15 @@
+{{ define "main" }}
+<div class="columns two-thirds bg-fluff">
+    <div class="col">
+        {{ $pageScratch := newScratch }}
+        {{ $pageScratch.Set "kind" .Kind }}
+        {{ range .RegularPages -}}
+        {{ partial "blog-post" (dict "pageScratch" $pageScratch "page" .) }}
+        <div class="hr"></div>
+        {{ end -}}
+    </div>
+    <div class="col">
+        {{ partial "blog-sidebar" }}
+    </div>
+</div>
+{{ end }}
