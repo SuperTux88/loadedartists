@@ -1,42 +1,16 @@
 {{ define "main" }}
 <div class="columns two-thirds">
-	<div class="col">
-		<div class="comic-thumbs">
-			<a class="wide highlight ribbon left" href="/comic/connection-error">
-				<img src="/comic/images/connection-error_thumb_wide.png" title="Connection Error">
-				<span> Latest Comic </span>
-			</a>
-			<a class="normal " href="/comic/cease-hand-desist">
-				<img src="/comic/images/cease-hand-desist_thumb.png" title="Cease Hand Desist">
-				<span> Earlier </span>
-			</a>
-			<a class="normal " href="/comic/cut-your-losses">
-				<img src="/comic/images/cut-your-losses_thumb.png" title="Cut Your Losses">
-				<span> Even Earlier </span>
-			</a>
-			<a class="normal " href="/comic/a-gifted-man">
-				<img src="/comic/images/a-gifted-man_thumb.png" title="A Gifted Man">
-				<span> Random </span>
-			</a>
-			<a class="normal " href="/comic/free-hugs">
-				<img src="/comic/images/free-hugs_thumb.png" title="Free Hugs">
-				<span> Random </span>
-			</a>
-		</div>
-	</div>
-	<div class="col wide-only">
-		<div class="widget_text widget adblock-message widget_custom_html">
-			<div class="textwidget custom-html-widget"><a href="https://www.patreon.com/LoadingArtist"
-					target="_blank" rel="noopener"><img src="/img/box-patreon.png"
-						alt="Support on Patreon!"></a></div>
-		</div>
-		<div class="widget_text widget adblock-message widget_custom_html">
-			<div class="textwidget custom-html-widget"><a
-					href="https://store.loadingartist.com/product-tag/peek-a-boo/" target="_blank"
-					rel="noopener"><img src="/img/med_mugs-peekaboo.png"
-						alt="New Designs in Store!" /></a></div>
-		</div>
-	</div>
+    <div class="col">
+        {{ partial "comic-thumbs" . }}
+    </div>
+    <div class="col wide-only">
+        <div class="widget_text widget adblock-message widget_custom_html"><div class="textwidget custom-html-widget">
+            <a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener"><img src="/img/patreon/box-patreon.png" alt="Support on Patreon!"></a>
+        </div></div>
+        <div class="widget_text widget adblock-message widget_custom_html"><div class="textwidget custom-html-widget">
+            <a href="https://store.loadingartist.com/product-tag/peek-a-boo/" target="_blank" rel="noopener"><img src="/img/promo-images/med_mugs-peekaboo.png" alt="New Designs in Store!" /></a>
+        </div></div>
+    </div>
 </div>
 <div class="hr"></div>
 <div class="columns two-thirds bg-fluff">

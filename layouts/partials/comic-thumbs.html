@@ -1,0 +1,32 @@
+<div class="comic-thumbs">
+    {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
+    <a class="wide highlight ribbon left" href="{{ .RelPermalink }}">
+        <img src="/comic/images/{{ .File.BaseFileName }}_thumb_wide.png" title="{{ .Title }}">
+        <span>Latest Comic</span>
+    </a>
+    {{ end }}
+    {{ range first 1 (after 1 (where .Site.RegularPages "Section" "comic") ) }}
+    <a class="normal " href="{{ .RelPermalink }}">
+        <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+        <span>Earlier</span>
+    </a>
+    {{ end }}
+    {{ range first 1 (after 2 (where .Site.RegularPages "Section" "comic") ) }}
+    <a class="normal " href="{{ .RelPermalink }}">
+        <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+        <span>Even Earlier</span>
+    </a>
+    {{ end }}
+    {{ range first 1 (after 3 (where .Site.RegularPages "Section" "comic") ) }}
+    <a class="normal " href="{{ .RelPermalink }}">
+        <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+        <span>Earlierer</span>
+    </a>
+    {{ end }}
+    {{ range first 1 (after 4 (where .Site.RegularPages "Section" "comic") ) }}
+    <a class="normal " href="{{ .RelPermalink }}">
+        <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+        <span>More Earlier</span>
+    </a>
+    {{ end }}
+</div>
