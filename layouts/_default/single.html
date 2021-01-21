@@ -112,4 +112,20 @@
         {{ end }}
     </div>
 </div>
+<script type="text/javascript">
+    document.addEventListener("keydown", function (event) {
+        {{ with .PrevInSection }}
+        if (event.keyCode == 37) {
+            window.location.href = "{{ .RelPermalink }}";
+        }
+        {{ end }}
+
+        {{ with .NextInSection }}
+        if (event.keyCode == 39) {
+            window.location.href = "{{ .RelPermalink }}";
+        }
+        {{ end }}
+        
+    });
+</script>
 {{ end }}
