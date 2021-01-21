@@ -16,8 +16,8 @@
     <span class="date">{{ .page.Date.Format "January 2, 2006" }}</span>
     {{ if eq .page.Section "blog" }}
     <div class="tiny-buttons">
-        <a class="ir ir-tiny-fb" href="https://www.facebook.com/sharer.php?u={{ .Permalink }}" target="_blank"> Share on Facebook </a>
-        <a class="ir ir-tiny-tw" href="https://twitter.com/share?url={{ .Permalink }}" target="_blank"> Share on Twitter </a>
+        <a class="ir ir-tiny-fb" href="https://www.facebook.com/sharer.php?u={{ .page.Permalink }}" target="_blank"> Share on Facebook </a>
+        <a class="ir ir-tiny-tw" href="https://twitter.com/share?url={{ .page.Permalink }}" target="_blank"> Share on Twitter </a>
     </div>
     {{ end }}
 </div>
