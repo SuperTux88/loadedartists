@@ -1949,5 +1949,8 @@ img.wp-smiley {
 	max-height: 28px !important;
 	height: 28px !important;
 	width: 28px;
+}
 
+span.author-link {
+	color: #fd6900;
 }

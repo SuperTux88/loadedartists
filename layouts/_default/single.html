@@ -89,7 +89,11 @@
                 <h1>{{ .Title }}</h1>
                 <div class="meta">
                     <span class="author">
-                        <a href="#TODO" target="_blank">{{ .Params.author }}</a>
+                        {{ if isset .Params "author_link" }}
+                            <a href="{{ .Params.author_link }}" target="_blank">{{ .Params.author }}</a>
+                        {{ else }}
+                            <span class="author-link">{{ .Params.author }}</span>
+                        {{ end }}
                     </span>
                     <span class="date">{{ .Date.Format "January 2, 2006" }}</span>
                 </div>
