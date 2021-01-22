@@ -1,3 +1,4 @@
 ---
 title: "Store"
+layout: "index"
 ---
