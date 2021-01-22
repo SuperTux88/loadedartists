@@ -38,23 +38,35 @@
 <div id="generate-section-2" class="generate-sections-container">
     <div class="grid-container grid-parent generate-sections-inside-container" itemprop="text"><h2
         style="text-align: center;">⋆⋆⋆ Newest ⋆⋆⋆</h2>
-        <div class="woocommerce columns-4 ">
+        <div class="woocommerce columns-4">
             <ul class="products columns-4">
-                <li class="sales-flash-overlay woocommerce-text-align-center woocommerce-image-align-center do-quantity-buttons product type-product post-7696 status-publish first instock product_cat-comicprints has-post-thumbnail taxable shipping-taxable purchasable product-type-variable has-default-attributes">
-                    <a href="#TODO"
-                       class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+                {{ $pages := where .Site.RegularPages "Section" "store" }}
+                {{ range $pages -}}
+                <li class="sales-flash-overlay woocommerce-text-align-center woocommerce-image-align-center do-quantity-buttons wc-has-gallery product type-product status-publish first instock has-post-thumbnail taxable shipping-taxable purchasable product-type-variable has-default-attributes">
+                    <a href="#TODO" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
                         <div class="wc-product-image">
                             <div class="inside-wc-product-image">
+                                {{ range first 1 .Params.images }}
                                 <img width="300" height="300"
-                                     src="TODO"
+                                     src="/img/store/products/{{ . }}"
                                      class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"/>
+                                {{ end }}
+                                {{ range first 1 (after 1 .Params.images ) }}
+                                {{ if . }}
+                                <img width="300" height="300"
+                                     src="/img/store/products/{{ . }}"
+                                     class="secondary-image attachment-shop-catalog"/>
+                                {{ end }}
+                                {{ end }}
                             </div>
                         </div>
-                        <h2 class="woocommerce-loop-product__title">TODO</h2> <span
-                        class="price"><span class="woofrom">From </span><span class="woocommerce-Price-amount amount"><bdi><span
-                        class="woocommerce-Price-currencySymbol">$</span>35.00</bdi></span></span>
+                        <h2 class="woocommerce-loop-product__title">{{ .Title }}</h2>
+                        <span class="price"><span class="woofrom">From </span><span class="woocommerce-Price-amount amount">
+                            <bdi><span class="woocommerce-Price-currencySymbol">$</span>{{ .Params.price | lang.NumFmt 2 }}</bdi>
+                        </span></span>
                     </a>
                 </li>
+                {{ end -}}
             </ul>
         </div>
     </div>
