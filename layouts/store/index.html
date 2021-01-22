@@ -48,13 +48,13 @@
                             <div class="inside-wc-product-image">
                                 {{ range first 1 .Params.images }}
                                 <img width="300" height="300"
-                                     src="/img/store/products/{{ . }}"
+                                     src="/store/images/{{ . }}"
                                      class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"/>
                                 {{ end }}
                                 {{ range first 1 (after 1 .Params.images ) }}
                                 {{ if . }}
                                 <img width="300" height="300"
-                                     src="/img/store/products/{{ . }}"
+                                     src="/store/images/{{ . }}"
                                      class="secondary-image attachment-shop-catalog"/>
                                 {{ end }}
                                 {{ end }}
