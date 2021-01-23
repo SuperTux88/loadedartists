@@ -27,13 +27,7 @@
                 {{ end }}
             {{ end }}
             {{ if not .PrevInSection }}
-                <div class="social-links">
-                    <a class="box2d ir ir-dc" target="_blank" href="https://discord.gg/loadingartist"> Discord </a>
-                    <a class="box2d ir ir-fb" target="_blank" href="https://facebook.com/loadingartist"> Facebook </a>
-                    <a class="box2d ir ir-tw" target="_blank" href="https://twitter.com/loadingartist"> Twitter </a>
-                    <a class="box2d ir ir-in" target="_blank" href="https://instagram.com/loading.artist"> Instagram </a>
-                    <h3 class="box2d"> Join </h3>
-                </div>
+                {{ partial "social-links" }}
             {{ end }}
             <div class="col-prev-next"></div>
         </div>
