@@ -1,0 +1,9 @@
+{{- $pages := .RegularPages }}
+{{- if (eq .Kind "home") }}
+{{- $pages = where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+{{- end -}}
+[
+{{- range $index, $element := $pages }}
+  "{{ .File.BaseFileName }}"{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
+{{- end }}
+]

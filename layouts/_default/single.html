@@ -7,7 +7,7 @@
             {{ end }}
             <a title="Previous" href="{{ .RelPermalink }}" class="ir ir-prev"> Previous </a>
         {{ end }}
-
+        <a title="Random" href="/random" class="ir ir-random"> Random </a>
         {{ with .NextInSection }}
             <a title="Next" href="{{ .RelPermalink }}" class="ir ir-next"> Next </a>
             {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
@@ -46,7 +46,12 @@
                 </a>
                 {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
                 <a href="{{ .RelPermalink }}" class="box2d ir last">Last</a>
+                <a href="/random" class="box2d ir ir-random"> Random </a>
                 {{ end }}
+            {{ end }}
+            {{ if not .NextInSection }}
+                <a href="/random" class="box2d ir ir-random"> Random </a>
+                {{ partial "social-links" }}
             {{ end }}
             <div class="col-prev-next"></div>
         </div>
@@ -58,7 +63,7 @@
             {{ end }}
             <a title="Previous" href="{{ .RelPermalink }}" class="ir ir-prev"> Previous </a>
         {{ end }}
-
+        <a title="Random" href="/random" class="ir ir-random"> Random </a>
         {{ with .NextInSection }}
             <a title="Next" href="{{ .RelPermalink }}" class="ir ir-next"> Next </a>
             {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
