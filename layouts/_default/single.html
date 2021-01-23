@@ -107,13 +107,13 @@
 <script type="text/javascript">
     document.addEventListener("keydown", function (event) {
         {{ with .PrevInSection }}
-        if (event.keyCode == 37) {
+        if (event.code === 'ArrowLeft') {
             window.location.href = "{{ .RelPermalink }}";
         }
         {{ end }}
 
         {{ with .NextInSection }}
-        if (event.keyCode == 39) {
+        if (event.code === 'ArrowRight') {
             window.location.href = "{{ .RelPermalink }}";
         }
         {{ end }}
