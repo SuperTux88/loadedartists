@@ -223,8 +223,8 @@ $(function () {
     success: function(data) {
       if(data === "live") {
         $("#twitchlink").html("<span>&#128308;</span> LIVE!").addClass("live");
-        $(".headsup").html('<a href="https://www.twitch.tv/loadingartist" target="_blank" rel="noopener noreferrer"><img src="/img/header-widgets/live.gif" alt="LIVE on Twitch!"></a>');
-        $(".bottomsup").html('<a href="https://www.twitch.tv/loadingartist" target="_blank" rel="noopener noreferrer"><img src="/img/header-widgets/live.gif" alt="LIVE on Twitch!"></a>');
+        $(".headsup .custom-html-widget").html('<a href="https://www.twitch.tv/loadingartist" target="_blank" rel="noopener noreferrer"><img src="/img/header-widgets/live.gif" alt="LIVE on Twitch!"></a>');
+        $(".bottomsup .custom-html-widget").html('<a href="https://www.twitch.tv/loadingartist" target="_blank" rel="noopener noreferrer"><img src="/img/header-widgets/live.gif" alt="LIVE on Twitch!"></a>');
       }
     }
   });

@@ -7,10 +7,12 @@
     <div class="page-archive-layout">
         <div class="archive-thumbs">
             {{ range $pages.Reverse -}}
-                <a class="normal " href="{{ .RelPermalink }}">
-                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
-                    <span class="valign"><span>{{ .Title }}</span></span>
-                </a>
+                <div class="box normal">
+                    <a class="box2d normal" href="{{ .RelPermalink }}">
+                        <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                        <span class="valign"><span>{{ .Title }}</span></span>
+                    </a>
+                </div>
             {{ end -}}
         </div>
     </div>

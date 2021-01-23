@@ -1,0 +1,53 @@
+.gravity .box2d {
+	z-index: 999 !important;
+}
+
+header.gravity nav.main-nav .inner {
+	background: #fd6900;
+}
+
+header.gravity nav.main-nav .links .box2d {
+	background-color: #fd6900;
+	padding: 0 26px;
+	margin-left: 0;
+}
+
+@media screen and (min-width: 721px) {
+	.not-fixed header.gravity {
+		height: 160px;
+	}
+	.not-fixed header.gravity .main-nav.inner {
+		top: 160px;
+	}
+}
+
+#main.gravity .comic-thumbs {
+	height: 520px;
+	width: 600px;
+}
+#main.gravity .comic-thumbs a.box2d {
+	height: 250px;
+}
+
+#main.gravity .promo-widget.box2d {
+	height: 250px;
+}
+
+#main .archive-thumbs div.box {
+	display: inline-block;
+	height: 277px;
+	width: 200px;
+	margin: 0 10px;
+}
+#main.gravity .archive-thumbs a.box2d {
+	height: 277px;
+}
+
+#main.gravity .col-prev-next {
+	width: 165px;
+	height: 1px;
+}
+
+#main.gravity .box2d.comic-thumb {
+	height: 220px;
+}

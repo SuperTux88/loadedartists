@@ -18,23 +18,24 @@
     <div class="columns three">
         <div class="col wide-only">
             {{ with .PrevInSection }}
-                <a class="normal highlight prev comic-thumb" href="{{ .RelPermalink }}">
+                <a class="box2d normal highlight prev comic-thumb" href="{{ .RelPermalink }}">
                     <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
                     <span>Previous</span>
                 </a>
                 {{ range last 1 (where .Site.RegularPages "Section" "comic") }}
-                <a href="{{ .RelPermalink }}" class="ir first">First</a>
+                <a href="{{ .RelPermalink }}" class="box2d ir first">First</a>
                 {{ end }}
             {{ end }}
             {{ if not .PrevInSection }}
                 <div class="social-links">
-                    <a class="ir ir-dc" target="_blank" href="https://discord.gg/loadingartist"> Discord </a>
-                    <a class="ir ir-fb" target="_blank" href="https://facebook.com/loadingartist"> Facebook </a>
-                    <a class="ir ir-tw" target="_blank" href="https://twitter.com/loadingartist"> Twitter </a>
-                    <a class="ir ir-in" target="_blank" href="https://instagram.com/loading.artist"> Instagram </a>
-                    <h3> Join </h3>
+                    <a class="box2d ir ir-dc" target="_blank" href="https://discord.gg/loadingartist"> Discord </a>
+                    <a class="box2d ir ir-fb" target="_blank" href="https://facebook.com/loadingartist"> Facebook </a>
+                    <a class="box2d ir ir-tw" target="_blank" href="https://twitter.com/loadingartist"> Twitter </a>
+                    <a class="box2d ir ir-in" target="_blank" href="https://instagram.com/loading.artist"> Instagram </a>
+                    <h3 class="box2d"> Join </h3>
                 </div>
             {{ end }}
+            <div class="col-prev-next"></div>
         </div>
         <div class="col">
             <div class="comic">
@@ -45,14 +46,15 @@
         </div>
         <div class="col wide-only">
             {{ with .NextInSection }}
-                <a class="normal highlight next comic-thumb" href="{{ .RelPermalink }}">
+                <a class="box2d normal highlight next comic-thumb" href="{{ .RelPermalink }}">
                     <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
                     <span>Next</span>
                 </a>
                 {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
-                <a href="{{ .RelPermalink }}" class="ir last">Last</a>
+                <a href="{{ .RelPermalink }}" class="box2d ir last">Last</a>
                 {{ end }}
             {{ end }}
+            <div class="col-prev-next"></div>
         </div>
     </div>
     <nav class="medium-or-less pagination btm">

@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="{{ "css/norm.css" | relURL }}" media="screen">
     <link rel="stylesheet" href="{{ "css/style.css" | relURL }}" media="screen">
+    <link rel="stylesheet" href="{{ "css/gravity.css" | relURL }}" media="screen">
 
     <script src="{{ "js/modernizr.js" | relURL }}"></script>
 
@@ -53,12 +54,12 @@ ddddddddddddd                                                  dddddddddddddddd
 <body class="not-fixed">
 <header>
     <div class="inner">
-        <a class="hit" href="/">
+        <a class="box2d hit" href="/">
             <h1 class="cube"> Loaded Artists </h1>
         </a>
 
         <div class="headsup">
-            <div class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener"><img src="/img/header-widgets/bonus-panels.png" alt="Bonus panels on Patreon!"></a></div></div>
+            <div class="box2d widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener"><img src="/img/header-widgets/bonus-panels.png" alt="Bonus panels on Patreon!"></a></div></div>
         </div>
     </div>
 
@@ -67,13 +68,13 @@ ddddddddddddd                                                  dddddddddddddddd
             <button class="ir ir-nav" id="menu-toggle">Open Nav</button>
             <div class="links">
                 {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
-                <a href="{{ .RelPermalink }}"> Comic </a>
+                <a class="box2d" href="{{ .RelPermalink }}"> Comic </a>
                 {{ end }}
-                <a href="/comic"> Archive </a>
-                <a href="/store"> Store </a>
-                <a href="https://www.patreon.com/LoadingArtist" target="_blank"> Patreon </a>
-                <a id="twitchlink" href="https://twitch.tv/loadingartist" target="_blank"> Twitch </a>
-                <a href="/index.xml" class="ir ir-feed-icon"> Feed </a>
+                <a class="box2d" href="/comic"> Archive </a>
+                <a class="box2d" href="/store"> Store </a>
+                <a class="box2d" href="https://www.patreon.com/LoadingArtist" target="_blank"> Patreon </a>
+                <a class="box2d" id="twitchlink" href="https://twitch.tv/loadingartist" target="_blank"> Twitch </a>
+                <a href="/index.xml" class="box2d ir ir-feed-icon"> Feed </a>
             </div>
         </div>
 
@@ -92,7 +93,7 @@ ddddddddddddd                                                  dddddddddddddddd
     <div class="inner">
         <div class="columns two-thirds">
             <div class="col">
-                {{ partial "comic-thumbs" . }}
+                {{ partial "comic-thumbs" (dict "Site" .Site) }}
             </div>
             <div class="col">
                 <div class="box">
@@ -115,6 +116,22 @@ ddddddddddddd                                                  dddddddddddddddd
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
 <script src="{{ "js/main.js" | relURL }}"></script>
+
+<script src="{{ "js/gravity/box-2d.js" | relURL }}"></script>
+<script type="text/javascript">
+    let broken = false;
+    document.addEventListener("keydown", function (event) {
+        if (event.ctrlKey && event.shiftKey && event.altKey && (event.code === "Digit6" || event.code === "Numpad6") && !broken) {
+            console.log("BREAK!");
+            broken = true;
+            document.getElementsByTagName("header")[0].classList.add("gravity");
+            document.getElementById("main").classList.add("gravity");
+            let script = document.createElement('script');
+            script.src = '{{ "js/gravity/gravity.js" | relURL }}';
+            document.getElementsByTagName('body')[0].appendChild(script);
+        }
+    });
+</script>
 </body>
 </html>
 

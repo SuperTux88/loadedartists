@@ -1,13 +1,13 @@
 {{ define "main" }}
 <div class="columns two-thirds">
     <div class="col">
-        {{ partial "comic-thumbs" . }}
+        {{ partial "comic-thumbs" (dict "boxClass" "box2d" "Site" .Site) }}
     </div>
     <div class="col wide-only">
-        <div class="widget_text widget adblock-message widget_custom_html"><div class="textwidget custom-html-widget">
+        <div class="box2d promo-widget widget_text widget adblock-message widget_custom_html"><div class="textwidget custom-html-widget">
             <a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener"><img src="/img/patreon/box-patreon.png" alt="Support on Patreon!"></a>
         </div></div>
-        <div class="widget_text widget adblock-message widget_custom_html"><div class="textwidget custom-html-widget">
+        <div class="box2d promo-widget widget_text widget adblock-message widget_custom_html"><div class="textwidget custom-html-widget">
             <a href="https://store.loadingartist.com/product-tag/peek-a-boo/" target="_blank" rel="noopener"><img src="/img/promo-images/med_mugs-peekaboo.png" alt="New Designs in Store!" /></a>
         </div></div>
     </div>
