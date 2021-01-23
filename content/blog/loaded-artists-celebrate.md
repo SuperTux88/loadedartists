@@ -2,6 +2,7 @@
 title: "Loaded Artists Celebrate"
 date: 2021-01-21
 author: The Community
+author_image: fame
 ---
 
 TODO: hat guy compilation image below?
