@@ -1,0 +1,28 @@
+<li class="sales-flash-overlay woocommerce-text-align-center woocommerce-image-align-center do-quantity-buttons wc-has-gallery product type-product status-publish first instock has-post-thumbnail taxable shipping-taxable purchasable product-type-variable has-default-attributes">
+    <a href="{{ .RelPermalink }}" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
+        <div class="wc-product-image">
+            <div class="inside-wc-product-image">
+                {{ range first 1 .Params.images }}
+                <img width="300" height="300"
+                     src="/store/images/{{ .name }}-300x300.jpg"
+                     class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
+                     srcset="/store/images/{{ .name }}-300x300.jpg 300w, /store/images/{{ .name }}-600x600.jpg 600w, /store/images/{{ .name }}-100x100.jpg 100w"
+                     sizes="(max-width: 300px) 100vw, 300px"/>
+                {{ end }}
+                {{ range first 1 (after 1 .Params.images ) }}
+                {{ if . }}
+                <img width="300" height="300"
+                     src="/store/images/{{ .name }}-300x300.jpg"
+                     class="secondary-image attachment-shop-catalog"
+                     srcset="/store/images/{{ .name }}-300x300.jpg 300w, /store/images/{{ .name }}-600x600.jpg 600w, /store/images/{{ .name }}-100x100.jpg 100w"
+                     sizes="(max-width: 300px) 100vw, 300px"/>
+                {{ end }}
+                {{ end }}
+            </div>
+        </div>
+        <h2 class="woocommerce-loop-product__title">{{ .Title }}</h2>
+        <span class="price"><span class="woofrom">From </span><span class="woocommerce-Price-amount amount">
+            <bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>{{ .Params.price | lang.NumFmt 2 }}</bdi>
+        </span></span>
+    </a>
+</li>

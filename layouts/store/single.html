@@ -1,0 +1,96 @@
+{{ define "main" }}
+<article
+    class="product type-product status-publish has-post-thumbnail product_cat-pins product_tag-new-zealand product_tag-spider product_shipping_class-light sales-flash-overlay woocommerce-text-align-center wc-related-upsell-columns-4 wc-related-upsell-tablet-columns-2 wc-related-upsell-mobile-columns-1 do-quantity-buttons wc-has-gallery first instock featured taxable shipping-taxable purchasable product-type-simple"
+    itemtype="https://schema.org/CreativeWork" itemscope>
+    <div class="inside-article">
+        <div class="entry-content" itemprop="text">
+            <nav class="woocommerce-breadcrumb">
+                <a href="https://store.loadingartist.com">Home</a>
+                {{- range .Params.categories -}}
+                &nbsp;&#47;&nbsp;<span>{{ . }}</span>
+                {{- end -}}
+                &nbsp;&#47;&nbsp;{{ .Title }}
+            </nav>
+            <div class="woocommerce-notices-wrapper"></div>
+            <div id="product-2873"
+                 class="sales-flash-overlay woocommerce-text-align-center wc-related-upsell-columns-4 wc-related-upsell-tablet-columns-2 wc-related-upsell-mobile-columns-1 do-quantity-buttons wc-has-gallery product type-product post-2873 status-publish instock product_cat-pins product_tag-new-zealand product_tag-spider has-post-thumbnail featured taxable shipping-taxable purchasable product-type-simple">
+                <div
+                    class="woocommerce-product-gallery woocommerce-product-gallery--with-images woocommerce-product-gallery--columns-4 images"
+                    data-columns="4" style="opacity: 0; transition: opacity .25s ease-in-out;">
+                    <figure class="woocommerce-product-gallery__wrapper">
+                        {{ range .Params.images }}
+                        <div
+                            data-thumb="/store/images/{{ .name }}-100x100.jpg"
+                            data-thumb-alt="" class="woocommerce-product-gallery__image">
+                            <a href="/store/images/{{ .name }}.jpg">
+                                <img
+                                    width="600" height="600"
+                                    src="https://store.loadingartist.com/wp-content/uploads/2019/04/spider_thumb-600x600.jpg"
+                                    class="wp-post-image" alt="" title="spider_thumb" data-caption=""
+                                    data-src="/store/images/{{ .name }}.jpg"
+                                    data-large_image="/store/images/{{ .name }}.jpg"
+                                    data-large_image_width="{{ .width }}" data-large_image_height="{{ .height }}"
+                                    srcset="/store/images/{{ .name }}-600x600.jpg 600w, /store/images/{{ .name }}-300x300.jpg 300w, /store/images/{{ .name }}-100x100.jpg 100w"
+                                    sizes="(max-width: 600px) 100vw, 600px"/>
+                            </a>
+                        </div>
+                        {{ end }}
+                    </figure>
+                </div>
+                <div class="summary entry-summary"><h1 class="product_title entry-title">{{ .Title }}</h1>
+                    <p class="price"><span class="woocommerce-Price-amount amount"><bdi><span
+                        class="woocommerce-Price-currencySymbol">&#36;</span>{{ .Params.price | lang.NumFmt 2 }}</bdi></span>
+                    </p>
+                    <div class="woocommerce-product-details__short-description"><p>{{ .Params.short_description }}</p></div>
+                    <p class="stock in-stock">Preorder now!</p>
+                    <form class="cart" action="#" method="post" enctype='multipart/form-data'>
+                        <div class="quantity">
+                            <label class="screen-reader-text" for="quantity_600c3d74ed16a">{{ .Title }} quantity</label>
+                            <input
+                                type="number"
+                                id="quantity_600c3d74ed16a"
+                                class="input-text qty text"
+                                step="1"
+                                min="1"
+                                max="54"
+                                name="quantity"
+                                value="1"
+                                title="Qty"
+                                size="4"
+                                placeholder=""
+                                inputmode="numeric"/></div>
+                        <button type="submit" name="add-to-cart" value="1234"
+                                class="single_add_to_cart_button button alt">
+                            Add to cart
+                        </button>
+                    </form>
+                </div>
+                <div class="woocommerce-tabs wc-tabs-wrapper">
+                    <ul class="tabs wc-tabs" role="tablist">
+                        <li class="description_tab" id="tab-title-description" role="tab"
+                            aria-controls="tab-description"><a href="#tab-description"> Description </a>
+                        </li>
+                    </ul>
+                    <div
+                        class="woocommerce-Tabs-panel woocommerce-Tabs-panel--description panel entry-content wc-tab"
+                        id="tab-description" role="tabpanel" aria-labelledby="tab-title-description">
+                        <h2>Description</h2>
+                        {{ .Content }}
+                    </div>
+                </div>
+                {{ $pages := where (where .Site.RegularPages "Section" "store") "File.BaseFileName" "in" .Params.related }}
+                {{ if $pages }}
+                <section class="related products">
+                    <h2>Related products</h2>
+                    <ul class="products columns-4">
+                        {{ range $pages -}}
+                            {{ partial "store/product-small" .}}
+                        {{ end -}}
+                    </ul>
+                </section>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+</article>
+{{ end -}}
