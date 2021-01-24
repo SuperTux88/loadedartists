@@ -446,7 +446,7 @@ a.generate-back-to-top:hover, a.generate-back-to-top:focus {
 }
 
 .site-header {
-	background-image: url('/img/store/2020/01/bg_clouds-shrubs2.png');
+	background-image: url('https://store.loadingartist.com/wp-content/uploads/2020/01/bg_clouds-shrubs2.png');
 	background-size: contain;
 }
 
@@ -512,32 +512,8 @@ a.generate-back-to-top:hover, a.generate-back-to-top:focus {
 }
 
 #generate-section-2 .generate-sections-inside-container {
-	padding-top: 20px;
-	padding-bottom: 20px;
-}
-
-@media (max-width: 768px) {
-	.generate-sections-inside-container {
-		padding-left: 15px;
-		padding-right: 15px;
-	}
-}
-
-#generate-section-3 .generate-sections-inside-container {
 	padding-top: 40px;
 	padding-bottom: 40px;
-}
-
-@media (max-width: 768px) {
-	.generate-sections-inside-container {
-		padding-left: 15px;
-		padding-right: 15px;
-	}
-}
-
-#generate-section-4 .generate-sections-inside-container {
-	padding-top: 0px;
-	padding-bottom: 20px;
 }
 
 @media (max-width: 768px) {

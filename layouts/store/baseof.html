@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" charset="UTF-8" content="text/html">
     <meta name="viewport" content="width=device-width">
 
-    <link media="all" href="/css/store/autoptimize_07949b2df22955bc90c85cb101682f29.css" rel="stylesheet">
+    <link media="all" href="/css/store/style.css" rel="stylesheet">
     <link media="only screen and (max-width: 768px)" href="/css/store/autoptimize_dcb2de333eec7ab4ae31385ed8d6a393.css"
           rel="stylesheet">
     <link media="(max-width:768px)" href="/css/store/autoptimize_67beaa95617232ad91cc07e54605489f.css" rel="stylesheet">
@@ -59,34 +59,35 @@ ddddddddddddd                                                  dddddddddddddddd
   dddddd                                                  dddddd
   dddddd                                                  ddddd-->
 
+</head>
 
+{{ $bodyClasses := "home page-template-default page generate-sections-enabled sections-no-sidebars" -}}
+{{ if eq .Kind "page" -}}
+{{ $bodyClasses = "product-template-default single single-product woocommerce woocommerce-page featured-image-active using-mouse" -}}
+{{ end -}}
 <body
-    class="home page-template-default page page-id-3569 wp-custom-logo wp-embed-responsive theme-generatepress generate-sections-enabled sections-no-sidebars sticky-menu-slide sticky-enabled both-sticky-menu mobile-header mobile-header-sticky woocommerce-js no-sidebar nav-below-header one-container fluid-header active-footer-widgets-3 nav-search-enabled nav-aligned-center header-aligned-center dropdown-hover"
+    class="{{ $bodyClasses }} wp-custom-logo wp-embed-responsive theme-generatepress sticky-menu-slide sticky-enabled both-sticky-menu mobile-header mobile-header-sticky woocommerce-no-js no-sidebar nav-below-header one-container fluid-header active-footer-widgets-3 nav-search-enabled nav-aligned-center header-aligned-center dropdown-hover"
     itemtype="https://schema.org/WebPage" itemscope="">
 <a class="screen-reader-text skip-link" href="#content" title="Skip to content">Skip to content</a>
-<header id="masthead" class="site-header" itemtype="https://schema.org/WPHeader" itemscope="">
+<header id="masthead" class="site-header" itemtype="https://schema.org/WPHeader" itemscope>
     <div class="inside-header">
         <div class="site-logo"><a href="/store/" title="Loading Artist Store" rel="home">
-            <noscript><img class="header-image is-logo-image" alt="Loading Artist Store"
-                           src="/img/store/2020/01/header2.png"
-                           title="Loading Artist Store"/></noscript>
-            <img class="header-image is-logo-image lazyloaded" alt="Loading Artist Store"
-                 src="/img/store/2020/01/header2.png"
-                 data-src="/img/store/2020/01/header2.png"
-                 title="Loading Artist Store"> </a></div>
+            <img class="header-image is-logo-image" alt="Loading Artist Store"
+                 src="/img/store/2020/01/header2.png" title="Loading Artist Store"/>
+        </a></div>
     </div>
 </header>
-<nav id="mobile-header" data-auto-hide-sticky="&quot;true&quot;"
-     class="main-navigation mobile-header-navigation wc-menu-cart-activated stuckElement"
-     itemtype="https://schema.org/SiteNavigationElement" itemscope="" style="z-index: 100;">
+<nav id="mobile-header" data-auto-hide-sticky=&quot;true&quot;
+     class="main-navigation mobile-header-navigation wc-menu-cart-activated"
+     itemtype="https://schema.org/SiteNavigationElement" itemscope>
     <div class="inside-navigation grid-container grid-parent">
         <form method="get" class="search-form navigation-search" action="https://store.loadingartist.com/"><input
-            type="search" class="search-field" value="" name="s" title="Search"></form>
+            type="search" class="search-field" value="" name="s" title="Search"/></form>
         <div class="mobile-bar-items"><span class="search-item"> <a aria-label="Open Search Bar" href="#"> </a> </span>
         </div>
         <div class="mobile-bar-items wc-mobile-cart-items">
             <a href="https://store.loadingartist.com/cart/" class="cart-contents shopping-bag "
-               title="View your shopping cart"><span class="number-of-items no-items"></span><span
+               title="View your shopping cart"><span class="number-of-items no-items">0</span><span
                 class="amount"></span></a>
             <div id="wc-mini-cart" class="wc-mini-cart" aria-hidden="true">
                 <div class="inside-wc-mini-cart">
@@ -159,7 +160,7 @@ ddddddddddddd                                                  dddddddddddddddd
                 <li class="wc-menu-item menu-item-align-right  "><a href="https://store.loadingartist.com/cart/"
                                                                     class="cart-contents shopping-bag "
                                                                     title="View your shopping cart"><span
-                    class="number-of-items no-items"></span><span class="amount"></span></a>
+                    class="number-of-items no-items">0</span><span class="amount"></span></a>
                     <div id="wc-mini-cart" class="wc-mini-cart" aria-hidden="true">
                         <div class="inside-wc-mini-cart">
                             <div class="widget woocommerce widget_shopping_cart">
@@ -175,17 +176,17 @@ ddddddddddddd                                                  dddddddddddddddd
         </div>
     </div>
 </nav>
-<nav id="site-navigation" class="wc-menu-cart-activated main-navigation sub-menu-right stuckElement"
-     itemtype="https://schema.org/SiteNavigationElement" itemscope="" style="z-index: 100;">
+<nav id="site-navigation" class="wc-menu-cart-activated main-navigation sub-menu-right"
+     itemtype="https://schema.org/SiteNavigationElement" itemscope>
     <div class="inside-navigation">
         <form method="get" class="search-form navigation-search" action="https://store.loadingartist.com/"><input
-            type="search" class="search-field" value="" name="s" title="Search"></form>
+            type="search" class="search-field" value="" name="s" title="Search"/></form>
         <div class="mobile-bar-items"><span class="search-item"> <a aria-label="Open Search Bar" href="#"> </a> </span>
         </div>
         <div class="mobile-bar-items wc-mobile-cart-items"><a href="https://store.loadingartist.com/cart/"
                                                               class="cart-contents shopping-bag "
                                                               title="View your shopping cart"><span
-            class="number-of-items no-items"></span><span class="amount"></span></a>
+            class="number-of-items no-items">0</span><span class="amount"></span></a>
             <div id="wc-mini-cart" class="wc-mini-cart" aria-hidden="true">
                 <div class="inside-wc-mini-cart">
                     <div class="widget woocommerce widget_shopping_cart">
@@ -245,7 +246,7 @@ ddddddddddddd                                                  dddddddddddddddd
                 <li class="wc-menu-item menu-item-align-right  "><a href="https://store.loadingartist.com/cart/"
                                                                     class="cart-contents shopping-bag "
                                                                     title="View your shopping cart"><span
-                    class="number-of-items no-items"></span><span class="amount"></span></a>
+                    class="number-of-items no-items">0</span><span class="amount"></span></a>
                     <div id="wc-mini-cart" class="wc-mini-cart" aria-hidden="true">
                         <div class="inside-wc-mini-cart">
                             <div class="widget woocommerce widget_shopping_cart">
@@ -263,7 +264,7 @@ ddddddddddddd                                                  dddddddddddddddd
 </nav>
 <div id="page" class="site grid-container container hfeed grid-parent">
     <div id="content" class="site-content">
-        <div id="primary" class="content-area grid-parent grid-100">
+        <div id="primary" class="content-area grid-parent mobile-grid-100 grid-100 tablet-grid-100">
             <main id="main" class="site-main">
                 {{- block "main" . }}{{- end }}
             </main>
@@ -325,35 +326,22 @@ ddddddddddddd                                                  dddddddddddddddd
             </div>
         </div>
     </div>
-    <footer class="site-info" itemtype="https://schema.org/WPFooter" itemscope="">
+    <footer class="site-info" itemtype="https://schema.org/WPFooter" itemscope>
         <div class="inside-site-info grid-container grid-parent">
             <div class="footer-bar">
                 <aside id="text-15" class="widget inner-padding widget_text">
                     <div class="textwidget"><p>Currency is in US Dollars (USD)</p></div>
                 </aside>
             </div>
-            <div class="copyright-bar"> COPYRIGHT © 2021 LOADING ARTIST & COMMUNITY</div>
+            <div class="copyright-bar"> COPYRIGHT &copy; 2021 LOADING ARTIST & COMMUNITY</div>
         </div>
     </footer>
 </div>
 <div id="wc-sticky-cart-panel" class="add-to-cart-panel">
     <div class="inside-add-to-cart-panel"></div>
 </div>
-<script>
-    (function () {
-        function maybePrefixUrlField() {
-            if (this.value.trim() !== '' && this.value.indexOf('http') !== 0) {
-                this.value = "http://" + this.value;
-            }
-        }
-
-        var urlFields = document.querySelectorAll('.mc4wp-form input[type="url"]');
-        if (urlFields) {
-            for (var j = 0; j < urlFields.length; j++) {
-                urlFields[j].addEventListener('blur', maybePrefixUrlField);
-            }
-        }
-    })();
+<script type="application/ld+json">
+    {{- block "data" . }}{{- end}}
 </script>
 <noscript>
     <style>
@@ -366,8 +354,42 @@ ddddddddddddd                                                  dddddddddddddddd
     window.lazySizesConfig = window.lazySizesConfig || {};
     window.lazySizesConfig.loadMode = 1;
 </script>
-<script async="" data-noptimize="1"
+<script async data-noptimize="1"
         src="/js/store/lazysizes.min.js?ao_version=2.7.8"></script>
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" aria-label="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" aria-label="Share"></button>
+                <button class="pswp__button pswp__button--fs" aria-label="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" aria-label="Zoom in/out"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" aria-label="Previous (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" aria-label="Next (arrow right)"></button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     (function () {
         var c = document.body.className;
@@ -383,6 +405,34 @@ ddddddddddddd                                                  dddddddddddddddd
         "cart_url": "https:\/\/store.loadingartist.com\/cart\/",
         "is_cart": "",
         "cart_redirect_after_add": "no"
+    };
+</script>
+<script id="wc-single-product-js-extra">
+    var wc_single_product_params = {
+        "i18n_required_rating_text": "Please select a rating",
+        "review_rating_required": "yes",
+        "flexslider": {
+            "rtl": false,
+            "animation": "slide",
+            "smoothHeight": true,
+            "directionNav": false,
+            "controlNav": "thumbnails",
+            "slideshow": false,
+            "animationSpeed": 500,
+            "animationLoop": false,
+            "allowOneSlide": false
+        },
+        "zoom_enabled": "1",
+        "zoom_options": [],
+        "photoswipe_enabled": "1",
+        "photoswipe_options": {
+            "shareEl": false,
+            "closeOnScroll": false,
+            "history": false,
+            "hideAnimationDuration": 0,
+            "showAnimationDuration": 0
+        },
+        "flexslider_enabled": "1"
     };
 </script>
 <script id="woocommerce-js-extra">
@@ -419,12 +469,12 @@ ddddddddddddd                                                  dddddddddddddddd
 <script id="generate-woocommerce-js-extra">
     var generateWooCommerce = {
         "quantityButtons": "1",
-        "stickyAddToCart": "",
+        "stickyAddToCart": "1",
         "addToCartPanel": ""
     };
 </script>
-<script defer=""
-        src="/js/store/autoptimize_dc095e2fdc356fa46629f0dfdb47a2b7.js"></script>
+<script defer
+        src="/js/store/autoptimize_5068a7169bab3ed44b2a602c7a776484.js"></script>
 </body>
 </html>
 
