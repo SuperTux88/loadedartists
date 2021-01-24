@@ -5,13 +5,18 @@
     <div class="inside-article">
         <div class="entry-content" itemprop="text">
             <nav class="woocommerce-breadcrumb">
-                <a href="https://store.loadingartist.com">Home</a>
+                <a href="/store/">Home</a>
                 {{- range .Params.categories -}}
                 &nbsp;&#47;&nbsp;<span>{{ . }}</span>
                 {{- end -}}
                 &nbsp;&#47;&nbsp;{{ .Title }}
             </nav>
-            <div class="woocommerce-notices-wrapper"></div>
+            <div class="woocommerce-notices-wrapper">
+                <div id="cartAlert" class="woocommerce-error" role="alert" style="display: none">
+                    <a href="https://store.loadingartist.com/" tabindex="1" class="button wc-forward">Real Store</a>
+                    This is not a real product! :(<br>But you can support LoadingArtist by ordering something from the real store at <a href="https://store.loadingartist.com" class="real-store-link">store.loadingartist.com</a>!
+                </div>
+            </div>
             <div id="product-2873"
                  class="sales-flash-overlay woocommerce-text-align-center wc-related-upsell-columns-4 wc-related-upsell-tablet-columns-2 wc-related-upsell-mobile-columns-1 do-quantity-buttons wc-has-gallery product type-product post-2873 status-publish instock product_cat-pins product_tag-new-zealand product_tag-spider has-post-thumbnail featured taxable shipping-taxable purchasable product-type-simple">
                 <div
@@ -43,7 +48,7 @@
                     </p>
                     <div class="woocommerce-product-details__short-description"><p>{{ .Params.short_description }}</p></div>
                     <p class="stock in-stock">Preorder now!</p>
-                    <form class="cart" action="#" method="post" enctype='multipart/form-data'>
+                    <form id="cartForm" class="cart" action="#" method="post" enctype='multipart/form-data'>
                         <div class="quantity">
                             <label class="screen-reader-text" for="quantity_600c3d74ed16a">{{ .Title }} quantity</label>
                             <input
@@ -93,4 +98,10 @@
         </div>
     </div>
 </article>
+<script type="application/javascript">
+    document.getElementById("cartForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        document.getElementById("cartAlert").style.display = "block";
+    });
+</script>
 {{ end -}}

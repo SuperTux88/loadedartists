@@ -18,6 +18,13 @@
     <link rel="stylesheet" id="generate-style-inline-css" href="/css/store/generate-style-inline.css">
 
     <script src="/js/store/jquery/jquery.js?ver=1.12.4-wp" id="jquery-core-js"></script>
+    <style>
+        a.real-store-link {
+            color: white;
+            font-weight: bolder;
+            text-decoration: underline;
+        }
+    </style>
 
     <title>{{ .Title }}</title>
 
@@ -69,6 +76,11 @@ ddddddddddddd                                                  dddddddddddddddd
     class="{{ $bodyClasses }} wp-custom-logo wp-embed-responsive theme-generatepress sticky-menu-slide sticky-enabled both-sticky-menu mobile-header mobile-header-sticky woocommerce-no-js no-sidebar nav-below-header one-container fluid-header active-footer-widgets-3 nav-search-enabled nav-aligned-center header-aligned-center dropdown-hover"
     itemtype="https://schema.org/WebPage" itemscope="">
 <a class="screen-reader-text skip-link" href="#content" title="Skip to content">Skip to content</a>
+<div class="above-header-bar" style="background: #c00;"><div class="grid-container grid-parent">
+    This is <b>NOT</b> the real LoadingArtist Store! Click <a href="https://store.loadingartist.com" class="real-store-link">HERE</a> to go to the real store!<br>
+    The categories in the navigation also lead to the real store.<br>
+    This is a community-made fun/meme-store with fake-products, you can't add anything to the cart.
+</div></div>
 <header id="masthead" class="site-header" itemtype="https://schema.org/WPHeader" itemscope>
     <div class="inside-header">
         <div class="site-logo"><a href="/store/" title="Loading Artist Store" rel="home">
