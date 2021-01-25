@@ -1,0 +1,5 @@
+{{ if .IsNamedParams }}
+<img class="wp-smiley" src="{{.Get "name" }}_28.png" alt="{{.Get "name" }}" style="height: 1em; max-height: 1em;">
+{{ else }}
+<img class="wp-smiley" src="/img/emotes/{{.Get 0}}_28.png" alt="{{.Get "name" }}" style="height: 1em; max-height: 1em;">
+{{ end }}
