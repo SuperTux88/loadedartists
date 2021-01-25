@@ -4,3 +4,6 @@ title = "LoadedArtists.com -- THE best place to read fully loaded LoadingArtist 
 
 [outputs]
 section = ["HTML", "RSS", "JSON"]
+
+[permalinks]
+blog = "/:year/:month/:day/:filename/"
