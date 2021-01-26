@@ -5,7 +5,7 @@ author: Bergermeister
 author_link: https://www.twitch.tv/bergermeister24
 ---
 
-Congrats on 10 years of Loading Artist!
+Congrats on 10 years of Loading Artist! {{< emote loadLove >}}
 
 I've been following your comics and stream since 2016 and have loved seeing each new comic and the process behind each comic. Your streams are always top notch and great entertainment each and every week. When I first saw your streams, I was instantly hooked and haven't looked back since. You have such a positive and great personality where even as the stream and community grows, you still make everyone feel welcome and give that feeling of personal connection to all of your viewers.
 
