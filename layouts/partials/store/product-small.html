@@ -1,4 +1,4 @@
-<li class="sales-flash-overlay woocommerce-text-align-center woocommerce-image-align-center do-quantity-buttons wc-has-gallery product type-product status-publish first instock has-post-thumbnail taxable shipping-taxable purchasable product-type-variable has-default-attributes">
+<li class="sales-flash-overlay woocommerce-text-align-center woocommerce-image-align-center do-quantity-buttons wc-has-gallery product type-product status-publish instock has-post-thumbnail taxable shipping-taxable purchasable product-type-simple">
     <a href="{{ .RelPermalink }}" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
         <div class="wc-product-image">
             <div class="inside-wc-product-image">
@@ -21,7 +21,7 @@
             </div>
         </div>
         <h2 class="woocommerce-loop-product__title">{{ .Title }}</h2>
-        <span class="price"><span class="woofrom">From </span><span class="woocommerce-Price-amount amount">
+        <span class="price"><span class="woocommerce-Price-amount amount">
             <bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>{{ .Params.price | lang.NumFmt 2 }}</bdi>
         </span></span>
     </a>
