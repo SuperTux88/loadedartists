@@ -10,7 +10,7 @@ images:
   height: 600
 categories:
 - Cats
-price: 5.00
+price: 10.00
 ---
 
 For instant kittens to wake you up in the morning, just add milk! {{< emote loadWow >}}
