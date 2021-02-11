@@ -1,3 +1,6 @@
+.woocommerce ul.products li:nth-child(4n) {
+	margin-right: 0;
+}
 article div#tab-description div {
 	margin-bottom: 1.5em;
 }
