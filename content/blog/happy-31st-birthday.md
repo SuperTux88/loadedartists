@@ -16,3 +16,7 @@ everything and combining everything into one big image! {{< emote loadLove >}}
 And MarcMansfield also created an incredible birthday video! {{< emote loadJ >}}
 
 {{< youtube QHsuhZHYeJI >}}
+
+And here is the reaction from Gregor when he first saw the cake {{< emote loadWow >}}
+
+{{< twitch-clip CrazyConfidentGalagoItsBoshyTime >}}
