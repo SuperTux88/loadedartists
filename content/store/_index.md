@@ -1,4 +1,4 @@
 ---
-title: "Store"
+title: "Loaded Artists Store"
 layout: "index"
 ---
