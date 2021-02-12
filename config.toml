@@ -1,6 +1,6 @@
 baseURL = "https://loadedartists.coding4.coffee"
 languageCode = "en-us"
-title = "LoadedArtists.com -- THE best place to read fully loaded LoadingArtist comics!"
+title = "Loaded Artists"
 
 [outputs]
 section = ["HTML", "RSS", "JSON"]
