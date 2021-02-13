@@ -1,0 +1,8 @@
+{{- $video_src := .Get "src" -}}
+{{- $video_type := substr (path.Ext $video_src) 1 -}}
+{{- $poster := .Get "poster" -}}
+{{- $width := "100%" -}}
+
+<video {{ if ne (.Get "controls") "false" }}controls {{ end }}preload="auto" width="{{ or (.Get "width") $width }}" {{ if eq (.Get "autoplay") "true" }}autoplay {{ end }}{{ if eq (.Get "loop") "true" }}loop {{ end }}{{ if eq (.Get "muted") "true" }}muted {{ end }}{{ with $poster }}poster="{{ . }}" {{ end }}class="html-video">
+    <source src="{{ $video_src }}" type="video/{{ $video_type }}">
+</video>
