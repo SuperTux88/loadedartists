@@ -21,6 +21,8 @@ categories:
 - Clothes
 - Costumes
 price: 15.00
+related:
+- banana-pants
 ---
 
-Looks best when combined with banana pants!
+Looks best when combined with [banana pants]({{< relref "store/banana-pants.md" >}})!
