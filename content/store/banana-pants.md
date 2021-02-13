@@ -16,6 +16,7 @@ categories:
 - Pants
 price: 14.00
 related:
+- banana-apron
 - banana-costume
 - banana-pen
 ---

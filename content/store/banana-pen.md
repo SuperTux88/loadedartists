@@ -9,6 +9,7 @@ categories:
 - Misc
 price: 75.00
 related:
+- banana-apron
 - banana-costume
 - banana-pants
 ---

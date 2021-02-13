@@ -22,6 +22,7 @@ categories:
 - Costumes
 price: 15.00
 related:
+- banana-apron
 - banana-pants
 - banana-pen
 ---
