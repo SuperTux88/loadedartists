@@ -17,6 +17,7 @@ categories:
 price: 14.00
 related:
 - banana-costume
+- banana-pen
 ---
 
 Looks best when combined with [banana costume]({{< relref "store/banana-costume.md" >}})!

@@ -23,6 +23,7 @@ categories:
 price: 15.00
 related:
 - banana-pants
+- banana-pen
 ---
 
 Looks best when combined with [banana pants]({{< relref "store/banana-pants.md" >}})!
