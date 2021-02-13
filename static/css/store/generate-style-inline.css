@@ -500,20 +500,8 @@ a.generate-back-to-top:hover, a.generate-back-to-top:focus {
 }
 
 #generate-section-1 .generate-sections-inside-container {
-	padding-top: 0px;
-	padding-bottom: 0px;
-}
-
-@media (max-width: 768px) {
-	.generate-sections-inside-container {
-		padding-left: 15px;
-		padding-right: 15px;
-	}
-}
-
-#generate-section-2 .generate-sections-inside-container {
 	padding-top: 40px;
-	padding-bottom: 40px;
+	padding-bottom: 0px;
 }
 
 @media (max-width: 768px) {
