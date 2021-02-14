@@ -4,25 +4,28 @@
         <div class="comic-thumbs">
             {{ range first 1 (where .Site.RegularPages "Section" "comic") -}}
                 <a class="box2d wide highlight ribbon left" href="{{ .RelPermalink }}">
-                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb_wide.png" title="{{ .Title }}">
+                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb_wide.png" title="{{ .Title }}" width="193" height="200">
                     <span>Latest Comic</span>
                 </a>
             {{ end -}}
             {{ range first 1 (after 1 (where .Site.RegularPages "Section" "comic")) -}}
                 <a class="box2d normal" href="{{ .RelPermalink }}">
-                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}" width="193" height="200">
                     <span>Earlier</span>
                 </a>
             {{ end -}}
             {{ range first 1 (after 2 (where .Site.RegularPages "Section" "comic")) -}}
                 <a class="box2d normal" href="{{ .RelPermalink }}">
-                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}" width="193" height="200">
                     <span>Even Earlier</span>
                 </a>
             {{ end -}}
             {{ range first 2 (shuffle (after 3 (where .Site.RegularPages "Section" "comic"))) -}}
                 <a class="box2d normal random" href="{{ .RelPermalink }}">
-                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                    <noscript>
+                        <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}" width="193" height="200">
+                    </noscript>
+                    <img class="lazyload" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20300%20300%22%3E%3C/svg%3E" width="193" height="200">
                     <span>Random</span>
                 </a>
             {{ end -}}
