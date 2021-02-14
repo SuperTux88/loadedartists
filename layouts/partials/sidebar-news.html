@@ -1,0 +1,14 @@
+<div class="news-ticker">
+    <h3 class="ribbon right"><a href="/news">News</a></h3>
+    <ul>
+        {{ range first 3 (where .Site.RegularPages "Section" "news") -}}
+        <li>
+            <a href="{{ .RelPermalink }}">
+                <span class="title">{{ .Title }}</span>
+                <span class="date">{{ .Date.Format "January 2, 2006" }}</span>
+            </a>
+        </li>
+        {{ end -}}
+    </ul>
+    <a href="/news" class="read-more">More news...</a>
+</div>

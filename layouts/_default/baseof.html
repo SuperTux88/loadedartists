@@ -102,7 +102,7 @@ ddddddddddddd                                                  dddddddddddddddd
                 <div class="comic-thumbs">
                     {{ $highlightTexts := slice "Upvoted!" "Classic!" "Recommended!" "This! This!!" "Okay!" "Frontpaged!" "Super Popular!" "Fan Favourite!" "Special!" "Extra special!" "Pure Gold!" "One more!" -}}
                     {{ $comics := where (where .Site.RegularPages "Section" "comic") "File.BaseFileName" "!=" .File.BaseFileName -}}
-                    {{ if (eq .Kind "home") -}}
+                    {{ if in (slice "home" "404") .Kind -}}
                         {{ $comics = after 3 $comics -}}
                     {{ end -}}
                     {{ range $index, $element := first 6 (shuffle $comics) -}}

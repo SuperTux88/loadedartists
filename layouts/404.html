@@ -3,4 +3,13 @@
     <h1 class="title-404"> 404 </h1>
     <h2 class="subtitle-404"> Hmmmmmmmmmm... </h2>
 </div>
+<div class="columns two-thirds">
+    <div class="col">
+        {{ partial "latest-comic-thumbs" . }}
+    </div>
+    <div class="col">
+        {{ partial "social-links" }}
+        {{ partial "sidebar-news" . }}
+    </div>
+</div>
 {{ end }}
