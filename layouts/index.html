@@ -1,7 +1,32 @@
 {{ define "main" }}
 <div class="columns two-thirds">
     <div class="col">
-        {{ partial "comic-thumbs" (dict "boxClass" "box2d" "Site" .Site) }}
+        <div class="comic-thumbs">
+            {{ range first 1 (where .Site.RegularPages "Section" "comic") -}}
+                <a class="box2d wide highlight ribbon left" href="{{ .RelPermalink }}">
+                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb_wide.png" title="{{ .Title }}">
+                    <span>Latest Comic</span>
+                </a>
+            {{ end -}}
+            {{ range first 1 (after 1 (where .Site.RegularPages "Section" "comic")) -}}
+                <a class="box2d normal" href="{{ .RelPermalink }}">
+                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                    <span>Earlier</span>
+                </a>
+            {{ end -}}
+            {{ range first 1 (after 2 (where .Site.RegularPages "Section" "comic")) -}}
+                <a class="box2d normal" href="{{ .RelPermalink }}">
+                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                    <span>Even Earlier</span>
+                </a>
+            {{ end -}}
+            {{ range first 2 (shuffle (after 3 (where .Site.RegularPages "Section" "comic"))) -}}
+                <a class="box2d normal random" href="{{ .RelPermalink }}">
+                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                    <span>Random</span>
+                </a>
+            {{ end -}}
+        </div>
     </div>
     <div class="col wide-only">
         <div class="box2d promo-widget widget_text widget adblock-message widget_custom_html"><div class="textwidget custom-html-widget">

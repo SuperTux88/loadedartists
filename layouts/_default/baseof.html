@@ -99,7 +99,23 @@ ddddddddddddd                                                  dddddddddddddddd
     <div class="inner">
         <div class="columns two-thirds">
             <div class="col">
-                {{ partial "comic-thumbs" (dict "Site" .Site) }}
+                <div class="comic-thumbs">
+                    {{ $highlightTexts := slice "Upvoted!" "Classic!" "Recommended!" "This! This!!" "Okay!" "Frontpaged!" "Super Popular!" "Fan Favourite!" "Special!" "Extra special!" "Pure Gold!" "One more!" -}}
+                    {{ $comics := where (where .Site.RegularPages "Section" "comic") "File.BaseFileName" "!=" .File.BaseFileName -}}
+                    {{ range $index, $element := first 6 (shuffle $comics) -}}
+                        {{ $highlightClass := "" -}}
+                        {{ $text := "Random" -}}
+                        {{ if in (slice 0 3) $index -}}
+                            {{ $highlightClass = "highlight" -}}
+                            {{ $text = index (shuffle $highlightTexts) 0 -}}
+                        {{ end -}}
+
+                        <a class="normal {{ $highlightClass }} random" href="{{ .RelPermalink }}">
+                            <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                            <span>{{ $text }}</span>
+                        </a>
+                    {{ end -}}
+                </div>
             </div>
             <div class="col">
                 <div class="box">
