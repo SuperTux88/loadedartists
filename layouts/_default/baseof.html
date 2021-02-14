@@ -102,6 +102,9 @@ ddddddddddddd                                                  dddddddddddddddd
                 <div class="comic-thumbs">
                     {{ $highlightTexts := slice "Upvoted!" "Classic!" "Recommended!" "This! This!!" "Okay!" "Frontpaged!" "Super Popular!" "Fan Favourite!" "Special!" "Extra special!" "Pure Gold!" "One more!" -}}
                     {{ $comics := where (where .Site.RegularPages "Section" "comic") "File.BaseFileName" "!=" .File.BaseFileName -}}
+                    {{ if (eq .Kind "home") -}}
+                        {{ $comics = after 3 $comics -}}
+                    {{ end -}}
                     {{ range $index, $element := first 6 (shuffle $comics) -}}
                         {{ $highlightClass := "" -}}
                         {{ $text := "Random" -}}
@@ -152,6 +155,31 @@ ddddddddddddd                                                  dddddddddddddddd
             script.src = '{{ "js/gravity/gravity.js" | relURL }}';
             document.getElementsByTagName('body')[0].appendChild(script);
         }
+    });
+
+    let highlightTexts = {{ $highlightTexts }};
+    let comics = {
+        {{- range $index, $element := $comics }}
+        {{ .File.BaseFileName }}: {"url": {{ .RelPermalink }}, "title": {{ .Title }}}{{ if not (eq (add $index 1) (len $comics)) }},{{ end }}
+        {{- end }}
+    }
+
+    function randomComic() {
+        let keys = Object.keys(comics);
+        return keys[ keys.length * Math.random() << 0];
+    }
+
+    document.addEventListener("DOMContentLoaded", function(){
+        document.querySelectorAll('.comic-thumbs a.random').forEach(function(randomThumb) {
+            let comicKey = randomComic();
+            let comic = comics[comicKey];
+            delete comics[comicKey];
+
+            let thumbImg = randomThumb.getElementsByTagName('img')[0];
+            randomThumb.href = comic.url;
+            thumbImg.src = "/comic/images/" + comicKey + "_thumb.png";
+            thumbImg.title = comic.title;
+        });
     });
 </script>
 </body>
