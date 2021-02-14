@@ -166,10 +166,10 @@ ddddddddddddd                                                  dddddddddddddddd
 
     function randomComic() {
         let keys = Object.keys(comics);
-        return keys[ keys.length * Math.random() << 0];
+        return keys[keys.length * Math.random() << 0];
     }
 
-    document.addEventListener("DOMContentLoaded", function(){
+    document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll('.comic-thumbs a.random').forEach(function(randomThumb) {
             let comicKey = randomComic();
             let comic = comics[comicKey];
@@ -179,6 +179,9 @@ ddddddddddddd                                                  dddddddddddddddd
             randomThumb.href = comic.url;
             thumbImg.src = "/comic/images/" + comicKey + "_thumb.png";
             thumbImg.title = comic.title;
+            if (randomThumb.classList.contains('highlight')) {
+                randomThumb.getElementsByTagName('span')[0].textContent = highlightTexts[highlightTexts.length * Math.random() << 0]
+            }
         });
     });
 </script>
