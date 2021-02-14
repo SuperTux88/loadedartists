@@ -43,16 +43,16 @@
 <div class="hr"></div>
 <div class="columns two-thirds bg-fluff">
     <div class="col">
-        {{ $pages := where .Site.RegularPages "Section" "blog" }}
+        {{ $pages := where .Site.RegularPages "Section" "news" }}
         {{ $pageScratch := newScratch }}
         {{ $pageScratch.Set "kind" .Kind }}
         {{ range $pages -}}
-            {{ partial "blog-post" (dict "pageScratch" $pageScratch "page" .) }}
+            {{ partial "news-post" (dict "pageScratch" $pageScratch "page" .) }}
             <div class="hr"></div>
         {{ end -}}
     </div>
     <div class="col">
-        {{ partial "blog-sidebar" }}
+        {{ partial "sidebar-highlights" }}
     </div>
 </div>
 {{ end -}}

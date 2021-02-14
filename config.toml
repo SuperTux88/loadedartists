@@ -6,4 +6,4 @@ title = "Loaded Artists"
 section = ["HTML", "RSS", "JSON"]
 
 [permalinks]
-blog = "/:year/:month/:day/:filename/"
+news = "/:year/:month/:day/:filename/"
