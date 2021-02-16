@@ -1,3 +1,18 @@
 article .body {
 	margin-bottom: 16px;
 }
+
+.page-comic-post .deco {
+	margin-bottom: 300px;
+}
+.vip-gifs .col {
+	height: 1px;
+	position: relative;
+	bottom: 188px;
+}
+.finger-snack.vip-left {
+	height: 189px;
+}
+.finger-snack.vip-eggs {
+	height: 193px;
+}
