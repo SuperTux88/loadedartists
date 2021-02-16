@@ -39,6 +39,9 @@ header.gravity nav.main-nav .links .box2d {
 	width: 200px;
 	margin: 0 10px;
 }
+#main .archive-thumbs div.box a {
+	margin: 0;
+}
 #main.gravity .archive-thumbs a.box2d {
 	height: 277px;
 }
