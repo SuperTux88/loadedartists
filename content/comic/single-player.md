@@ -5,4 +5,4 @@ author: Dak
 author_link: https://twitter.com/dakejp
 ---
 
-Congrats on 10 years! Thanks for everything! And, apologies for everything {{< emote loadErp >}}
+Congrats on 10 years! Thanks for everything! And, apologies for everything else {{< emote loadErp >}}
