@@ -1,8 +1,10 @@
 ---
-title: "Happy 31st Birthday"
+title: "Happy 41st Birthday"
 date: 2020-06-25
 author: The Community
 author_image: paint
+aliases:
+- happy-31st-birthday
 ---
 
 Instead of Gregor drawing birthday cakes for us, the community got together in secret {{< emote loadLurk >}}
