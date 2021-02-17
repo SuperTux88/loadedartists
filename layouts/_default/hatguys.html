@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="page-hatguys-layout">
+    <div class="hatguys-thumbs">
+        {{ range .Resources.ByType "image" }}
+        {{ $resized := .Fit "420x420" }}
+        <a class="normal" href="{{ .RelPermalink }}">
+            <img src="{{ $resized.RelPermalink }}" title="{{ .Title }}">
+            <span class="valign"><span>{{ replace (replaceRE "images/(.*).(png|jpg)" "$1" .Title) "_" " " }}</span></span>
+        </a>
+        {{ end }}
+    </div>
+</div>
+{{ end -}}
