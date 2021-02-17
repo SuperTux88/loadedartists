@@ -1,7 +1,7 @@
 {{ define "main" }}
 <div class="page-hatguys-layout">
     <div class="hatguys-thumbs">
-        {{ range .Resources.ByType "image" }}
+        {{ range (sort (.Resources.ByType "image") "Title") }}
         {{ $resized := .Fit "420x420" }}
         <a class="normal" href="{{ .RelPermalink }}">
             <img src="{{ $resized.RelPermalink }}" title="{{ .Title }}">
