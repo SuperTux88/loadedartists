@@ -4,6 +4,10 @@
     <meta http-equiv="Content-Type" charset="UTF-8" content="text/html">
     <meta name="viewport" content="width=device-width">
 
+    {{ if not (in .Site.BaseURL "localhost") -}}
+        {{ .Scratch.Set "cdnHost" .Site.Params.cdnHost -}}
+    {{ end -}}
+
     <title>{{ .Site.Title }}{{ if not (eq .Kind "home") }} &raquo; {{ .Title }}{{ end }}</title>
 
     <link rel="stylesheet" href="{{ "css/norm.css" | relURL }}" media="screen">
@@ -131,12 +135,12 @@ ddddddddddddd                                                  dddddddddddddddd
             <div class="col">
                 <div class="box">
                     <div class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget">
-                        <a href="https://store.loadingartist.com/product-tag/hell/" target="_blank" rel="noopener"><img src="/img/promo-images/med_hell-sweet-hell.png" alt="No place like Hell!"/></a>
+                        <a href="https://store.loadingartist.com/product-tag/hell/" target="_blank" rel="noopener"><img src="{{ .Scratch.Get "cdnHost" }}/img/promo-images/med_hell-sweet-hell.png" alt="No place like Hell!"/></a>
                     </div></div>
                 </div>
                 <div class="standard-box-size">
                     <div class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget">
-                        <a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener"><img src="/img/patreon/box-patreon.png" alt="Support on Patreon!"></a>
+                        <a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener"><img src="{{ .Scratch.Get "cdnHost" }}/img/patreon/box-patreon.png" alt="Support on Patreon!"></a>
                     </div></div>
                 </div>
             </div>
@@ -185,7 +189,7 @@ ddddddddddddd                                                  dddddddddddddddd
 
             let thumbImg = randomThumb.getElementsByTagName('img')[0];
             randomThumb.href = comic.url;
-            thumbImg.src = "/comic/images/" + comicKey + "_thumb.png";
+            thumbImg.src = "{{ .Scratch.Get "cdnHost" }}/comic/images/" + comicKey + "_thumb.png";
             thumbImg.title = comic.title;
             if (randomThumb.classList.contains('highlight')) {
                 randomThumb.getElementsByTagName('span')[0].textContent = highlightTexts[highlightTexts.length * Math.random() << 0]

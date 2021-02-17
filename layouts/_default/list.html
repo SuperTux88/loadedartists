@@ -1,4 +1,5 @@
 {{ define "main" }}
+    {{ $scratch := .Scratch -}}
     {{ $pages := where .RegularPages "Type" "in" .Site.Params.mainSections -}}
     {{ if (eq .Kind "home") -}}
         {{ $pages = where .Site.RegularPages "Type" "in" .Site.Params.mainSections -}}
@@ -9,7 +10,7 @@
             {{ range $pages.Reverse -}}
                 <div class="box normal">
                     <a class="box2d normal" href="{{ .RelPermalink }}">
-                        <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                        <img src="{{ $scratch.Get "cdnHost" }}/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
                         <span class="valign"><span>{{ .Title }}</span></span>
                     </a>
                 </div>

@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{ $scratch := .Scratch -}}
 <div class="page-comic-layout comic type-comic status-publish has-post-thumbnail hentry chapters-comic">
     <nav class="medium-or-less pagination top">
         {{ with .PrevInSection }}
@@ -19,7 +20,7 @@
         <div class="col wide-only">
             {{ with .PrevInSection }}
                 <a class="box2d normal highlight prev comic-thumb" href="{{ .RelPermalink }}">
-                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                    <img src="{{ $scratch.Get "cdnHost" }}/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
                     <span>Previous</span>
                 </a>
                 {{ range last 1 (where .Site.RegularPages "Section" "comic") }}
@@ -33,15 +34,15 @@
         </div>
         <div class="col">
             <div class="comic">
-                <a href="/comic/images/{{ .File.BaseFileName }}_HD.png" alt="{{ .Title }}" title="{{ .Title }}" >
-                    <img src="/comic/images/{{ .File.BaseFileName }}_scaled.jpg" alt="{{ .Title }}" title="{{ .Title }}" />
+                <a href="{{ $scratch.Get "cdnHost" }}/comic/images/{{ .File.BaseFileName }}_HD.png" alt="{{ .Title }}" title="{{ .Title }}" >
+                    <img src="{{ $scratch.Get "cdnHost" }}/comic/images/{{ .File.BaseFileName }}_scaled.jpg" alt="{{ .Title }}" title="{{ .Title }}" />
                 </a>
             </div>
         </div>
         <div class="col wide-only">
             {{ with .NextInSection }}
                 <a class="box2d normal highlight next comic-thumb" href="{{ .RelPermalink }}">
-                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                    <img src="{{ $scratch.Get "cdnHost" }}/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
                     <span>Next</span>
                 </a>
                 {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
@@ -78,12 +79,12 @@
         <a class="prev bottom ir ir-prev" href="{{ .RelPermalink }}">Previous</a>
         {{ end }}
         <div class="finger-snack">
-            <img src="/img/fluff/JamampAnim.gif">
+            <img src="{{ $scratch.Get "cdnHost" }}/img/fluff/JamampAnim.gif">
         </div>
     </div>
     <div class="col">
         <div class="bonus-panel">
-            <a class="bonus panel a" target="_blank" href="https://loadingartist.com/comic/{{ .File.BaseFileName }}/"><img src="/img/original_comic.png" alt="Original Comic"></a>
+            <a class="bonus panel a" target="_blank" href="https://loadingartist.com/comic/{{ .File.BaseFileName }}/"><img src="{{ $scratch.Get "cdnHost" }}/img/original_comic.png" alt="Original Comic"></a>
         </div>
         <article class="col comic type-comic status-publish has-post-thumbnail hentry chapters-comic">
             <header>
@@ -99,20 +100,20 @@
         <a class="next bottom ir ir-next" href="{{ .RelPermalink }}">Next</a>
         {{ end }}
         <div class="finger-snack">
-            <img src="/img/fluff/StevenAnim.gif">
+            <img src="{{ $scratch.Get "cdnHost" }}/img/fluff/StevenAnim.gif">
         </div>
     </div>
 </div>
 <div class="columns three vip-gifs">
     <div class="col deco">
         <div class="finger-snack vip-left">
-            <img src="/img/fluff/VIPleft.gif">
+            <img src="{{ $scratch.Get "cdnHost" }}/img/fluff/VIPleft.gif">
         </div>
     </div>
     <div class="col"></div>
     <div class="col deco">
         <div class="finger-snack vip-eggs">
-            <img src="/img/fluff/VIPeggs.gif">
+            <img src="{{ $scratch.Get "cdnHost" }}/img/fluff/VIPeggs.gif">
         </div>
     </div>
 </div>

@@ -2,6 +2,9 @@ baseURL = "https://loadedartists.coding4.coffee"
 languageCode = "en-us"
 title = "Loaded Artists"
 
+[params]
+cdnHost = "https://supertux88.github.io/loadedartists"
+
 [outputs]
 section = ["HTML", "RSS", "JSON"]
 
