@@ -2,7 +2,7 @@
 title: "Supply Sans Demand"
 date: 2012-02-10
 author: Gritzkopf
-author_link: https://www.twitch.tv/gritzkopf
+author_link: https://twitter.com/Gritzkopf
 ---
 
 Moin, Gregor. Thank you so much for now over ten years of comics.
