@@ -9,4 +9,6 @@ TODO: insert witty but wholesome description of this site and our heartfelt than
 
 [![](/news/images/hatguys-10-years_scaled.jpg)](/news/images/hatguys-10-years_HD.png)
 
+[Hatguys Overview](/hatguys)
+
 Also, the blog now support emotes! {{< emote loadWow >}} {{< emote loadLove >}} {{< emote loadJ >}} 
