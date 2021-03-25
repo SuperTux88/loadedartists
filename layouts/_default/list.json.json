@@ -4,6 +4,6 @@
 {{- end -}}
 [
 {{- range $index, $element := $pages }}
-  "{{ .File.BaseFileName }}"{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
+  "{{ .File.ContentBaseName }}"{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
 {{- end }}
 ]

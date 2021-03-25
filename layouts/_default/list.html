@@ -9,7 +9,7 @@
             {{ range $pages.Reverse -}}
                 <div class="box normal">
                     <a class="box2d normal" href="{{ .RelPermalink }}">
-                        <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                        <img src="/comic/{{ .File.ContentBaseName }}/thumb.png" title="{{ .Title }}">
                         <span class="valign"><span>{{ .Title }}</span></span>
                     </a>
                 </div>

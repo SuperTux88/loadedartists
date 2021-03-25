@@ -20,8 +20,8 @@ Even though you haven’t streamed through the entire ten years, your streams ha
 force on everyone here. From your goofy hijinks to your endless tips and advice for how to be a better artist.
 You entertain and inspire an entire community.
 
-[![](/news/images/hatguys-10-years_scaled.jpg)](/news/images/hatguys-10-years_HD.png)  
-[HD Version with names](/news/images/hatguys-10-years-names_HD.png) | [Hatguys Overview](/hatguys)
+[![](/2021/02/17/loaded-artists-celebrate/hatguys-10-years_scaled.jpg)](/2021/02/17/loaded-artists-celebrate/hatguys-10-years_HD.png)  
+[HD Version with names](/2021/02/17/loaded-artists-celebrate/hatguys-10-years-names_HD.png) | [Hatguys Overview](/hatguys)
 
 Here’s to another ten years. Cheers! {{< emote loadWow >}}
 

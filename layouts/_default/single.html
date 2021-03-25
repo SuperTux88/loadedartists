@@ -19,7 +19,7 @@
         <div class="col wide-only">
             {{ with .PrevInSection }}
                 <a class="box2d normal highlight prev comic-thumb" href="{{ .RelPermalink }}">
-                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                    <img src="/comic/{{ .File.ContentBaseName }}/thumb.png" title="{{ .Title }}">
                     <span>Previous</span>
                 </a>
                 {{ range last 1 (where .Site.RegularPages "Section" "comic") }}
@@ -33,15 +33,15 @@
         </div>
         <div class="col">
             <div class="comic">
-                <a href="/comic/images/{{ .File.BaseFileName }}_HD.png" alt="{{ .Title }}" title="{{ .Title }}" >
-                    <img src="/comic/images/{{ .File.BaseFileName }}_scaled.jpg" alt="{{ .Title }}" title="{{ .Title }}" />
+                <a href="/comic/{{ .File.ContentBaseName }}/{{ .File.ContentBaseName }}.png" alt="{{ .Title }}" title="{{ .Title }}" >
+                    <img src="/comic/{{ .File.ContentBaseName }}/{{ .File.ContentBaseName }}_scaled.jpg" alt="{{ .Title }}" title="{{ .Title }}" />
                 </a>
             </div>
         </div>
         <div class="col wide-only">
             {{ with .NextInSection }}
                 <a class="box2d normal highlight next comic-thumb" href="{{ .RelPermalink }}">
-                    <img src="/comic/images/{{ .File.BaseFileName }}_thumb.png" title="{{ .Title }}">
+                    <img src="/comic/{{ .File.ContentBaseName }}/thumb.png" title="{{ .Title }}">
                     <span>Next</span>
                 </a>
                 {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
@@ -83,7 +83,7 @@
     </div>
     <div class="col">
         <div class="bonus-panel">
-            <a class="bonus panel a" target="_blank" href="https://loadingartist.com/comic/{{ .File.BaseFileName }}/"><img src="/img/original_comic.png" alt="Original Comic"></a>
+            <a class="bonus panel a" target="_blank" href="https://loadingartist.com/comic/{{ .File.ContentBaseName }}/"><img src="/img/original_comic.png" alt="Original Comic"></a>
         </div>
         <article class="col comic type-comic status-publish has-post-thumbnail hentry chapters-comic">
             <header>
