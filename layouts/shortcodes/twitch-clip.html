@@ -1,1 +1,9 @@
-<iframe src="https://clips.twitch.tv/embed?clip={{.Get 0}}&parent={{ (urls.Parse .Site.BaseURL).Host }}" frameborder="0" allowfullscreen="true" scrolling="no" height="336" width="600"></iframe>
+<div class="embed-wrapper">
+    <div class="embed-placeholder has-title" data-embed-url="https://clips.twitch.tv/embed?clip={{ .Get 0 }}&parent={{ (urls.Parse .Site.BaseURL).Host }}&autoplay=true">
+        {{ $clip := getJSON (printf "%s/twitch/clips/%s.json" .Site.Params.twitchApiHost (.Get 0)) -}}
+        {{ with $clip -}}
+        <div class="embed-title">{{ .title }}</div>
+        <img src="{{ .thumbnail_url }}" alt="" width="600" height="336">
+        {{ end -}}
+    </div>
+</div>

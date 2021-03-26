@@ -3,16 +3,33 @@
 <head>
     <meta http-equiv="Content-Type" charset="UTF-8" content="text/html">
     <meta name="viewport" content="width=device-width">
+    <meta name="robots" content="noindex">
 
-    <title>{{ .Site.Title }}{{ if not (eq .Kind "home") }} &raquo; {{ .Title }}{{ end }}</title>
+    {{ $subtitle := "" -}}
+    {{ if not (eq .Kind "home") -}}
+        {{ $subtitle = .Title -}}
+    {{ end -}}
+    <title>{{ .Site.Title }}{{ with $subtitle }} &raquo; {{ . }}{{ end }}</title>
 
-    <link rel="stylesheet" href="{{ "css/norm.css" | relURL }}" media="screen">
-    <link rel="stylesheet" href="{{ "css/style.css" | relURL }}" media="screen">
-    <link rel="stylesheet" href="{{ "css/gravity.css" | relURL }}" media="screen">
-    <link rel="stylesheet" href="{{ "css/warning.css" | relURL }}" media="screen">
-    <link rel="stylesheet" href="{{ "css/additional-style.css" | relURL }}" media="screen">
+    {{ if and (eq .Kind "page") (eq .Section "comic") -}}
+    <meta property="og:url"         content="{{ .Permalink }}">
+    <meta property="og:title"       content="{{ .Title }}">
+    <meta property="og:image"       content="{{ with .Resources.GetMatch "thumb.*"}}{{ .Permalink }}{{ end }}">
+    {{ end -}}
 
-    <script src="{{ "js/modernizr.js" | relURL }}"></script>
+    {{- block "head" . }}{{- end -}}
+
+    <link rel="preload" as="fetch" href="/twitch/" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&amp;family=Raleway:wght@900&amp;display=swap" rel="stylesheet">
+    {{ $css_reset := resources.Get "/css/reset.css" -}}
+    {{ $css_style := resources.Get "/css/style.css" -}}
+    {{ $css_sprites := resources.Get "/css/sprites.css" -}}
+    {{ $css_gravity := resources.Get "/css/gravity.css" -}}
+    {{ $css_warning := resources.Get "/css/warning.css" -}}
+    {{ $css_additional := resources.Get "/css/additional-style.css" -}}
+    {{ $css_all := slice $css_reset $css_style $css_sprites $css_gravity $css_warning $css_additional | resources.Concat "/css/all.css" | minify | fingerprint "sha512" -}}
+    <link rel="stylesheet" href="{{ $css_all.RelPermalink }}" integrity="{{ $css_all.Data.Integrity }}" media="screen">
 
     <!--                                                  ddd
     dd                                                   dddd
@@ -53,143 +70,183 @@ ddddddddddddd                                                  dddddddddddddddd
   dddddd                                                  ddddd-->
 
 </head>
-<body class="not-fixed">
-<div class="above-header-bar" style="background: #c00;"><div class="grid-container grid-parent">
+<body>
+<div class="above-header-bar">
     This is <b>NOT</b> the real LoadingArtist Website! Click <a href="https://loadingartist.com" class="real-la-link">HERE</a> to go to the real site!<br>
     This website contains community made redraws of LoadingArtist Comics of the past 10 years.
-</div></div>
-<header>
-    <div class="inner">
-        <a class="box2d hit" href="/">
-            <h1 class="cube"> Loaded Artists </h1>
-        </a>
+</div>
+<nav class="main-nav" id="menu-nav" aria-label="Primary">
+    <a class="box2d logo" href="/" aria-label="Loaded Artists">
+        <div class="cube"></div>
+    </a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <ul>
+        {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
+        <li class="box2d"><a href="{{ .RelPermalink }}">Comic</a></li>
+        <li class="box2d"><a href="/archives/">Archive</a></li>
+        {{ end }}
+        <li class="box2d"><a href="/store/" target="_blank" rel="noopener">Store</a></li>
+        <li class="box2d"><a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener">Patreon</a></li>
+        <li class="box2d"><a id="twitchlink" href="https://twitch.tv/loadingartist" target="_blank" rel="noopener">Twitch</a></li>
+        <li class="box2d"><a href="/index.xml" aria-label="Feed"><div class="btn-feed"></div></a></li>
+    </ul>
+    <a href="#" aria-label="Search" class="mobile-only btn-search"></a>
+    <label for="nav-toggle" class="nav-toggle-label" aria-label="Open Navigation">
+        <span></span>
+    </label>
+</nav>
 
-        <div class="headsup">
-            <div class="box2d widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener"><img src="/img/header-widgets/bonus-panels.png" alt="Bonus panels on Patreon!"></a></div></div>
-        </div>
-    </div>
-
-    <nav class="main-nav" id="menu-nav">
-        <div class="inner">
-            <button class="ir ir-nav" id="menu-toggle">Open Nav</button>
-            <div class="links">
-                {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
-                <a class="box2d" href="{{ .RelPermalink }}"> Comic </a>
-                {{ end }}
-                <a class="box2d" href="/archives"> Archive </a>
-                <a class="box2d" href="/store" target="_blank"> Store </a>
-                <a class="box2d" href="https://www.patreon.com/LoadingArtist" target="_blank"> Patreon </a>
-                <a class="box2d" id="twitchlink" href="https://twitch.tv/loadingartist" target="_blank"> Twitch </a>
-                <a href="/index.xml" class="box2d ir ir-feed-icon"> Feed </a>
-            </div>
-        </div>
-
-    </nav>
+<header class="main-header">
+    <!-- move header lower in DOM for better tab-order, it's moved with css `order` to the top again -->
+    <a class="box2d header-widget" target="_blank" rel="noopener"><img src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20450%2090%22%3E%3C/svg%3E"></a>
 </header>
 
-<div class="bottomsup">
-    <div class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener"><img src="/img/header-widgets/bonus-panels.png" alt="Bonus panels on Patreon!"></a></div></div>
-</div>
-
-<div id="main">
+<main>
     {{- block "main" . }}{{- end }}
-</div>
+</main>
 
 <footer>
-    <div class="inner">
-        <div class="columns two-thirds">
-            <div class="col">
-                <div class="comic-thumbs">
-                    {{ $highlightTexts := slice "Upvoted!" "Classic!" "Recommended!" "This! This!!" "Okay!" "Frontpaged!" "Super Popular!" "Fan Favourite!" "Special!" "Extra special!" "Pure Gold!" "One more!" -}}
-                    {{ $comics := where .Site.RegularPages "Section" "comic" -}}
+    <div class="columns two-thirds">
+        <div class="col">
+            <div class="comic-thumbs">
+            {{ $highlightTexts := slice "Upvoted!" "Classic!" "Recommended!" "This! This!!" "Okay!" "Frontpaged!" "Super Popular!" "Fan Favourite!" "Special!" "Extra special!" "Pure Gold!" "One more!" -}}
+            {{ $comics := where .Site.RegularPages "Section" "comic" -}}
 
-                    {{ if in (slice "home" "404") .Kind -}}
-                        {{ $comics = after 3 $comics -}}
-                    {{ else -}}
-                        {{ with .File -}}
-                            {{ $comics = where $comics "File.ContentBaseName" "!=" .File.ContentBaseName -}}
-                        {{ end -}}
-                    {{ end -}}
-                    {{ range $index, $element := first 6 (shuffle $comics) -}}
-                        {{ $highlightClass := "" -}}
-                        {{ $text := "Random" -}}
-                        {{ if in (slice 0 3) $index -}}
-                            {{ $highlightClass = "highlight" -}}
-                            {{ $text = index (shuffle $highlightTexts) 0 -}}
-                        {{ end -}}
+            {{ if in (slice "home" "404") .Kind -}}
+                {{ $comics = after 3 $comics -}}
+            {{ else -}}
+                {{ with .File -}}
+                    {{ $comics = where $comics "File.ContentBaseName" "!=" .File.ContentBaseName -}}
+                {{ end -}}
+            {{ end -}}
+            {{ range $index, $element := first 6 (shuffle $comics) -}}
+                {{ $highlightClass := "" -}}
+                {{ $text := "Random" -}}
+                {{ if in (slice 0 3) $index -}}
+                    {{ $highlightClass = "highlight" -}}
+                    {{ $text = index (shuffle $highlightTexts) 0 -}}
+                {{ end -}}
 
-                        <a class="normal {{ $highlightClass }} random" href="{{ .RelPermalink }}">
-                            <noscript>
-                                <img src="/comic/{{ .File.ContentBaseName }}/thumb.png" title="{{ .Title }}" width="193" height="200">
-                            </noscript>
-                            <img class="lazyload" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20300%20300%22%3E%3C/svg%3E" width="193" height="200">
-                            <span>{{ $text }}</span>
-                        </a>
-                    {{ end -}}
-                </div>
-            </div>
-            <div class="col">
-                <div class="box">
-                    <div class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget">
-                        <a href="https://store.loadingartist.com/product-tag/hell/" target="_blank" rel="noopener"><img src="/img/promo-images/med_hell-sweet-hell.png" alt="No place like Hell!"/></a>
-                    </div></div>
-                </div>
-                <div class="standard-box-size">
-                    <div class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget">
-                        <a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener"><img src="/img/patreon/box-patreon.png" alt="Support on Patreon!"></a>
-                    </div></div>
-                </div>
+                <a class="comic-thumb {{ $highlightClass }} random" data-random-source="comics" href="{{ .RelPermalink }}">
+                    <noscript>
+                        <img src="/comic/{{ .File.ContentBaseName }}/thumb.png" title="{{ .Title }}" width="193" height="200">
+                    </noscript>
+                    <img class="lazyload" loading="lazy" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20200%20207%22%3E%3C/svg%3E" width="193" height="200">
+                    <span class="valign">{{ $text }}</span>
+                </a>
+            {{ end -}}
             </div>
         </div>
-        <p class="fineprint right">
-            Copyright &copy; {{ now.Year }} Gregor Czaykowski & Community
-        </p>
+        <div class="col ads">
+            <a href="https://store.loadingartist.com/product-tag/hell/" target="_blank" rel="noopener">
+                <img src="/img/promo-images/med_hell-sweet-hell.png" alt="No place like Hell!" loading="lazy" width="300" height="250">
+            </a>
+            <a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener">
+                <img src="/img/patreon/box-patreon.png" alt="Support on Patreon!" loading="lazy" width="300" height="250">
+            </a>
+        </div>
     </div>
+
+    <p class="fineprint-right">
+        Copyright &copy; {{ now.Year }} Gregor Czaykowski & Community
+    </p>
 </footer>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
-<script src="{{ "js/main.js" | relURL }}"></script>
-
-<script src="{{ "js/gravity/box-2d.js" | relURL }}"></script>
+{{ $main_js := resources.Get "/js/main.js" | minify | fingerprint "sha512" }}
+<script src="{{ $main_js.RelPermalink }}" integrity="{{ $main_js.Data.Integrity }}" defer></script>
+<script src="/js/gravity/box-2d.js" defer></script>
 <script type="text/javascript">
+    let highlightTexts = {{ $highlightTexts }};
+    window['randomComics'] = [
+    {{- range $index, $element := $comics }}
+        {"url": {{ .RelPermalink }}{{ with .Resources.GetMatch "thumb.*" }}, "img": {{ .RelPermalink }}{{ end }}, "title": {{ .Title }}, "section": {{ .Section }}}{{ if not (eq (add $index 1) (len $comics)) }},{{ end }}
+    {{- end }}
+    ];
+
     let broken = false;
     document.addEventListener("keydown", function (event) {
         if (event.ctrlKey && event.shiftKey && event.altKey && (event.code === "Digit6" || event.code === "Numpad6") && !broken) {
             console.log("BREAK!");
             broken = true;
-            document.getElementsByTagName("header")[0].classList.add("gravity");
-            document.getElementById("main").classList.add("gravity");
+            let body = document.getElementsByTagName('body')[0];
+            body.classList.add("gravity");
             let script = document.createElement('script');
             script.src = '{{ "js/gravity/gravity.js" | relURL }}';
-            document.getElementsByTagName('body')[0].appendChild(script);
+            body.appendChild(script);
         }
     });
 
-    let highlightTexts = {{ $highlightTexts }};
-    let comics = {
-        {{- range $index, $element := $comics }}
-        {{ .File.ContentBaseName }}: {"url": {{ .RelPermalink }}, "title": {{ .Title }}}{{ if not (eq (add $index 1) (len $comics)) }},{{ end }}
-        {{- end }}
+    let headerWidget = {
+        'url': 'https://www.patreon.com/LoadingArtist',
+        'img': '/img/header-widgets/bonus-panels.png',
+        'title': 'Bonus panels on Patreon!'
+    };
+    let twitchLiveHeaderData = {
+        'url': 'https://www.twitch.tv/loadingartist',
+        'img': '/img/header-widgets/live.gif',
+        'title': 'LIVE on Twitch!'
     }
 
-    function randomComic() {
-        let keys = Object.keys(comics);
-        return keys[keys.length * Math.random() << 0];
+    function replaceRandomImage(target, data) {
+        let randomImg = target.getElementsByTagName('img')[0];
+        randomImg.src = data.img;
+        if (data.url) {
+            randomImg.title = data.title;
+            randomImg.alt = data.title;
+            target.href = data.url;
+        }
+        if (target.classList.contains('highlight')) {
+            target.getElementsByTagName('span')[0].textContent = highlightTexts[highlightTexts.length * Math.random() << 0]
+        }
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll('.comic-thumbs a.random').forEach(function(randomThumb) {
-            let comicKey = randomComic();
-            let comic = comics[comicKey];
-            delete comics[comicKey];
+    function showTwitchLive() {
+        let twitchlink = document.getElementById('twitchlink');
+        twitchlink.innerHTML = 'LIVE!';
+        twitchlink.classList.add('live');
+        replaceRandomImage(document.querySelector('.header-widget'), twitchLiveHeaderData);
+    }
 
-            let thumbImg = randomThumb.getElementsByTagName('img')[0];
-            randomThumb.href = comic.url;
-            thumbImg.src = "/comic/" + comicKey + "/thumb.png";
-            thumbImg.title = comic.title;
-            if (randomThumb.classList.contains('highlight')) {
-                randomThumb.getElementsByTagName('span')[0].textContent = highlightTexts[highlightTexts.length * Math.random() << 0]
-            }
+    function showHeaderWidget() {
+        replaceRandomImage(document.querySelector('.header-widget'), headerWidget);
+    }
+
+    function checkTwitchState() {
+        // Twitch LIVE! link
+        fetch('/twitch/').then(response => response.text())
+            .then(data => {
+                if (sessionStorage.getItem('twitch-live') !== data) {
+                    sessionStorage.setItem('twitch-live', data);
+                    if (data === 'live') {
+                        showTwitchLive();
+                    } else {
+                        showHeaderWidget();
+                        let twitchlink = document.getElementById('twitchlink');
+                        twitchlink.innerHTML = 'Twitch';
+                        twitchlink.classList.remove('live');
+                    }
+                }
+            });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // header widgets
+        let cachedTwitchState = sessionStorage.getItem('twitch-live');
+        if (cachedTwitchState === 'live') {
+            showTwitchLive();
+        } else if (cachedTwitchState !== null) {
+            showHeaderWidget();
+        }
+        checkTwitchState();
+        setInterval(checkTwitchState, 60*1000);
+
+        // random banners/thumbs
+        document.querySelectorAll('.random[data-random-source]').forEach(randomTarget => {
+            let randomSource = 'random' + randomTarget.dataset.randomSource.replace(/^\w/, c => c.toUpperCase())
+            let keys = Object.keys(window[randomSource]);
+            let randomKey = keys[keys.length * Math.random() << 0];
+            replaceRandomImage(randomTarget, window[randomSource][randomKey]);
+            delete window[randomSource][randomKey];
         });
     });
 </script>

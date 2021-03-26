@@ -1,91 +1,152 @@
+{{ define "head" }}
+    {{ $comicImage := .Resources.GetMatch (printf "%s.*" .File.ContentBaseName) -}}
+    {{ $comicImagePreScaled := .Resources.GetMatch (printf "%s_scaled.*" .File.ContentBaseName) -}}
+    {{ if $comicImagePreScaled -}}
+        <link rel="preload" as="image" href="{{ $comicImagePreScaled.RelPermalink }}"/>
+    {{ else if and (gt $comicImage.Width 550) (not (eq $comicImage.MediaType.SubType "gif")) -}}
+        {{ $comicImage550 := $comicImage.Resize "550x jpg" -}}
+        {{ $comicImage1100 := "" -}}
+        {{ $comicImage1650 := "" -}}
+        {{ $comicImage2200 := "" -}}
+        {{ if ge $comicImage.Width 1100 -}}
+            {{ $comicImage1100 = $comicImage.Resize "1100x jpg" -}}
+        {{ end -}}
+        {{ if ge $comicImage.Width 1650 -}}
+            {{ $comicImage1650 = $comicImage.Resize "1650x jpg" -}}
+        {{ end -}}
+        {{ if ge $comicImage.Width 2200 -}}
+            {{ $comicImage2200 = $comicImage.Resize "2200x jpg" -}}
+        {{ end -}}
+        <link rel="preload" as="image" href="{{ $comicImage550.RelPermalink }}" imagesrcset="{{ $comicImage550.RelPermalink }} 550w{{ with $comicImage1100 }}, {{ .RelPermalink }} 1100w{{ end }}{{ with $comicImage1650 }}, {{ .RelPermalink }} 1650w{{ end }}{{ with $comicImage2200 }}, {{ .RelPermalink }} 2200w{{ end }}" imagesizes="(max-width: 960px) 92vw, 550px"/>
+    {{ else -}}
+        <link rel="preload" as="image" href="{{ $comicImage.RelPermalink }}"/>
+    {{ end -}}
+{{ end }}
 {{ define "main" }}
-<div class="page-comic-layout comic type-comic status-publish has-post-thumbnail hentry chapters-comic">
-    <nav class="medium-or-less pagination top">
-        {{ with .PrevInSection }}
-            {{ range last 1 (where .Site.RegularPages "Section" "comic") }}
-            <a title="First"    href="{{ .RelPermalink }}" class="ir ir-first"> First </a>
-            {{ end }}
-            <a title="Previous" href="{{ .RelPermalink }}" class="ir ir-prev"> Previous </a>
-        {{ end }}
-        <a title="Random" href="/random" class="ir ir-random"> Random </a>
-        {{ with .NextInSection }}
-            <a title="Next" href="{{ .RelPermalink }}" class="ir ir-next"> Next </a>
-            {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
-            <a title="Last" href="{{ .RelPermalink }}" class="ir ir-last"> Last </a>
-            {{ end }}
-        {{ end }}
-    </nav>
-    <div class="columns three">
-        <div class="col wide-only">
-            {{ with .PrevInSection }}
-                <a class="box2d normal highlight prev comic-thumb" href="{{ .RelPermalink }}">
-                    <img src="/comic/{{ .File.ContentBaseName }}/thumb.png" title="{{ .Title }}">
-                    <span>Previous</span>
-                </a>
-                {{ range last 1 (where .Site.RegularPages "Section" "comic") }}
-                <a href="{{ .RelPermalink }}" class="box2d ir first">First</a>
-                {{ end }}
-            {{ end }}
-            {{ if not .PrevInSection }}
-                {{ partial "social-links" }}
-            {{ end }}
-            <div class="col-prev-next"></div>
-        </div>
-        <div class="col">
-            <div class="comic">
-                <a href="/comic/{{ .File.ContentBaseName }}/{{ .File.ContentBaseName }}.png" alt="{{ .Title }}" title="{{ .Title }}" >
-                    <img src="/comic/{{ .File.ContentBaseName }}/{{ .File.ContentBaseName }}_scaled.jpg" alt="{{ .Title }}" title="{{ .Title }}" />
-                </a>
-            </div>
-        </div>
-        <div class="col wide-only">
-            {{ with .NextInSection }}
-                <a class="box2d normal highlight next comic-thumb" href="{{ .RelPermalink }}">
-                    <img src="/comic/{{ .File.ContentBaseName }}/thumb.png" title="{{ .Title }}">
-                    <span>Next</span>
-                </a>
-                {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
-                <a href="{{ .RelPermalink }}" class="box2d ir last">Last</a>
-                <a href="/random" class="box2d ir ir-random"> Random </a>
-                {{ end }}
-            {{ end }}
-            {{ if not .NextInSection }}
-                <a href="/random" class="box2d ir ir-random"> Random </a>
-                {{ partial "social-links" }}
-            {{ end }}
-            <div class="col-prev-next"></div>
-        </div>
+{{ $pages := where .Site.RegularPages "Section" "in" .Site.Params.mainSections -}}
+{{ $next := $pages.Next . -}}
+{{ $prev := $pages.Prev . -}}
+<div class="page-comic-layout">
+    <div class="left-nav comic-sidebar wide-only">
+        {{ with $prev -}}
+            <a class="box2d comic-thumb highlight prev" href="{{ .RelPermalink }}">
+                <img src="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}" title="{{ .Title }}" width="165" height="171">
+                <span class="valign">Previous</span>
+            </a>
+            {{ range last 1 $pages -}}
+            <a href="{{ .RelPermalink }}" class="box2d btn-first first" aria-label="First"></a>
+            {{ end -}}
+        {{ else -}}
+            {{ partial "social-links" -}}
+        {{ end -}}
     </div>
-    <nav class="medium-or-less pagination btm">
-        {{ with .PrevInSection }}
-            {{ range last 1 (where .Site.RegularPages "Section" "comic") }}
-            <a title="First"    href="{{ .RelPermalink }}" class="ir ir-first"> First </a>
-            {{ end }}
-            <a title="Previous" href="{{ .RelPermalink }}" class="ir ir-prev"> Previous </a>
-        {{ end }}
-        <a title="Random" href="/random" class="ir ir-random"> Random </a>
-        {{ with .NextInSection }}
-            <a title="Next" href="{{ .RelPermalink }}" class="ir ir-next"> Next </a>
-            {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
-            <a title="Last" href="{{ .RelPermalink }}" class="ir ir-last"> Last </a>
-            {{ end }}
-        {{ end }}
-    </nav>
-</div>
-<div class="page-comic-post columns three">
-    <div class="col deco">
-        {{ with .PrevInSection }}
-        <a class="prev bottom ir ir-prev" href="{{ .RelPermalink }}">Previous</a>
-        {{ end }}
-        <div class="finger-snack">
-            <img src="/img/fluff/JamampAnim.gif">
-        </div>
+    <div class="right-nav comic-sidebar wide-only">
+        {{ with $next -}}
+            <a class="box2d comic-thumb highlight next" href="{{ .RelPermalink }}">
+                <img src="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}" title="{{ .Title }}" width="165" height="171">
+                <span class="valign">Next</span>
+            </a>
+            {{ range first 1 $pages -}}
+            <a href="{{ .RelPermalink }}" class="box2d btn-last last" aria-label="Last"></a>
+            <a href="/random" class="box2d btn-random" aria-label="Random"></a>
+            {{ end -}}
+        {{ else -}}
+            {{ partial "social-links" -}}
+            <a href="/random" class="box2d btn-random" aria-label="Random"></a>
+        {{ end -}}
     </div>
-    <div class="col">
-        <div class="bonus-panel">
-            <a class="bonus panel a" target="_blank" href="https://loadingartist.com/comic/{{ .File.ContentBaseName }}/"><img src="/img/original_comic.png" alt="Original Comic"></a>
+    <div class="main-image">
+        <nav class="pagination medium-or-less" aria-label="Pagination">
+            {{ with $prev -}}
+                {{ range last 1 $pages -}}
+                <a title="First"    href="{{ .RelPermalink }}" class="btn-first" aria-label="First"></a>
+                {{ end -}}
+                <a title="Previous" href="{{ .RelPermalink }}" class="btn-prev" aria-label="Previous" data-kb-nav-prev></a>
+            {{ else -}}
+                <span class="disabled"></span>
+                <span class="disabled"></span>
+            {{ end -}}
+            <a title="Random" href="/random" class="btn-random" aria-label="Random" data-kb-nav-random></a>
+            {{ with $next -}}
+                <a title="Next" href="{{ .RelPermalink }}" class="btn-next" aria-label="Next" data-kb-nav-next></a>
+                {{ range first 1 $pages -}}
+                <a title="Last" href="{{ .RelPermalink }}" class="btn-last" aria-label="Last"></a>
+                {{ end -}}
+            {{ else -}}
+                <span class="disabled"></span>
+                <span class="disabled"></span>
+            {{ end -}}
+        </nav>
+        {{ $comicImage := .Resources.GetMatch (printf "%s.*" .File.ContentBaseName) -}}
+        {{ $comicImagePreScaled := .Resources.GetMatch (printf "%s_scaled.*" .File.ContentBaseName) -}}
+        <a href="{{ $comicImage.RelPermalink }}" alt="{{ .Title }}" title="{{ .Title }}">
+            {{ if $comicImagePreScaled -}}
+                <img src="{{ $comicImagePreScaled.RelPermalink }}" alt="{{ .Title }}" title="{{ .Title }}" width="{{ $comicImagePreScaled.Width }}" height="{{ $comicImagePreScaled.Height }}" />
+            {{ else if and (gt $comicImage.Width 550) (not (eq $comicImage.MediaType.SubType "gif")) -}}
+                {{ $comicImage550 := $comicImage.Resize "550x jpg" -}}
+                {{ $comicImage1100 := "" -}}
+                {{ $comicImage1650 := "" -}}
+                {{ $comicImage2200 := "" -}}
+                {{ if ge $comicImage.Width 1100 -}}
+                    {{ $comicImage1100 = $comicImage.Resize "1100x jpg" -}}
+                {{ end -}}
+                {{ if ge $comicImage.Width 1650 -}}
+                    {{ $comicImage1650 = $comicImage.Resize "1650x jpg" -}}
+                {{ end -}}
+                {{ if ge $comicImage.Width 2200 -}}
+                    {{ $comicImage2200 = $comicImage.Resize "2200x jpg" -}}
+                {{ end -}}
+                <img src="{{ $comicImage550.RelPermalink }}" alt="{{ .Title }}" title="{{ .Title }}" width="{{ $comicImage.Width }}" height="{{ $comicImage.Height }}" srcset="{{ $comicImage550.RelPermalink }} 550w{{ with $comicImage1100 }}, {{ .RelPermalink }} 1100w{{ end }}{{ with $comicImage1650 }}, {{ .RelPermalink }} 1650w{{ end }}{{ with $comicImage2200 }}, {{ .RelPermalink }} 2200w{{ end }}" sizes="(max-width: 960px) 92vw, 550px" />
+            {{ else -}}
+                <img src="{{ $comicImage.RelPermalink }}" alt="{{ .Title }}" title="{{ .Title }}" width="{{ $comicImage.Width }}" height="{{ $comicImage.Height }}" />
+            {{ end -}}
+        </a>
+    </div>
+    {{ if ge $comicImage.Height $comicImage.Width -}}
+    <div class="left-nav-bottom comic-sidebar wide-only" aria-hidden="true">
+        {{ with $prev -}}
+        <a class="btn-prev" tabindex="-1" href="{{ .RelPermalink }}"></a>
+        {{ end -}}
+    </div>
+    <div class="right-nav-bottom comic-sidebar wide-only" aria-hidden="true">
+        {{ with $next -}}
+        <a class="btn-next" tabindex="-1" href="{{ .RelPermalink }}"></a>
+        {{ end -}}
+        <a class="btn-random" tabindex="-1" href="/random"></a>
+    </div>
+    {{ end -}}
+    <div class="left-post comic-sidebar wide-only finger-snack" aria-hidden="true">
+        <img src="/img/fluff/JamampAnim.gif" width="165" height="326" loading="lazy" alt="">
+    </div>
+    <div class="right-post comic-sidebar wide-only finger-snack" aria-hidden="true">
+        <img src="/img/fluff/StevenAnim.gif" width="165" height="326" loading="lazy" alt="">
+    </div>
+    <div class="comic-post">
+        <div class="bonus-banner">
+            <a href="https://loadingartist.com/comic/{{ .File.ContentBaseName }}/" target="_blank" rel="noopener"><img src="/img/original_comic.png" alt="Original Comic" width="469" height="93"></a>
         </div>
-        <article class="col comic type-comic status-publish has-post-thumbnail hentry chapters-comic">
+        <nav class="medium-or-less pagination bottom" aria-hidden="true">
+            {{ with $prev -}}
+                {{ range last 1 $pages -}}
+                <a title="First"    href="{{ .RelPermalink }}" class="btn-first" tabindex="-1"></a>
+                {{ end -}}
+                <a title="Previous" href="{{ .RelPermalink }}" class="btn-prev" tabindex="-1"></a>
+            {{ else -}}
+                <span class="disabled"></span>
+                <span class="disabled"></span>
+            {{ end -}}
+            <a title="Random" href="/random" class="btn-random" tabindex="-1"></a>
+            {{ with $next -}}
+                <a title="Next" href="{{ .RelPermalink }}" class="btn-next" tabindex="-1"></a>
+                {{ range first 1 $pages -}}
+                <a title="Last" href="{{ .RelPermalink }}" class="btn-last" tabindex="-1"></a>
+                {{ end -}}
+            {{ else -}}
+                <span class="disabled"></span>
+                <span class="disabled"></span>
+            {{ end -}}
+        </nav>
+        <article>
             <header>
                 {{ partial "post-header" (dict "page" .) }}
             </header>
@@ -94,41 +155,11 @@
             </div>
         </article>
     </div>
-    <div class="col deco">
-        {{ with .NextInSection }}
-        <a class="next bottom ir ir-next" href="{{ .RelPermalink }}">Next</a>
-        {{ end }}
-        <div class="finger-snack">
-            <img src="/img/fluff/StevenAnim.gif">
-        </div>
+    <div class="vip-left comic-sidebar wide-only finger-snack" aria-hidden="true">
+        <img src="/img/fluff/VIPleft.gif" width="164" height="407" loading="lazy" alt="">
+    </div>
+    <div class="vip-eggs comic-sidebar wide-only" aria-hidden="true">
+        <img src="/img/fluff/VIPeggs.gif" width="137" height="193" loading="lazy" alt="">
     </div>
 </div>
-<div class="columns three vip-gifs">
-    <div class="col deco">
-        <div class="finger-snack vip-left">
-            <img src="/img/fluff/VIPleft.gif">
-        </div>
-    </div>
-    <div class="col"></div>
-    <div class="col deco">
-        <div class="finger-snack vip-eggs">
-            <img src="/img/fluff/VIPeggs.gif">
-        </div>
-    </div>
-</div>
-<script type="text/javascript">
-    document.addEventListener("keydown", function (event) {
-        {{ with .PrevInSection }}
-        if (event.code === 'ArrowLeft') {
-            window.location.href = "{{ .RelPermalink }}";
-        }
-        {{ end }}
-
-        {{ with .NextInSection }}
-        if (event.code === 'ArrowRight') {
-            window.location.href = "{{ .RelPermalink }}";
-        }
-        {{ end }}
-    });
-</script>
 {{ end }}

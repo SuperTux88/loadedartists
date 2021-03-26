@@ -1,0 +1,51 @@
+
+.btn-feed {
+	width: 23px; height: 23px;
+	background: var(--btn-sprite) -54px -156px;
+}
+.btn-first {
+	width: 50px; height: 50px;
+	background: var(--btn-sprite) -88px -10px;
+}
+.btn-prev {
+	width: 50px; height: 50px;
+	background: var(--btn-sprite) -158px -10px;
+}
+.btn-next {
+	width: 50px; height: 50px;
+	background: var(--btn-sprite) -80px -86px;
+}
+.btn-last {
+	width: 50px; height: 50px;
+	background: var(--btn-sprite) -10px -86px;
+}
+.btn-random {
+	width: 58px; height: 56px;
+	background: var(--btn-sprite) -10px -10px;
+}
+
+.social-icon {
+	width: 74px;
+	height: 74px;
+}
+.social-fb { /* facebook */
+	background: url('/img/sprites/share.png') -10px -212px;
+}
+.social-tw { /* twitter */
+	background: url('/img/sprites/share.png') -212px -10px;
+}
+.social-in { /* instagram */
+	background: url('/img/sprites/share.png') -104px -212px;
+}
+.social-dc { /* discord */
+	background: url('/img/sprites/share.png') -212px -104px;
+}
+
+.share-tiny-fb {
+	width: 28px; height: 28px;
+	background: url('/img/sprites/share.png') -306px -152px;
+}
+.share-tiny-tw {
+	width: 28px; height: 28px;
+	background: url('/img/sprites/share.png') -306px -104px;
+}

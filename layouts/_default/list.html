@@ -1,18 +1,15 @@
 {{ define "main" }}
-    {{ $pages := where .RegularPages "Type" "in" .Site.Params.mainSections -}}
-    {{ if (eq .Kind "home") -}}
-        {{ $pages = where .Site.RegularPages "Type" "in" .Site.Params.mainSections -}}
-    {{ end -}}
-
-    <div class="page-archive-layout">
+<div class="page-archive-layout" xmlns="http://www.w3.org/1999/html">
         <div class="archive-thumbs">
-            {{ range $pages.Reverse -}}
-                <div class="box normal">
-                    <a class="box2d normal" href="{{ .RelPermalink }}">
-                        <img src="/comic/{{ .File.ContentBaseName }}/thumb.png" title="{{ .Title }}">
-                        <span class="valign"><span>{{ .Title }}</span></span>
+            {{ range .RegularPages.Reverse.GroupByDate "2006" -}}
+                {{ range .Pages -}}
+                <div class="box">
+                    <a class="box2d comic-thumb hover" href="{{ .RelPermalink }}">
+                        <img src="{{ with .Resources.GetMatch "thumb.*" }}{{ .RelPermalink }}{{ end }}" loading="lazy" width="200" height="207" title="{{ .Title }}" alt="{{ .Title }}">
+                        <span class="valign">{{ .Title }}</span>
                     </a>
                 </div>
+                {{ end -}}
             {{ end -}}
         </div>
     </div>

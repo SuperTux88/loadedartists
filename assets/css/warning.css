@@ -1,12 +1,10 @@
 div.above-header-bar {
+	order: -1;
 	padding: 5px;
 	background: #c00;
 	color: #fff;
 	text-align: center;
 	font-size: 16px;
-}
-.fixed div.above-header-bar {
-	display: none;
 }
 a.real-la-link,
 a.real-la-link:hover,

@@ -1,6 +1,5 @@
-<article class="post type-post status-publish format-standard hentry category-blog">
-    {{ $author_image := or .page.Params.author_image "default" }}
-    <header class="mood {{ $author_image }}" style="background-image: url('/img/author/{{ $author_image }}.png')">
+<article>
+    <header class="mood" style="background-image: url('/img/mood/{{ default "default" .page.Params.mood }}.png')">
         {{ partial "post-header" . }}
     </header>
     <div class="body">

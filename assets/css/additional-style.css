@@ -1,0 +1,63 @@
+.meta .author {
+	color: #fd6900;
+}
+article .body {
+	width: 100%;
+}
+
+footer .columns {
+	grid-area: footer;
+}
+@media screen and (max-width: 720px) {
+	.fineprint-right {
+		padding: 20px 0 10px;
+	}
+}
+
+.page-comic-layout {
+	grid-template-areas:	"left-nav          comic    right-nav"
+												"left-nav-bottom   comic    right-nav-bottom"
+												"left-post         post     right-post"
+												"vip-left          post     vip-eggs";
+}
+@media screen and (max-width: 960px) {
+	.page-comic-layout {
+		grid-template-areas:	"comic"
+													"post";
+	}
+}
+.finger-snack {
+	height: 163px;
+}
+.vip-left,
+.vip-eggs {
+	align-self: end;
+	margin-top: 50px;
+}
+.vip-left {
+	height: 189px;
+}
+.vip-eggs {
+	height: 193px;
+}
+
+.hatguys-thumbs {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	text-align: center;
+	padding: 10px 20px;
+}
+.hatguys-thumbs a {
+	font-family: var(--font-family-heading);
+	width: 420px;
+	text-decoration: none;
+	text-transform: uppercase;
+	margin: 0 10px;
+}
+.hatguys-thumbs img {
+	margin: 0 auto;
+}
+.hatguys-thumbs span {
+	height: 70px;
+}

@@ -1,0 +1,52 @@
+.gravity .box2d {
+	z-index: 999 !important;
+}
+
+.gravity main,
+.gravity .main-header,
+.gravity .main-nav,
+.gravity .comic-thumbs,
+.gravity .page-comic-layout,
+.gravity .comic-sidebar,
+.gravity .archive-thumbs {
+	contain: none;
+}
+
+.gravity .main-nav ul .box2d {
+	background-color: #fd6900;
+	padding: 0 26px;
+}
+
+.gravity .logo::before {
+	background: none;
+}
+
+.gravity .comic-thumbs {
+	height: 510px;
+	width: 600px;
+}
+.gravity .comic-thumbs a.box2d {
+	height: 250px;
+}
+
+.gravity .page-news-layout .sidebar .social-links {
+	height: 115px;
+}
+
+.gravity .archive-thumbs .box {
+	height: 277px;
+	width: 200px;
+	margin: 0 10px;
+}
+.gravity .archive-thumbs .comic-thumb.box2d {
+	height: 277px;
+}
+
+.gravity .col-prev-next {
+	width: 165px;
+	height: 1px;
+}
+
+.gravity .box2d.comic-thumb {
+	height: 220px;
+}

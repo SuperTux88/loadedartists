@@ -1,14 +1,37 @@
 {{ define "main" }}
-<div class="columns two-thirds bg-fluff">
+<div class="page-news-layout columns two-thirds">
     <div class="col">
-        {{ $pageScratch := newScratch }}
-        {{ $pageScratch.Set "kind" .Kind }}
-        {{ range .RegularPages -}}
-        {{ partial "news-post" (dict "pageScratch" $pageScratch "page" .) }}
-        <div class="hr"></div>
+        {{ $pageScratch := newScratch -}}
+        {{ $pageScratch.Set "kind" .Kind -}}
+        {{ $paginator := .Paginate .RegularPages -}}
+
+        {{ if or $paginator.HasPrev $paginator.HasNext -}}
+        <nav class="pagination" aria-label="Pagination">
+            {{ if $paginator.HasNext -}}
+            <a href="{{ $paginator.Next.URL }}" class="btn-prev" aria-label="Older posts" data-kb-nav-prev></a>
+            {{ end -}}
+            {{ if $paginator.HasPrev -}}
+            <a href="{{ $paginator.Prev.URL }}" class="btn-next" aria-label="Newer posts" data-kb-nav-next></a>
+            {{ end -}}
+        </nav>
+        {{ end -}}
+
+        {{ range $paginator.Pages -}}
+            {{ partial "news-post" (dict "pageScratch" $pageScratch "page" .) }}
+        {{ end -}}
+
+        {{ if or $paginator.HasPrev $paginator.HasNext -}}
+        <nav class="pagination" aria-label="Pagination">
+            {{ if $paginator.HasNext -}}
+            <a href="{{ $paginator.Next.URL }}" class="btn-prev"></a>
+            {{ end -}}
+            {{ if $paginator.HasPrev -}}
+            <a href="{{ $paginator.Prev.URL }}" class="btn-next"></a>
+            {{ end -}}
+        </nav>
         {{ end -}}
     </div>
-    <div class="col">
+    <div class="col sidebar">
         {{ partial "social-links" }}
         {{ partial "sidebar-highlights" }}
     </div>

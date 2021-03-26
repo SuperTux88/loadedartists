@@ -10,4 +10,4 @@ everything you do to cultivate such a great community.
 
 P.S. Don’t watch the link on stream.
 
-{{< youtube axLRUszuu9I >}}
+{{< youtube id=axLRUszuu9I thumb=hq >}}

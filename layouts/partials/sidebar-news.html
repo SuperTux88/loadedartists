@@ -1,11 +1,11 @@
-<div class="news-ticker">
+<time class="sidebar-widget news-ticker">
     <h3 class="ribbon right"><a href="/news">News</a></h3>
     <ul>
         {{ range first 3 (where .Site.RegularPages "Section" "news") -}}
         <li>
             <a href="{{ .RelPermalink }}">
-                <span class="title">{{ .Title }}</span>
-                <span class="date">{{ .Date.Format "January 2, 2006" }}</span>
+                <div class="title">{{ .Title }}</div>
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
             </a>
         </li>
         {{ end -}}

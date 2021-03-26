@@ -1,0 +1,24 @@
+{{- $image := .Page.Resources.GetMatch .Destination -}}
+{{- if not $image -}}
+    {{- $page := .Page.GetPage (path.Dir .Destination) -}}
+    {{- $image = $page.Resources.GetMatch (path.Base .Destination) -}}
+{{- end -}}
+{{- if and (not $image) .Page.File -}}
+    {{- $path := path.Join .Page.File.Dir .Destination -}}
+    {{- $page := .Page.GetPage (path.Dir $path) -}}
+    {{- $image = $page.Resources.GetMatch (path.Base $path) -}}
+{{- end -}}
+{{- with $image -}}
+    {{- if gt .Width 600 -}}
+        {{- $image600 := .Resize "600x" -}}
+        {{- $image1280 := "" -}}
+        {{- if gt .Width 1280 -}}
+            {{- $image1280 = .Resize "1280x" -}}
+        {{- end -}}
+        <img src="{{ $image600.RelPermalink }}" alt="{{ $.Text }}" {{- with $.Title }} title="{{ . }}"{{ end }} width="{{ .Width }}" height="{{ .Height }}" srcset="{{ $image600.RelPermalink }} 600w, {{ if $image1280 }}{{ $image1280.RelPermalink }} 1280w, {{ end }}{{ .RelPermalink }} {{ .Width }}w" sizes="(max-width: 640px) 90vw, 600px" />
+    {{- else -}}
+        <img src="{{ .RelPermalink }}" alt="{{ $.Text }}" {{- with $.Title }} title="{{ . }}"{{ end }} width="{{ .Width }}" height="{{ .Height }}">
+    {{- end -}}
+{{- else -}}
+    <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{- with .Title }} title="{{ . }}"{{ end }}>
+{{- end -}}

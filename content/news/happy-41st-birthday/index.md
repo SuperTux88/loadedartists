@@ -2,7 +2,7 @@
 title: "Happy 41st Birthday"
 date: 2020-06-25
 author: The Community
-author_image: paint
+mood: paint
 aliases:
 - happy-31st-birthday
 ---
@@ -13,7 +13,7 @@ and drew the biggest birthday cake in LoadingArtist history! {{< emote loadWow >
 Special thanks to Camjocotem for the idea and to Li (from [Exocomics](https://www.exocomics.com/)) for organizing
 everything and combining everything into one big image! {{< emote loadLove >}}
 
-[![](/2020/06/25/happy-41st-birthday/birthday-cake-2020_scaled.jpg)](/2020/06/25/happy-41st-birthday/birthday-cake-2020_HD.jpg)
+[![](birthday-cake-2020.jpg)](birthday-cake-2020.jpg)
 
 And MarcMansfield also created an incredible birthday video! {{< emote loadJ >}}
 
