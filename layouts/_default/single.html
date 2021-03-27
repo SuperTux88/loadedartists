@@ -102,7 +102,6 @@
             {{ end -}}
         </a>
     </div>
-    {{ if ge $comicImage.Height $comicImage.Width -}}
     <div class="left-nav-bottom comic-sidebar wide-only" aria-hidden="true">
         {{ with $prev -}}
         <a class="btn-prev" tabindex="-1" href="{{ .RelPermalink }}"></a>
@@ -111,10 +110,11 @@
     <div class="right-nav-bottom comic-sidebar wide-only" aria-hidden="true">
         {{ with $next -}}
         <a class="btn-next" tabindex="-1" href="{{ .RelPermalink }}"></a>
+        {{ else -}}
+        <span class="disabled"></span>
         {{ end -}}
         <a class="btn-random" tabindex="-1" href="/random"></a>
     </div>
-    {{ end -}}
     <div class="left-post comic-sidebar wide-only finger-snack" aria-hidden="true">
         <img src="/img/fluff/JamampAnim.gif" width="165" height="326" loading="lazy" alt="">
     </div>

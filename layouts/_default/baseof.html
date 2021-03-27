@@ -76,7 +76,7 @@ ddddddddddddd                                                  dddddddddddddddd
     This website contains community made redraws of LoadingArtist Comics of the past 10 years.
 </div>
 <nav class="main-nav" id="menu-nav" aria-label="Primary">
-    <a class="box2d logo" href="/" aria-label="Loaded Artists">
+    <a class="box2d logo" href="/" aria-label="{{ .Site.Title }}">
         <div class="cube"></div>
     </a>
     <input type="checkbox" id="nav-toggle" class="nav-toggle">
@@ -159,7 +159,7 @@ ddddddddddddd                                                  dddddddddddddddd
     let highlightTexts = {{ $highlightTexts }};
     window['randomComics'] = [
     {{- range $index, $element := $comics }}
-        {"url": {{ .RelPermalink }}{{ with .Resources.GetMatch "thumb.*" }}, "img": {{ .RelPermalink }}{{ end }}, "title": {{ .Title }}, "section": {{ .Section }}}{{ if not (eq (add $index 1) (len $comics)) }},{{ end }}
+        {"url": {{ .RelPermalink }}{{ with .Resources.GetMatch "thumb.*" }}, "img": {{ .RelPermalink }}{{ end }}, "title": {{ .Title }}}{{ if not (eq (add $index 1) (len $comics)) }},{{ end }}
     {{- end }}
     ];
 
