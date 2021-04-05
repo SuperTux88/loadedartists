@@ -1,8 +1,20 @@
+article {
+	contain: layout;
+}
+article header.mood {
+	display: block;
+	min-height: 120px;
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 135px;
+	margin-left: -40px;
+}
 .meta .author {
 	color: #fd6900;
 }
 article .body {
 	width: 100%;
+	contain: content;
 }
 
 footer .columns {
@@ -39,6 +51,7 @@ footer .columns {
 }
 .vip-eggs {
 	height: 193px;
+	justify-self: center;
 }
 
 .hatguys-thumbs {

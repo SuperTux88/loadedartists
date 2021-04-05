@@ -7,7 +7,7 @@ paginate = 5
 
 [params]
 mainSections = ["comic"]
-twitchApiHost = "https://loadedartists.coding4.coffee"
+twitchApiHost = "https://twitch.loadingartist.com"
 
 [imaging]
 resampleFilter = "lanczos"

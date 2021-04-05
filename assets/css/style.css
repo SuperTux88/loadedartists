@@ -1,9 +1,14 @@
 /* || some more resets || */
 /* ---------------------- */
 
-/* keep image aspect ratios */
-img {
+/* keep image/video aspect ratios */
+img,
+video {
 	height: auto;
+}
+video {
+	max-width: 100%;
+	display: block;
 }
 
 /* || variables || */
@@ -786,8 +791,13 @@ footer {
 												"left-post         post     right-post";
 	contain: layout;
 }
+.page-comic-layout.no-bottom-nav {
+	grid-template-areas:	"left-nav          comic    right-nav"
+												"left-post         post     right-post";
+}
 @media screen and (max-width: 960px) {
-	.page-comic-layout {
+	.page-comic-layout,
+	.page-comic-layout.no-bottom-nav {
 		grid-template-columns: 1fr;
 		grid-template-areas:	"comic"
 													"post";
@@ -934,7 +944,7 @@ footer {
 /* ==================== */
 
 article {
-	contain: layout;
+	contain: content;
 }
 article h1 {
 	margin: 0;
@@ -957,11 +967,13 @@ article header a {
 	text-decoration: none;
 }
 article header.mood {
-	min-height: 120px;
-	background-repeat: no-repeat;
-	background-position: left center;
-	padding-left: 135px;
-	margin-left: -40px;
+	display: grid;
+	grid-template-columns: 100px 1fr;
+	grid-template-areas:	"emote title"
+												"emote meta";
+}
+article header.mood .emote {
+	grid-area: emote;
 }
 article .meta {
 	font-family: var(--font-family-heading);
@@ -991,7 +1003,6 @@ article .body {
 	margin: 0 auto;
 	min-height: 20px;
 	max-width: 600px;
-	contain: content;
 }
 article .body a {
 	text-decoration: none;
@@ -1060,8 +1071,8 @@ article .body iframe {
 /* || comic-page components || */
 /* =========================== */
 
-/* || bonus panel || */
-/* ----------------- */
+/* || bonus banner || */
+/* ------------------ */
 
 .bonus-banner {
 	margin-bottom: 10px;

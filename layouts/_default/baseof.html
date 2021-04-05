@@ -11,15 +11,29 @@
     {{ end -}}
     <title>{{ .Site.Title }}{{ with $subtitle }} &raquo; {{ . }}{{ end }}</title>
 
-    {{ if and (eq .Kind "page") (eq .Section "comic") -}}
-    <meta property="og:url"         content="{{ .Permalink }}">
-    <meta property="og:title"       content="{{ .Title }}">
-    <meta property="og:image"       content="{{ with .Resources.GetMatch "thumb.*"}}{{ .Permalink }}{{ end }}">
-    {{ end -}}
+    {{- $description := .Summary }}
+    {{- if eq .Kind "home" }}
+        {{- $description = .Site.Params.description }}
+    {{- end }}
+    {{- with $description }}
+    <meta name="description" content="{{ . }}" />
+    {{- end }}
+
+    <meta name="twitter:card" content="summary" />
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ .Site.Title }}" />
+    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:title" content="{{ if eq .Kind "page" }}{{ .Title }}{{ else }}{{ .Site.Title }}{{ with $subtitle }} &raquo; {{ . }}{{ end }}{{ end }}">
+    {{- with $description }}
+    <meta property="og:description" content="{{ $description }}">
+    {{- end }}
+    {{- with .Resources.GetMatch "thumb.*"}}
+    <meta property="og:image" content="{{ .Permalink }}">
+    {{- end }}
 
     {{- block "head" . }}{{- end -}}
 
-    <link rel="preload" as="fetch" href="/twitch/" crossorigin>
+    <link rel="preload" as="fetch" href="{{ .Site.Params.twitchApiHost }}" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&amp;family=Raleway:wght@900&amp;display=swap" rel="stylesheet">
     {{ $css_reset := resources.Get "/css/reset.css" -}}
@@ -30,6 +44,9 @@
     {{ $css_additional := resources.Get "/css/additional-style.css" -}}
     {{ $css_all := slice $css_reset $css_style $css_sprites $css_gravity $css_warning $css_additional | resources.Concat "/css/all.css" | minify | fingerprint "sha512" -}}
     <link rel="stylesheet" href="{{ $css_all.RelPermalink }}" integrity="{{ $css_all.Data.Integrity }}" media="screen">
+
+    <link rel="canonical" href="{{ .Permalink }}" />
+    <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} Feed" href="{{ .Site.BaseURL }}index.xml" />
 
     <!--                                                  ddd
     dd                                                   dddd
@@ -79,7 +96,7 @@ ddddddddddddd                                                  dddddddddddddddd
     <a class="box2d logo" href="/" aria-label="{{ .Site.Title }}">
         <div class="cube"></div>
     </a>
-    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true">
     <ul>
         {{ range first 1 (where .Site.RegularPages "Section" "comic") }}
         <li class="box2d"><a href="{{ .RelPermalink }}">Comic</a></li>
@@ -213,7 +230,7 @@ ddddddddddddd                                                  dddddddddddddddd
 
     function checkTwitchState() {
         // Twitch LIVE! link
-        fetch('/twitch/').then(response => response.text())
+        fetch('{{ .Site.Params.twitchApiHost }}').then(response => response.text())
             .then(data => {
                 if (sessionStorage.getItem('twitch-live') !== data) {
                     sessionStorage.setItem('twitch-live', data);
@@ -226,6 +243,10 @@ ddddddddddddd                                                  dddddddddddddddd
                         twitchlink.classList.remove('live');
                     }
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showHeaderWidget();
             });
     }
 

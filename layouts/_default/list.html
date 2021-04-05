@@ -1,5 +1,5 @@
 {{ define "main" }}
-<div class="page-archive-layout" xmlns="http://www.w3.org/1999/html">
+    <div class="page-archive-layout">
         <div class="archive-thumbs">
             {{ range .RegularPages.Reverse.GroupByDate "2006" -}}
                 {{ range .Pages -}}

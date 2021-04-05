@@ -1,3 +1,5 @@
+'use strict'
+
 // Show fixed nav on scroll
 let stickyHeaderObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
@@ -7,7 +9,7 @@ let stickyHeaderObserver = new IntersectionObserver((entries, observer) => {
 stickyHeaderObserver.observe(document.querySelector('.main-header'));
 
 // Keyboard Navigation
-document.addEventListener('keydown', function (event) {
+document.addEventListener('keydown', event => {
   switch (event.code) {
     case 'ArrowLeft':
       let prevLink = document.querySelector('[data-kb-nav-prev]')
@@ -21,14 +23,13 @@ document.addEventListener('keydown', function (event) {
       let randLink = document.querySelector('[data-kb-nav-random]')
       if (randLink) window.location = randLink.href;
       break;
-    default:
-      return;
   }
 });
 
 // Play clips
 document.querySelectorAll('.embed-placeholder').forEach(embed => {
-  embed.addEventListener('click', (event) => {
+  embed.addEventListener('click', event => {
+    event.preventDefault();
     let embedUrl = embed.dataset.embedUrl;
     let iframe = document.createElement("iframe");
     iframe.setAttribute("src", embedUrl);

@@ -1,0 +1,20 @@
+{{- $image := .Page.Resources.GetMatch .Destination -}}
+{{- if not $image -}}
+    {{- $page := .Page.GetPage (path.Dir .Destination) -}}
+    {{- $image = $page.Resources.GetMatch (path.Base .Destination) -}}
+{{- end -}}
+{{- if and (not $image) .Page.File -}}
+    {{- $path := path.Join .Page.File.Dir .Destination -}}
+    {{- $page := .Page.GetPage (path.Dir $path) -}}
+    {{- $image = $page.Resources.GetMatch (path.Base $path) -}}
+{{- end -}}
+{{- if $image -}}
+    {{- if gt $image.Width 600 -}}
+        {{- $image = $image.Resize "600x" -}}
+    {{- end -}}
+    {{- with $image -}}
+        <img src="{{ .Permalink }}" alt="{{ $.Text }}" {{- with $.Title }} title="{{ . }}"{{ end }} width="{{ .Width }}" height="{{ .Height }}">
+    {{- end -}}
+{{- else -}}
+    <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{- with .Title }} title="{{ . }}"{{ end }}>
+{{- end -}}

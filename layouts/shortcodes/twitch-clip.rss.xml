@@ -1,0 +1,10 @@
+{{ $clip := getJSON (printf "twitch/clips/%s.json" (.Get 0)) -}}
+{{ with $clip -}}
+<p>
+    <div>{{ .title }}</div>
+    <a href="{{ .url }}" style="position:relative;display:inline-block;">
+        <img src="{{ .thumbnail_url }}" alt="" width="600" height="336">
+        <img style="position:absolute;left:0;right:0;top:0;bottom:0;margin:auto;" src="/img/buttons/clip_overlay.png">
+    </a>
+</p>
+{{ end -}}

@@ -1,7 +1,8 @@
 <div class="embed-wrapper">
     {{- $id := .Get "id" | default (.Get 0) -}}
+    {{- $time := .Get "time" | default (.Get 1) -}}
     {{- $title := .Get "title" }}
-    <div class="embed-placeholder{{ if $title }} has-title{{ end }}" data-embed-url="https://www.youtube.com/embed/{{ $id }}?autoplay=1" style="background-image: url('https://i.ytimg.com/vi/{{ index (split $id "?") 0 }}/{{ default "sd" (.Get "thumb") }}default.jpg')">
+    <a class="embed-placeholder{{ if $title }} has-title{{ end }}" href="https://www.youtube.com/watch?v={{ $id }}{{ with $time }}&t={{ . }}{{ end }}" data-embed-url="https://www.youtube.com/embed/{{ $id }}?autoplay=1{{ with $time }}&start={{ . }}{{ end }}" style="background-image: url('https://i.ytimg.com/vi/{{ index (split $id "?") 0 }}/{{ default "sd" (.Get "thumb") }}default.jpg')" target="_blank" rel="noopener">
         {{ with $title }}<div class="embed-title">{{ . }}</div>{{ end }}
-    </div>
+    </a>
 </div>
