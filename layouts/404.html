@@ -1,3 +1,6 @@
+{{ define "head" }}
+<link rel="preload" as="fetch" href="/index.json">
+{{ end }}
 {{ define "main"}}
 <div class="page-error">
     <h1>404</h1>
@@ -8,8 +11,20 @@
         {{ partial "latest-comic-thumbs" . }}
     </div>
     <div class="col sidebar">
-        {{ partial "social-links" }}
+        {{ partial "social-links" . }}
         {{ partial "sidebar-news" . }}
     </div>
 </div>
+<script type="text/javascript">
+    // if there is a 404, lets try to guess the page the user maybe wanted to go to.
+    fetch('/index.json')
+        .then(response => response.json())
+        .then(data => {
+            const pathParts = window.location.pathname.split("/").filter(Boolean);
+            let pageSlug = pathParts.pop();
+            if (pageSlug in data) {
+                window.location = data[pageSlug].url;
+            }
+        });
+</script>
 {{ end }}

@@ -37,7 +37,7 @@
             <a href="{{ .RelPermalink }}" class="box2d btn-first first" aria-label="First"></a>
             {{ end -}}
         {{ else -}}
-            {{ partial "social-links" -}}
+            {{ partial "social-links" . -}}
         {{ end -}}
     </div>
     <div class="right-nav comic-sidebar wide-only">

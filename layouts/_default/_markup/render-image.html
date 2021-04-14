@@ -9,7 +9,7 @@
     {{- $image = $page.Resources.GetMatch (path.Base $path) -}}
 {{- end -}}
 {{- with $image -}}
-    {{- if gt .Width 600 -}}
+    {{- if and (gt .Width 600)  (not (eq .MediaType.SubType "gif")) -}}
         {{- $image600 := .Resize "600x" -}}
         {{- $image1280 := "" -}}
         {{- if gt .Width 1280 -}}

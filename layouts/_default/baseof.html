@@ -35,7 +35,9 @@
 
     <link rel="preload" as="fetch" href="{{ .Site.Params.twitchApiHost }}" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&amp;family=Raleway:wght@900&amp;display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Open+Sans&amp;family=Raleway:wght@900&amp;display=swap" as="style">
+    <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');" href="https://fonts.googleapis.com/css2?family=Open+Sans&amp;family=Raleway:wght@900&amp;display=swap">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&amp;family=Raleway:wght@900&amp;display=swap"></noscript>
     {{ $css_reset := resources.Get "/css/reset.css" -}}
     {{ $css_style := resources.Get "/css/style.css" -}}
     {{ $css_sprites := resources.Get "/css/sprites.css" -}}
@@ -46,7 +48,7 @@
     <link rel="stylesheet" href="{{ $css_all.RelPermalink }}" integrity="{{ $css_all.Data.Integrity }}" media="screen">
 
     <link rel="canonical" href="{{ .Permalink }}" />
-    <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} Feed" href="{{ .Site.BaseURL }}index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} Feed" href="{{ "index.xml" | absURL }}" />
 
     <!--                                                  ddd
     dd                                                   dddd

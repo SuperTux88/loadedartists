@@ -38,6 +38,9 @@ footer .columns {
 													"post";
 	}
 }
+.page-comic-layout .main-image a:hover {
+	opacity: 1;
+}
 .finger-snack {
 	height: 163px;
 }

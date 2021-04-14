@@ -10,17 +10,20 @@ stickyHeaderObserver.observe(document.querySelector('.main-header'));
 
 // Keyboard Navigation
 document.addEventListener('keydown', event => {
+  if (event.ctrlKey || event.altKey || event.metaKey) { return; }
+
   switch (event.code) {
     case 'ArrowLeft':
-      let prevLink = document.querySelector('[data-kb-nav-prev]')
+      let prevLink = document.querySelector('[data-kb-nav-prev]');
       if (prevLink) window.location = prevLink.href;
       break;
     case 'ArrowRight':
-      let nextLink = document.querySelector('[data-kb-nav-next]')
+      let nextLink = document.querySelector('[data-kb-nav-next]');
       if (nextLink) window.location = nextLink.href;
       break;
     case 'Slash':
-      let randLink = document.querySelector('[data-kb-nav-random]')
+    case 'KeyR':
+      let randLink = document.querySelector('[data-kb-nav-random]');
       if (randLink) window.location = randLink.href;
       break;
   }
@@ -29,6 +32,7 @@ document.addEventListener('keydown', event => {
 // Play clips
 document.querySelectorAll('.embed-placeholder').forEach(embed => {
   embed.addEventListener('click', event => {
+    if (event.ctrlKey || event.metaKey) { return; }
     event.preventDefault();
     let embedUrl = embed.dataset.embedUrl;
     let iframe = document.createElement("iframe");
