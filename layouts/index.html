@@ -1,10 +1,18 @@
 {{ define "head" }}
     {{- $latest := where .Site.RegularPages "Section" "in" (slice "comic" "art") }}
     {{- range first 1 $latest }}
-    <link rel="preload" as="image" href="{{ with .Resources.GetMatch "thumb_wide.*"}}{{ .RelPermalink }}{{ end }}">
+        {{- $thumb := .Resources.GetMatch "thumb_wide.*" }}
+        {{- if eq $thumb.MediaType.SubType "png" }}
+            {{- $thumb = $thumb.Resize (printf "%dx%d webp" $thumb.Width $thumb.Height) }}
+        {{- end }}
+        <link rel="preload" as="image" href="{{ $thumb.RelPermalink }}" type="{{ $thumb.MediaType }}">
     {{- end }}
     {{- range first 2 (after 1 $latest) }}
-    <link rel="preload" as="image" href="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}">
+        {{- $thumb := .Resources.GetMatch "thumb.*" }}
+        {{- if eq $thumb.MediaType.SubType "png" }}
+            {{- $thumb = $thumb.Resize (printf "%dx%d webp" $thumb.Width $thumb.Height) }}
+        {{- end }}
+        <link rel="preload" as="image" href="{{ $thumb.RelPermalink }}" type="{{ $thumb.MediaType }}">
     {{- end }}
 {{ end }}
 {{ define "main" }}

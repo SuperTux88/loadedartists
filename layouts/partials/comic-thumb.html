@@ -1,0 +1,10 @@
+<a class="comic-thumb {{- with .class }} {{ . }}{{ end }}" href="{{ .page.RelPermalink }}">
+    <picture>
+        {{ $thumb := .page.Resources.GetMatch (default "thumb.*" .thumb) -}}
+        {{ if eq $thumb.MediaType.SubType "png" -}}
+        <source type="image/webp" srcset="{{ ($thumb.Resize (printf "%dx%d webp" $thumb.Width $thumb.Height)).RelPermalink }}">
+        {{ end -}}
+        <img src="{{ $thumb.RelPermalink }}" {{- if .lazy }} loading="lazy"{{ end }} width="{{ default 200 .width }}" height="{{ default 207 .height }}" title="{{ .page.Title }}" alt="{{ .page.Title }}">
+    </picture>
+    <span class="valign">{{ default .page.Title .text }}</span>
+</a>

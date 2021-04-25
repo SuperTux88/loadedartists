@@ -1,29 +1,22 @@
 <div class="comic-thumbs">
     {{ $latest := where .Site.RegularPages "Section" "comic" -}}
     {{ range first 1 $latest -}}
-    <a class="box2d comic-thumb wide highlight ribbon left" href="{{ .RelPermalink }}">
-        <img src="{{ with .Resources.GetMatch "thumb_wide.*"}}{{ .RelPermalink }}{{ end }}" title="{{ .Title }}" width="397" height="200">
-        <span class="valign">Latest Comic</span>
-    </a>
+        {{ partial "comic-thumb" (dict "page" . "class" "box2d wide highlight ribbon left only-img-hover" "thumb" "thumb_wide.*" "text" "Latest Comic" "width" "397" "height" "200") -}}
     {{ end -}}
     {{ range first 1 (after 1 $latest) -}}
-    <a class="box2d comic-thumb" href="{{ .RelPermalink }}">
-        <img src="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}" title="{{ .Title }}" width="193" height="200">
-        <span class="valign">Earlier</span>
-    </a>
+        {{ partial "comic-thumb" (dict "page" . "class" "box2d only-img-hover" "text" "Earlier" "width" "193" "height" "200") -}}
     {{ end -}}
     {{ range first 1 (after 2 $latest) -}}
-    <a class="box2d comic-thumb" href="{{ .RelPermalink }}">
-        <img src="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}" title="{{ .Title }}" width="193" height="200">
-        <span class="valign">Even Earlier</span>
-    </a>
+        {{ partial "comic-thumb" (dict "page" . "class" "box2d only-img-hover" "text" "Even Earlier" "width" "193" "height" "200") -}}
     {{ end -}}
     {{ range first 2 (shuffle (after 3 $latest)) -}}
-    <a class="box2d comic-thumb random" data-random-source="comics" href="{{ .RelPermalink }}">
+    <a class="box2d comic-thumb only-img-hover random" data-random-source="comics" href="{{ .RelPermalink }}">
         <noscript>
             <img src="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}" title="{{ .Title }}" width="193" height="200">
         </noscript>
-        <img class="lazyload" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20200%20207%22%3E%3C/svg%3E" width="193" height="200">
+        <picture>
+            <img class="lazyload" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20200%20207%22%3E%3C/svg%3E" width="193" height="200">
+        </picture>
         <span class="valign">Random</span>
     </a>
     {{ end -}}

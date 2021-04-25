@@ -8,10 +8,7 @@
 <div class="page-comic-layout">
     <div class="left-nav comic-sidebar wide-only">
         {{ with $prev -}}
-            <a class="box2d comic-thumb highlight prev only-img-hover" href="{{ .RelPermalink }}">
-                <img src="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}" title="{{ .Title }}" loading="lazy" width="165" height="171">
-                <span class="valign">Previous</span>
-            </a>
+            {{ partial "comic-thumb" (dict "page" . "class" "box2d highlight prev only-img-hover" "text" "Previous" "lazy" true "width" "165" "height" "171") -}}
             {{ range last 1 $pages -}}
             <a href="{{ .RelPermalink }}" class="box2d btn-first first" aria-label="First"></a>
             {{ end -}}
@@ -21,10 +18,7 @@
     </div>
     <div class="right-nav comic-sidebar wide-only">
         {{ with $next -}}
-            <a class="box2d comic-thumb highlight next only-img-hover" href="{{ .RelPermalink }}">
-                <img src="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}" title="{{ .Title }}" loading="lazy" width="165" height="171">
-                <span class="valign">Next</span>
-            </a>
+            {{ partial "comic-thumb" (dict "page" . "class" "box2d highlight next only-img-hover" "text" "Next" "lazy" true "width" "165" "height" "171") -}}
             {{ range first 1 $pages -}}
             <a href="{{ .RelPermalink }}" class="box2d btn-last last" aria-label="Last"></a>
             {{ end -}}

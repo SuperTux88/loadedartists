@@ -1,6 +1,6 @@
 {{ $pages := .Site.RegularPages -}}
 {
 {{- range $index, $element := $pages }}
-  "{{ .File.ContentBaseName }}": {"url": "{{ .RelPermalink }}"{{ with .Resources.GetMatch "thumb.*" }}, "img": "{{ .RelPermalink }}"{{ end }}, "title": {{ jsonify .Title }}, "section": "{{ default "root" .Section }}"}{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
+  "{{ .File.ContentBaseName }}": {"url": "{{ .RelPermalink }}", "title": {{ jsonify .Title }}, "section": "{{ default "root" .Section }}"}{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
 {{- end }}
 }
