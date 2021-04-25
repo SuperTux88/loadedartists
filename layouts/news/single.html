@@ -1,11 +1,11 @@
 {{ define "main" }}
 <div class="columns two-thirds bg-fluff">
     <div class="col">
-        {{ partial "news-post" (dict "page" .) }}
+        {{ partial "news-post" (dict "page" . "site" .Site ) }}
     </div>
     <div class="col">
-        {{ partial "social-links" }}
-        {{ partial "sidebar-highlights" }}
+        {{ partial "social-links" . }}
+        {{ partial "sidebar-highlights" . }}
     </div>
 </div>
 {{ end -}}

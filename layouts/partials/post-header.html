@@ -1,24 +1,24 @@
 {{- $mood := .page.Params.mood -}}
 <header {{- if $mood }} class="mood" style="background-image: url('/img/mood/{{ default "default" $mood }}.png')"{{ end }}>
     <h1>
-        {{ if or (eq (.pageScratch.Get "kind") "home") (eq (.pageScratch.Get "kind") "section") -}}
+        {{- if or (eq (.pageScratch.Get "kind") "home") (eq (.pageScratch.Get "kind") "section") }}
             <a href="{{ .page.RelPermalink }}" rel="bookmark">{{ .page.Title }}</a>
-        {{ else -}}
+        {{- else }}
             {{ .page.Title }}
-        {{ end -}}
+        {{- end }}
     </h1>
     <div class="meta">
-        {{ if isset .page.Params "author_link" -}}
+        {{- if isset .page.Params "author_link" }}
             <a class="author" href="{{ .page.Params.author_link }}" target="_blank" rel="noopener">{{ .page.Params.author }}</a>
-        {{ else -}}
+        {{- else }}
             <span class="author">{{ .page.Params.author }}</span>
-        {{ end -}}
+        {{- end }}
         <time datetime="{{ .page.Date.Format "2006-01-02" }}">{{ .page.Date.Format "January 2, 2006" }}</time>
-        {{ if eq .page.Section "news" -}}
+        {{- if eq .page.Section "news" }}
         <div class="tiny-buttons">
             <a class="share-tiny-fb" href="https://www.facebook.com/sharer.php?u={{ .page.Permalink }}" target="_blank" rel="noopener" aria-label="Share on Facebook"></a>
             <a class="share-tiny-tw" href="https://twitter.com/share?url={{ .page.Permalink }}" target="_blank" rel="noopener" aria-label="Share on Twitter"></a>
         </div>
-        {{ end -}}
+        {{- end }}
     </div>
 </header>

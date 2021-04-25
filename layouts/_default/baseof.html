@@ -16,12 +16,12 @@
         {{- $description = .Site.Params.description }}
     {{- end }}
     {{- with $description }}
-    <meta name="description" content="{{ . }}" />
+    <meta name="description" content="{{ . }}">
     {{- end }}
 
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="{{ .Site.Title }}" />
+    <meta property="og:site_name" content="{{ .Site.Title }}">
     <meta property="og:url" content="{{ .Permalink }}">
     <meta property="og:title" content="{{ if eq .Kind "page" }}{{ .Title }}{{ else }}{{ .Site.Title }}{{ with $subtitle }} &raquo; {{ . }}{{ end }}{{ end }}">
     {{- with $description }}
@@ -47,8 +47,8 @@
     {{ $css_all := slice $css_reset $css_style $css_sprites $css_gravity $css_warning $css_additional | resources.Concat "/css/all.css" | minify | fingerprint "sha512" -}}
     <link rel="stylesheet" href="{{ $css_all.RelPermalink }}" integrity="{{ $css_all.Data.Integrity }}" media="screen">
 
-    <link rel="canonical" href="{{ .Permalink }}" />
-    <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} Feed" href="{{ "index.xml" | absURL }}" />
+    <link rel="canonical" href="{{ .Permalink }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} Feed" href="{{ "index.xml" | absURL }}">
 
     <!--                                                  ddd
     dd                                                   dddd
@@ -106,8 +106,8 @@ ddddddddddddd                                                  dddddddddddddddd
         {{ end }}
         <li class="box2d"><a href="/store/" target="_blank" rel="noopener">Store</a></li>
         <li class="box2d"><a href="https://www.patreon.com/LoadingArtist" target="_blank" rel="noopener">Patreon</a></li>
-        <li class="box2d"><a id="twitchlink" href="https://twitch.tv/loadingartist" target="_blank" rel="noopener">Twitch</a></li>
-        <li class="box2d"><a href="/index.xml" aria-label="Feed"><div class="btn-feed"></div></a></li>
+        <li class="box2d"><a id="twitchlink" href="https://www.twitch.tv/loadingartist" target="_blank" rel="noopener">Twitch</a></li>
+        <li class="box2d"><a href="/index.xml" class="rss-feed" aria-label="Feed"><div class="btn-feed"></div></a></li>
     </ul>
     <a href="#" aria-label="Search" class="mobile-only btn-search"></a>
     <label for="nav-toggle" class="nav-toggle-label" aria-label="Open Navigation">
@@ -117,7 +117,9 @@ ddddddddddddd                                                  dddddddddddddddd
 
 <header class="main-header">
     <!-- move header lower in DOM for better tab-order, it's moved with css `order` to the top again -->
-    <a class="box2d header-widget" target="_blank" rel="noopener"><img src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20450%2090%22%3E%3C/svg%3E"></a>
+    <a class="box2d header-widget" target="_blank" rel="noopener"><picture>
+        <img src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20450%2090%22%3E%3C/svg%3E">
+    </picture></a>
 </header>
 
 <main>
@@ -167,7 +169,7 @@ ddddddddddddd                                                  dddddddddddddddd
     </div>
 
     <p class="fineprint-right">
-        Copyright &copy; {{ now.Year }} Gregor Czaykowski & Community
+        Copyright &copy; {{ now.Year }} {{ .Site.Params.author.fullName }}
     </p>
 </footer>
 
@@ -198,24 +200,37 @@ ddddddddddddd                                                  dddddddddddddddd
     let headerWidget = {
         'url': 'https://www.patreon.com/LoadingArtist',
         'img': '/img/header-widgets/bonus-panels.png',
+        'webp': '/img/header-widgets/bonus-panels.webp',
         'title': 'Bonus panels on Patreon!'
     };
     let twitchLiveHeaderData = {
         'url': 'https://www.twitch.tv/loadingartist',
         'img': '/img/header-widgets/live.gif',
+        'webp': '/img/header-widgets/live.webp',
         'title': 'LIVE on Twitch!'
     }
 
     function replaceRandomImage(target, data) {
-        let randomImg = target.getElementsByTagName('img')[0];
+        let randomImg = target.querySelector('img');
         randomImg.src = data.img;
         if (data.url) {
             randomImg.title = data.title;
             randomImg.alt = data.title;
             target.href = data.url;
         }
+        let randomPicture = target.querySelector('picture');
+        if (randomPicture) {
+            let webpSource = target.querySelector('source');
+            if (webpSource) randomPicture.removeChild(webpSource);
+            if (data.webp) {
+                webpSource = document.createElement('source');
+                webpSource.type = 'image/webp';
+                webpSource.srcset = data.webp;
+                randomPicture.prepend(webpSource);
+            }
+        }
         if (target.classList.contains('highlight')) {
-            target.getElementsByTagName('span')[0].textContent = highlightTexts[highlightTexts.length * Math.random() << 0]
+            target.querySelector('span').textContent = highlightTexts[highlightTexts.length * Math.random() << 0]
         }
     }
 

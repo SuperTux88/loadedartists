@@ -2,7 +2,7 @@
 {{- $time := .Get "time" | default (.Get 1) -}}
 <p>
     <a href="https://www.youtube.com/watch?v={{ $id }}{{ with $time }}&t={{ . }}{{ end }}" style="position:relative;display:inline-block;">
-        <img src="https://i.ytimg.com/vi/{{ index (split $id "?") 0 }}/sddefault.jpg">
+        <img src="https://i.ytimg.com/vi/{{ $id }}/{{ default "sd" (.Get "thumb") }}default.jpg">
         <img style="position:absolute;left:0;right:0;top:0;bottom:0;margin:auto;" src="/img/buttons/clip_overlay.png">
     </a>
 </p>

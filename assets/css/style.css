@@ -83,6 +83,9 @@ a {
 a:hover {
 	opacity: 0.8;
 }
+a.no-touch-hover.touchevents:hover {
+	opacity: 1;
+}
 time {
 	color: var(--clr-date);
 	font-size: 14px;
@@ -248,7 +251,6 @@ main {
 	.main-nav ul {
 		position: absolute;
 		top: 100%;
-		width: 100%;
 		right: 0;
 		margin: 0;
 		padding: 10px 20px 10px 60px;
@@ -458,6 +460,16 @@ footer {
 		display: none !important;
 	}
 }
+@media screen and (max-width: 720px) {
+	.desktop-only {
+		display: none !important;
+	}
+}
+@media screen and (min-width: 721px) {
+	.mobile-only {
+		display: none !important;
+	}
+}
 
 /* || general styles || */
 /* ==================== */
@@ -510,7 +522,7 @@ footer {
 .comic-thumb:not(.hover):hover {
 	opacity: 1;
 }
-.comic-thumb:not(.hover):not([data-mini-comic]):hover img {
+.comic-thumb.only-img-hover:hover img {
 	opacity: 0.8;
 }
 .comic-thumb.highlight span {
@@ -679,6 +691,13 @@ footer {
 	bottom: 0;
 }
 
+/* || beam banner || */
+/* ----------------- */
+
+.beam {
+	margin-bottom: 20px;
+}
+
 /* || vertically aligned text below thumbs/extras-links || */
 /* ------------------------------------------------------- */
 
@@ -741,15 +760,14 @@ footer {
 .page-standard-layout .content {
 	padding: 0 20px;
 }
-.page-standard-layout h1,
+.page-standard-layout h1 {
+	text-align: center;
+}
 .page-standard-layout h2,
 .page-standard-layout h3,
 .page-standard-layout h4 {
-	color: var(--clr-text);
-	text-align: center;
-	margin-top: 1em;
+	margin: 2em 0 0.75em;
 }
-.page-standard-layout h1,
 .page-standard-layout h2:first-child,
 .page-standard-layout h3:first-child,
 .page-standard-layout h4:first-child {
@@ -757,6 +775,10 @@ footer {
 }
 .page-standard-layout p {
 	margin: 1em 0;
+}
+.page-standard-layout img {
+	display: inline;
+	vertical-align: middle;
 }
 
 /* || home layout || */
@@ -886,6 +908,11 @@ footer {
 .page-comic-layout .main-image {
 	grid-area: comic;
 	justify-self: center;
+}
+@media screen and (min-width: 961px) {
+	.page-comic-layout .main-image {
+		max-width: 550px;
+	}
 }
 .page-comic-layout .main-image img {
 	color: transparent;

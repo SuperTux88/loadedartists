@@ -9,6 +9,9 @@ paginate = 5
 mainSections = ["comic"]
 twitchApiHost = "https://twitch.loadingartist.com"
 
+[params.author]
+fullName = "Gregor Czaykowski & Community"
+
 [imaging]
 resampleFilter = "lanczos"
 quality = 85

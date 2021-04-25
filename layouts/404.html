@@ -16,15 +16,21 @@
     </div>
 </div>
 <script type="text/javascript">
-    // if there is a 404, lets try to guess the page the user maybe wanted to go to.
-    fetch('/index.json')
-        .then(response => response.json())
-        .then(data => {
-            const pathParts = window.location.pathname.split("/").filter(Boolean);
-            let pageSlug = pathParts.pop();
-            if (pageSlug in data) {
-                window.location = data[pageSlug].url;
-            }
-        });
+    const pathParts = window.location.pathname.split("/").filter(Boolean);
+    let pageSlug = pathParts.pop();
+    let hash = window.location.hash;
+    if (pageSlug === 'wp-admin' || pageSlug === 'wp-login.php') {
+        document.querySelector('.page-error h1').textContent = "LOL NO!";
+        document.querySelector('.page-error h2').textContent = "This is not WordPress";
+    } else {
+        // if there is a 404, lets try to guess the page the user maybe wanted to go to.
+        fetch('/index.json')
+            .then(response => response.json())
+            .then(data => {
+                if (pageSlug in data) {
+                    window.location = data[pageSlug].url + hash;
+                }
+            });
+    }
 </script>
 {{ end }}

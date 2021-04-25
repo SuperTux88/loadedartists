@@ -17,7 +17,7 @@
         {{ end -}}
 
         {{ range $paginator.Pages -}}
-            {{ partial "news-post" (dict "pageScratch" $pageScratch "page" .) }}
+            {{ partial "news-post" (dict "pageScratch" $pageScratch "page" . "site" .Site ) }}
         {{ end -}}
 
         {{ if or $paginator.HasPrev $paginator.HasNext -}}
@@ -32,8 +32,8 @@
         {{ end -}}
     </div>
     <div class="col sidebar">
-        {{ partial "social-links" }}
-        {{ partial "sidebar-highlights" }}
+        {{ partial "social-links" . }}
+        {{ partial "sidebar-highlights" . }}
     </div>
 </div>
 {{ end }}

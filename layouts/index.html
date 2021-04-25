@@ -1,10 +1,10 @@
 {{ define "head" }}
     {{- $latest := where .Site.RegularPages "Section" "in" (slice "comic" "art") }}
     {{- range first 1 $latest }}
-    <link rel="preload" as="image" href="{{ with .Resources.GetMatch "thumb_wide.*"}}{{ .RelPermalink }}{{ end }}"/>
+    <link rel="preload" as="image" href="{{ with .Resources.GetMatch "thumb_wide.*"}}{{ .RelPermalink }}{{ end }}">
     {{- end }}
     {{- range first 2 (after 1 $latest) }}
-    <link rel="preload" as="image" href="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}"/>
+    <link rel="preload" as="image" href="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}">
     {{- end }}
 {{ end }}
 {{ define "main" }}
@@ -30,10 +30,10 @@
         {{ $pageSize := 5 -}}
         {{ range $index, $element := first $pageSize $pages -}}
             {{ if lt $index 2 -}}
-                {{ partial "news-post" (dict "pageScratch" $pageScratch "page" .) }}
+                {{ partial "news-post" (dict "pageScratch" $pageScratch "page" . "site" .Site ) }}
             {{ else -}}
                 <article>
-                    {{ partial "post-header" (dict "pageScratch" $pageScratch "page" .) }}
+                    {{ partial "post-header" (dict "pageScratch" $pageScratch "page" . "site" .Site ) }}
                     <div class="body summary">
                         <p>{{ .Summary }}</p>
                         {{ if or .Truncated .Params.summary -}}
@@ -42,11 +42,7 @@
                     </div>
                 </article>
             {{ end -}}
-            {{ if lt $index (sub $pageSize 1) -}}
-                <hr>
-            {{ else -}}
-                <hr class="medium-or-less">
-            {{ end -}}
+            <hr class="medium-or-less">
         {{ end -}}
 
         {{ if gt (len $pages) $pageSize -}}

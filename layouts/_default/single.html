@@ -29,7 +29,7 @@
 <div class="page-comic-layout">
     <div class="left-nav comic-sidebar wide-only">
         {{ with $prev -}}
-            <a class="box2d comic-thumb highlight prev" href="{{ .RelPermalink }}">
+            <a class="box2d comic-thumb highlight prev only-img-hover" href="{{ .RelPermalink }}">
                 <img src="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}" title="{{ .Title }}" loading="lazy" width="165" height="171">
                 <span class="valign">Previous</span>
             </a>
@@ -42,18 +42,17 @@
     </div>
     <div class="right-nav comic-sidebar wide-only">
         {{ with $next -}}
-            <a class="box2d comic-thumb highlight next" href="{{ .RelPermalink }}">
+            <a class="box2d comic-thumb highlight next only-img-hover" href="{{ .RelPermalink }}">
                 <img src="{{ with .Resources.GetMatch "thumb.*"}}{{ .RelPermalink }}{{ end }}" title="{{ .Title }}" loading="lazy" width="165" height="171">
                 <span class="valign">Next</span>
             </a>
             {{ range first 1 $pages -}}
             <a href="{{ .RelPermalink }}" class="box2d btn-last last" aria-label="Last"></a>
-            <a href="/random" class="box2d btn-random" aria-label="Random"></a>
             {{ end -}}
         {{ else -}}
-            {{ partial "social-links" -}}
-            <a href="/random" class="box2d btn-random" aria-label="Random"></a>
+            {{ partial "social-links" . -}}
         {{ end -}}
+        <a href="/random" class="box2d btn-random" aria-label="Random" rel="nofollow"></a>
     </div>
     <div class="main-image">
         <nav class="pagination medium-or-less" aria-label="Pagination">
@@ -66,7 +65,7 @@
                 <span class="disabled"></span>
                 <span class="disabled"></span>
             {{ end -}}
-            <a title="Random" href="/random" class="btn-random" aria-label="Random" data-kb-nav-random></a>
+            <a title="Random" href="/random" class="btn-random" aria-label="Random" rel="nofollow" data-kb-nav-random></a>
             {{ with $next -}}
                 <a title="Next" href="{{ .RelPermalink }}" class="btn-next" aria-label="Next" data-kb-nav-next></a>
                 {{ range first 1 $pages -}}
@@ -77,6 +76,8 @@
                 <span class="disabled"></span>
             {{ end -}}
         </nav>
+
+        <div class="main-image-container">
         {{ $comicImage := .Resources.GetMatch (printf "%s.*" .File.ContentBaseName) -}}
         {{ $comicImagePreScaled := .Resources.GetMatch (printf "%s_scaled.*" .File.ContentBaseName) -}}
         <a href="{{ $comicImage.RelPermalink }}" alt="{{ .Title }}" title="{{ .Title }}">
@@ -101,6 +102,7 @@
                 <img src="{{ $comicImage.RelPermalink }}" alt="{{ .Title }}" title="{{ .Title }}" width="{{ $comicImage.Width }}" height="{{ $comicImage.Height }}" />
             {{ end -}}
         </a>
+        </div>
     </div>
     <div class="left-nav-bottom comic-sidebar wide-only" aria-hidden="true">
         {{ with $prev -}}
@@ -113,7 +115,7 @@
         {{ else -}}
         <span class="disabled"></span>
         {{ end -}}
-        <a class="btn-random" tabindex="-1" href="/random"></a>
+        <a class="btn-random" tabindex="-1" href="/random" rel="nofollow"></a>
     </div>
     <div class="left-post comic-sidebar wide-only finger-snack" aria-hidden="true">
         <img src="/img/fluff/JamampAnim.gif" width="165" height="326" loading="lazy" alt="">
@@ -135,7 +137,7 @@
                 <span class="disabled"></span>
                 <span class="disabled"></span>
             {{ end -}}
-            <a title="Random" href="/random" class="btn-random" tabindex="-1"></a>
+            <a title="Random" href="/random" class="btn-random" rel="nofollow" tabindex="-1"></a>
             {{ with $next -}}
                 <a title="Next" href="{{ .RelPermalink }}" class="btn-next" tabindex="-1"></a>
                 {{ range first 1 $pages -}}
@@ -147,7 +149,7 @@
             {{ end -}}
         </nav>
         <article>
-            {{ partial "post-header" (dict "page" .) }}
+            {{ partial "post-header" (dict "page" . "site" .Site ) }}
             <div class="body">
                 {{ .Content }}
             </div>
