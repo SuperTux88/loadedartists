@@ -33,9 +33,7 @@
                 {{ partial "news-post" (dict "pageScratch" $pageScratch "page" .) }}
             {{ else -}}
                 <article>
-                    <header class="mood" style="background-image: url('/img/mood/{{ default "default" .page.Params.mood }}.png')">
-                        {{ partial "post-header" (dict "pageScratch" $pageScratch "page" .) }}
-                    </header>
+                    {{ partial "post-header" (dict "pageScratch" $pageScratch "page" .) }}
                     <div class="body summary">
                         <p>{{ .Summary }}</p>
                         {{ if or .Truncated .Params.summary -}}

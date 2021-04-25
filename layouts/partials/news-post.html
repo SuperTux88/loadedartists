@@ -1,7 +1,5 @@
 <article>
-    <header class="mood" style="background-image: url('/img/mood/{{ default "default" .page.Params.mood }}.png')">
-        {{ partial "post-header" . }}
-    </header>
+    {{ partial "post-header" . }}
     <div class="body">
         {{ .page.Content }}
     </div>

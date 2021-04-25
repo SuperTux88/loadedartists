@@ -147,9 +147,7 @@
             {{ end -}}
         </nav>
         <article>
-            <header>
-                {{ partial "post-header" (dict "page" .) }}
-            </header>
+            {{ partial "post-header" (dict "page" .) }}
             <div class="body">
                 {{ .Content }}
             </div>
