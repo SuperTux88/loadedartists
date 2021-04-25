@@ -1,0 +1,68 @@
+{{ $mainComicImage := .page.Resources.GetMatch (printf "%s.png" .page.File.ContentBaseName) -}}
+{{ $comicImagePreCombined := .page.Resources.GetMatch (printf "%s_combined.*" .page.File.ContentBaseName) -}}
+{{ if $comicImagePreCombined -}}
+    {{ $mainComicImage = $comicImagePreCombined }}
+{{ end -}}
+{{ if not $mainComicImage -}}
+    {{ $mainComicImage = .page.Resources.GetMatch (printf "%s.gif" .page.File.ContentBaseName) -}}
+{{ end -}}
+{{ if not $mainComicImage -}}
+    {{ $mainComicImage = .page.Resources.GetMatch (printf "%s.jpg" .page.File.ContentBaseName) -}}
+{{ end -}}
+{{ if and (gt $mainComicImage.Width 550) (not (eq $mainComicImage.MediaType.SubType "gif")) -}}
+    {{ $comicImage := $mainComicImage -}}
+    {{ $comicImage550 := $mainComicImage.Resize "550x jpg" -}}
+    {{ $comicImage1100 := "" -}}
+    {{ $comicImage1650 := "" -}}
+    {{ if gt $mainComicImage.Width 1100 -}}
+        {{ $comicImage1100 = $mainComicImage.Resize "1100x jpg" -}}
+    {{ end -}}
+    {{ if gt $mainComicImage.Width 1650 -}}
+        {{ $comicImage1650 = $mainComicImage.Resize "1650x jpg" -}}
+    {{ end -}}
+    {{ $comicWebp := "" -}}
+    {{ $comicWebp550 := "" -}}
+    {{ $comicWebp1100 := "" -}}
+    {{ $comicWebp1650 := "" -}}
+    {{ if eq $mainComicImage.MediaType.SubType "png" -}}
+        {{ $comicImage = $mainComicImage.Resize (printf "%dx jpg" $mainComicImage.Width) -}}
+        {{ $comicWebp = $mainComicImage.Resize (printf "%dx webp" $mainComicImage.Width) -}}
+        {{ $comicWebp550 = $mainComicImage.Resize "550x webp" -}}
+        {{ if gt $mainComicImage.Width 1100 -}}
+            {{ $comicWebp1100 = $mainComicImage.Resize "1100x webp" -}}
+        {{ end -}}
+        {{ if gt $mainComicImage.Width 1650 -}}
+            {{ $comicWebp1650 = $mainComicImage.Resize "1650x webp" -}}
+        {{ end -}}
+    {{ end -}}
+    {{ if eq .output "preload" -}}
+        <link rel="preload" as="image" href="{{ ($comicWebp550 | default $comicImage550).RelPermalink }}" imagesrcset="{{ ($comicWebp550 | default $comicImage550).RelPermalink }} 550w, {{ if $comicImage1100 }}{{ ($comicWebp1100 | default $comicImage1100).RelPermalink }} 1100w, {{ end }}{{ if $comicImage1650 }}{{ ($comicWebp1650 | default $comicImage1650).RelPermalink }} 1650w, {{ end }}{{ ($comicWebp | default $comicImage).RelPermalink }} {{ $comicImage.Width }}w" imagesizes="(max-width: 960px) 92vw, 550px" {{- if $comicWebp }} type="image/webp"{{ end -}}>
+    {{ else -}}
+        <picture>
+            {{ if $comicWebp -}}
+            <source type="image/webp" srcset="{{ $comicWebp550.RelPermalink }} 550w, {{ with $comicWebp1100 }}{{ .RelPermalink }} 1100w, {{ end }}{{ with $comicWebp1650 }}{{ .RelPermalink }} 1650w, {{ end }}{{ $comicWebp.RelPermalink }} {{ $comicWebp.Width }}w" sizes="(max-width: 960px) 92vw, 550px">
+            {{ end -}}
+            <img src="{{ $comicImage550.RelPermalink }}" alt="{{ .page.Title }}" title="{{ .page.Title }}" width="{{ $mainComicImage.Width }}" height="{{ $mainComicImage.Height }}" srcset="{{ $comicImage550.RelPermalink }} 550w, {{ with $comicImage1100 }}{{ .RelPermalink }} 1100w, {{ end }}{{ with $comicImage1650 }}{{ .RelPermalink }} 1650w, {{ end }}{{ $comicImage.RelPermalink }} {{ $comicImage.Width }}w" sizes="(max-width: 960px) 92vw, 550px">
+        </picture>
+    {{ end -}}
+{{ else -}}
+    {{ $comicImage := $mainComicImage -}}
+    {{ $comicWebp := .page.Resources.GetMatch (printf "%s.webp" .page.File.ContentBaseName) -}}
+    {{ if $comicImagePreCombined }}
+        {{ $comicWebp = .page.Resources.GetMatch (printf "%s_combined.webp" .page.File.ContentBaseName) -}}
+    {{ end -}}
+    {{ if and (not $comicWebp) (eq $mainComicImage.MediaType.SubType "png") -}}
+        {{ $comicWebp = $mainComicImage.Resize "550x webp" -}}
+        {{ $comicImage = $mainComicImage.Resize "550x jpg" -}}
+    {{ end -}}
+    {{ if eq .output "preload" -}}
+        <link rel="preload" as="image" href="{{ ($comicWebp | default $comicImage).RelPermalink }}" {{- if $comicWebp }} type="image/webp"{{ end -}}>
+    {{ else -}}
+        <picture>
+            {{ if $comicWebp -}}
+            <source type="image/webp" srcset="{{ $comicWebp.RelPermalink }}">
+            {{ end -}}
+            <img src="{{ $comicImage.RelPermalink }}" alt="{{ .page.Title }}" title="{{ .page.Title }}" width="{{ $mainComicImage.Width }}" height="{{ $mainComicImage.Height }}">
+        </picture>
+    {{ end -}}
+{{ end -}}

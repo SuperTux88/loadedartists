@@ -1,26 +1,5 @@
 {{ define "head" }}
-    {{ $comicImage := .Resources.GetMatch (printf "%s.*" .File.ContentBaseName) -}}
-    {{ $comicImagePreScaled := .Resources.GetMatch (printf "%s_scaled.*" .File.ContentBaseName) -}}
-    {{ if $comicImagePreScaled -}}
-        <link rel="preload" as="image" href="{{ $comicImagePreScaled.RelPermalink }}"/>
-    {{ else if and (gt $comicImage.Width 550) (not (eq $comicImage.MediaType.SubType "gif")) -}}
-        {{ $comicImage550 := $comicImage.Resize "550x jpg" -}}
-        {{ $comicImage1100 := "" -}}
-        {{ $comicImage1650 := "" -}}
-        {{ $comicImage2200 := "" -}}
-        {{ if ge $comicImage.Width 1100 -}}
-            {{ $comicImage1100 = $comicImage.Resize "1100x jpg" -}}
-        {{ end -}}
-        {{ if ge $comicImage.Width 1650 -}}
-            {{ $comicImage1650 = $comicImage.Resize "1650x jpg" -}}
-        {{ end -}}
-        {{ if ge $comicImage.Width 2200 -}}
-            {{ $comicImage2200 = $comicImage.Resize "2200x jpg" -}}
-        {{ end -}}
-        <link rel="preload" as="image" href="{{ $comicImage550.RelPermalink }}" imagesrcset="{{ $comicImage550.RelPermalink }} 550w{{ with $comicImage1100 }}, {{ .RelPermalink }} 1100w{{ end }}{{ with $comicImage1650 }}, {{ .RelPermalink }} 1650w{{ end }}{{ with $comicImage2200 }}, {{ .RelPermalink }} 2200w{{ end }}" imagesizes="(max-width: 960px) 92vw, 550px"/>
-    {{ else -}}
-        <link rel="preload" as="image" href="{{ $comicImage.RelPermalink }}"/>
-    {{ end -}}
+    {{ partial "main-image" (dict "page" . "output" "preload") -}}
 {{ end }}
 {{ define "main" }}
 {{ $pages := where .Site.RegularPages "Section" "in" .Site.Params.mainSections -}}
@@ -78,30 +57,10 @@
         </nav>
 
         <div class="main-image-container">
-        {{ $comicImage := .Resources.GetMatch (printf "%s.*" .File.ContentBaseName) -}}
-        {{ $comicImagePreScaled := .Resources.GetMatch (printf "%s_scaled.*" .File.ContentBaseName) -}}
-        <a href="{{ $comicImage.RelPermalink }}" alt="{{ .Title }}" title="{{ .Title }}">
-            {{ if $comicImagePreScaled -}}
-                <img src="{{ $comicImagePreScaled.RelPermalink }}" alt="{{ .Title }}" title="{{ .Title }}" width="{{ $comicImagePreScaled.Width }}" height="{{ $comicImagePreScaled.Height }}" />
-            {{ else if and (gt $comicImage.Width 550) (not (eq $comicImage.MediaType.SubType "gif")) -}}
-                {{ $comicImage550 := $comicImage.Resize "550x jpg" -}}
-                {{ $comicImage1100 := "" -}}
-                {{ $comicImage1650 := "" -}}
-                {{ $comicImage2200 := "" -}}
-                {{ if ge $comicImage.Width 1100 -}}
-                    {{ $comicImage1100 = $comicImage.Resize "1100x jpg" -}}
-                {{ end -}}
-                {{ if ge $comicImage.Width 1650 -}}
-                    {{ $comicImage1650 = $comicImage.Resize "1650x jpg" -}}
-                {{ end -}}
-                {{ if ge $comicImage.Width 2200 -}}
-                    {{ $comicImage2200 = $comicImage.Resize "2200x jpg" -}}
-                {{ end -}}
-                <img src="{{ $comicImage550.RelPermalink }}" alt="{{ .Title }}" title="{{ .Title }}" width="{{ $comicImage.Width }}" height="{{ $comicImage.Height }}" srcset="{{ $comicImage550.RelPermalink }} 550w{{ with $comicImage1100 }}, {{ .RelPermalink }} 1100w{{ end }}{{ with $comicImage1650 }}, {{ .RelPermalink }} 1650w{{ end }}{{ with $comicImage2200 }}, {{ .RelPermalink }} 2200w{{ end }}" sizes="(max-width: 960px) 92vw, 550px" />
-            {{ else -}}
-                <img src="{{ $comicImage.RelPermalink }}" alt="{{ .Title }}" title="{{ .Title }}" width="{{ $comicImage.Width }}" height="{{ $comicImage.Height }}" />
-            {{ end -}}
-        </a>
+            {{ $comicImage := (.Resources.ByType "image").GetMatch (printf "%s.*" .File.ContentBaseName) -}}
+            <a href="{{ $comicImage.RelPermalink }}" alt="{{ .Title }}" title="{{ .Title }}">
+                {{ partial "main-image" (dict "page" .) -}}
+            </a>
         </div>
     </div>
     <div class="left-nav-bottom comic-sidebar wide-only" aria-hidden="true">

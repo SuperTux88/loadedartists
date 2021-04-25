@@ -43,15 +43,10 @@
                 {{- .Summary | html -}}
             </description>
             <content:encoded>
-                {{- $comicImage := .Resources.GetMatch (printf "%s.*" .File.ContentBaseName) -}}
-                {{- if $comicImage -}}
-                    {{- $comicImagePreScaled := .Resources.GetMatch (printf "%s_scaled.*" .File.ContentBaseName) -}}
-                    {{- if $comicImagePreScaled -}}
-                        {{- $comicImage = $comicImagePreScaled -}}
-                    {{- else if and (gt $comicImage.Width 550) (not (eq $comicImage.MediaType.SubType "gif")) -}}
-                        {{- $comicImage = $comicImage.Resize "550x jpg" -}}
-                    {{- end -}}
-                    {{- printf "<p><a href=%q><img src=%q width=%q height=%q ></a></p>" .Permalink $comicImage.Permalink (string $comicImage.Width) (string $comicImage.Height) -}}
+                {{- if in .Site.Params.mainSections .Section -}}
+                    {{- printf "<p><a href=%q>" .Permalink -}}
+                        {{- partial "main-image" (dict "page" .) | html -}}
+                    {{- printf "</a></p>" -}}
                 {{- end -}}
                 {{- .Content | html -}}
             </content:encoded>
