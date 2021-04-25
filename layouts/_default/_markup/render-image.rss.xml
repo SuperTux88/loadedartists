@@ -9,11 +9,20 @@
     {{- $image = $page.Resources.GetMatch (path.Base $path) -}}
 {{- end -}}
 {{- if $image -}}
+    {{- $webp := "" -}}
+    {{- if or (eq $image.MediaType.SubType "png") (gt $image.Width 2400) -}}
+        {{- $webp = $image.Resize "600x webp" -}}
+    {{- end -}}
     {{- if and (gt $image.Width 600)  (not (eq $image.MediaType.SubType "gif")) -}}
         {{- $image = $image.Resize "600x" -}}
     {{- end -}}
     {{- with $image -}}
+    <picture>
+        {{- if $webp -}}
+            <source type="image/webp" srcset="{{ $webp.RelPermalink }}">
+        {{- end -}}
         <img src="{{ .Permalink }}" alt="{{ $.Text }}" {{- with $.Title }} title="{{ . }}"{{ end }} width="{{ .Width }}" height="{{ .Height }}">
+    </picture>
     {{- end -}}
 {{- else -}}
     <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{- with .Title }} title="{{ . }}"{{ end }}>

@@ -9,16 +9,33 @@
     {{- $image = $page.Resources.GetMatch (path.Base $path) -}}
 {{- end -}}
 {{- with $image -}}
-    {{- if and (gt .Width 600)  (not (eq .MediaType.SubType "gif")) -}}
-        {{- $image600 := .Resize "600x" -}}
-        {{- $image1280 := "" -}}
-        {{- if gt .Width 1280 -}}
-            {{- $image1280 = .Resize "1280x" -}}
+    <picture>
+        {{- $webp := "" -}}
+        {{- if or (eq .MediaType.SubType "png") (gt .Width 2400) -}}
+            {{- $webp = .Resize (printf "%dx webp" (index (sort (slice .Width 2400)) 0)) -}}
         {{- end -}}
-        <img src="{{ $image600.RelPermalink }}" alt="{{ $.Text }}" {{- with $.Title }} title="{{ . }}"{{ end }} width="{{ .Width }}" height="{{ .Height }}" srcset="{{ $image600.RelPermalink }} 600w, {{ if $image1280 }}{{ $image1280.RelPermalink }} 1280w, {{ end }}{{ .RelPermalink }} {{ .Width }}w" sizes="(max-width: 640px) 90vw, 600px" />
-    {{- else -}}
-        <img src="{{ .RelPermalink }}" alt="{{ $.Text }}" {{- with $.Title }} title="{{ . }}"{{ end }} width="{{ .Width }}" height="{{ .Height }}">
-    {{- end -}}
+        {{- if and (gt .Width 600)  (not (eq .MediaType.SubType "gif")) -}}
+            {{- $image600 := .Resize "600x" -}}
+            {{- $image1280 := "" -}}
+            {{- if gt .Width 1280 -}}
+                {{- $image1280 = .Resize "1280x" -}}
+            {{- end -}}
+            {{- if $webp -}}
+                {{- $webp600 := .Resize "600x webp" -}}
+                {{- $webp1280 := "" -}}
+                {{- if gt .Width 1280 -}}
+                    {{- $webp1280 = .Resize "1280x webp" -}}
+                {{- end -}}
+                <source type="image/webp" srcset="{{ $webp600.RelPermalink }} 600w, {{ with $webp1280 }}{{ .RelPermalink }} 1280w, {{ end }}{{ $webp.RelPermalink }} {{ $webp.Width }}w" sizes="(max-width: 640px) 90vw, 600px">
+            {{- end -}}
+            <img src="{{ $image600.RelPermalink }}" alt="{{ $.Text }}" {{- with $.Title }} title="{{ . }}"{{ end }} width="{{ .Width }}" height="{{ .Height }}" srcset="{{ $image600.RelPermalink }} 600w, {{ with $image1280 }}{{ .RelPermalink }} 1280w, {{ end }}{{ .RelPermalink }} {{ .Width }}w" sizes="(max-width: 640px) 90vw, 600px">
+        {{- else -}}
+            {{- if $webp -}}
+                <source type="image/webp" srcset="{{ $webp.RelPermalink }}">
+            {{- end -}}
+            <img src="{{ .RelPermalink }}" alt="{{ $.Text }}" {{- with $.Title }} title="{{ . }}"{{ end }} width="{{ .Width }}" height="{{ .Height }}">
+        {{- end -}}
+    </picture>
 {{- else -}}
     <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{- with .Title }} title="{{ . }}"{{ end }}>
 {{- end -}}
