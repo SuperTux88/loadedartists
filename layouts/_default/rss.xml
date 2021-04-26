@@ -45,7 +45,7 @@
             <content:encoded>
                 {{- if in .Site.Params.mainSections .Section -}}
                     {{- printf "<p><a href=%q>" .Permalink -}}
-                        {{- partial "main-image" (dict "page" .) | html -}}
+                        {{- partial "main-image" (dict "page" . "output" "rss") | html -}}
                     {{- printf "</a></p>" -}}
                 {{- end -}}
                 {{- .Content | html -}}

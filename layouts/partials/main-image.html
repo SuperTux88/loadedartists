@@ -35,6 +35,10 @@
             {{ $comicWebp1650 = $mainComicImage.Resize "1650x webp" -}}
         {{ end -}}
     {{ end -}}
+    {{ $imgSize := $mainComicImage -}}
+    {{ if eq .output "rss" -}}
+        {{ $imgSize = $comicImage550 -}}
+    {{ end -}}
     {{ if eq .output "preload" -}}
         <link rel="preload" as="image" href="{{ ($comicWebp550 | default $comicImage550).RelPermalink }}" imagesrcset="{{ ($comicWebp550 | default $comicImage550).RelPermalink }} 550w, {{ if $comicImage1100 }}{{ ($comicWebp1100 | default $comicImage1100).RelPermalink }} 1100w, {{ end }}{{ if $comicImage1650 }}{{ ($comicWebp1650 | default $comicImage1650).RelPermalink }} 1650w, {{ end }}{{ ($comicWebp | default $comicImage).RelPermalink }} {{ $comicImage.Width }}w" imagesizes="(max-width: 960px) 92vw, 550px" {{- if $comicWebp }} type="image/webp"{{ end -}}>
     {{ else -}}
@@ -42,7 +46,7 @@
             {{ if $comicWebp -}}
             <source type="image/webp" srcset="{{ $comicWebp550.RelPermalink }} 550w, {{ with $comicWebp1100 }}{{ .RelPermalink }} 1100w, {{ end }}{{ with $comicWebp1650 }}{{ .RelPermalink }} 1650w, {{ end }}{{ $comicWebp.RelPermalink }} {{ $comicWebp.Width }}w" sizes="(max-width: 960px) 92vw, 550px">
             {{ end -}}
-            <img src="{{ $comicImage550.RelPermalink }}" alt="{{ .page.Title }}" title="{{ .page.Title }}" width="{{ $mainComicImage.Width }}" height="{{ $mainComicImage.Height }}" srcset="{{ $comicImage550.RelPermalink }} 550w, {{ with $comicImage1100 }}{{ .RelPermalink }} 1100w, {{ end }}{{ with $comicImage1650 }}{{ .RelPermalink }} 1650w, {{ end }}{{ $comicImage.RelPermalink }} {{ $comicImage.Width }}w" sizes="(max-width: 960px) 92vw, 550px">
+            <img src="{{ $comicImage550.RelPermalink }}" alt="{{ .page.Title }}" title="{{ .page.Title }}" width="{{ $imgSize.Width }}" height="{{ $imgSize.Height }}" srcset="{{ $comicImage550.RelPermalink }} 550w, {{ with $comicImage1100 }}{{ .RelPermalink }} 1100w, {{ end }}{{ with $comicImage1650 }}{{ .RelPermalink }} 1650w, {{ end }}{{ $comicImage.RelPermalink }} {{ $comicImage.Width }}w" sizes="(max-width: 960px) 92vw, 550px">
         </picture>
     {{ end -}}
 {{ else -}}
