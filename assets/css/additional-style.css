@@ -3,6 +3,11 @@
 		width: 100%;
 	}
 }
+@media screen and (max-width: 960px) {
+	.columns.two-thirds .col:last-child {
+		margin: 20px 0 0;
+	}
+}
 
 article {
 	contain: layout;
