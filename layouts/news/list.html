@@ -16,8 +16,9 @@
         </nav>
         {{ end -}}
 
-        {{ range $paginator.Pages -}}
+        {{ range $index, $element := $paginator.Pages -}}
             {{ partial "news-post" (dict "pageScratch" $pageScratch "page" . "site" .Site ) }}
+            <hr {{- if and (eq (add $index 1) (len $paginator.Pages)) (not (or $paginator.HasPrev $paginator.HasNext)) }} class="medium-or-less"{{ end }}>
         {{ end -}}
 
         {{ if or $paginator.HasPrev $paginator.HasNext -}}

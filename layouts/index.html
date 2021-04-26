@@ -50,7 +50,7 @@
                     </div>
                 </article>
             {{ end -}}
-            <hr class="medium-or-less">
+            <hr {{- if eq (add $index 1) (len $pages) }} class="medium-or-less"{{ end }}>
         {{ end -}}
 
         {{ if gt (len $pages) $pageSize -}}
