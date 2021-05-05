@@ -6,5 +6,5 @@
         {{ end -}}
         <img src="{{ $thumb.RelPermalink }}" {{- if .lazy }} loading="lazy"{{ end }} width="{{ default 200 .width }}" height="{{ default 207 .height }}" title="{{ .page.Title }}" alt="{{ .page.Title }}">
     </picture>
-    <span class="valign">{{ default .page.Title .text }}</span>
+    <div class="valign {{- with .textClass }} {{ . }}{{ end }}">{{ default .page.Title .text }}</div>
 </a>

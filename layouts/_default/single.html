@@ -8,7 +8,7 @@
 <div class="page-comic-layout">
     <div class="left-nav comic-sidebar wide-only">
         {{ with $prev -}}
-            {{ partial "comic-thumb" (dict "page" . "class" "box2d highlight prev only-img-hover" "text" "Previous" "lazy" true "width" "165" "height" "171") -}}
+            {{ partial "comic-thumb" (dict "page" . "class" "box2d highlight actions only-img-hover" "text" "Previous" "textClass" "ribbon left" "lazy" true "width" "165" "height" "171") -}}
             {{ range last 1 $pages -}}
             <a href="{{ .RelPermalink }}" class="box2d btn-first first" aria-label="First"></a>
             {{ end -}}
@@ -18,7 +18,7 @@
     </div>
     <div class="right-nav comic-sidebar wide-only">
         {{ with $next -}}
-            {{ partial "comic-thumb" (dict "page" . "class" "box2d highlight next only-img-hover" "text" "Next" "lazy" true "width" "165" "height" "171") -}}
+            {{ partial "comic-thumb" (dict "page" . "class" "box2d highlight actions only-img-hover" "text" "Next" "textClass" "ribbon right" "lazy" true "width" "165" "height" "171") -}}
             {{ range first 1 $pages -}}
             <a href="{{ .RelPermalink }}" class="box2d btn-last last" aria-label="Last"></a>
             {{ end -}}

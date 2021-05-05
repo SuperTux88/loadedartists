@@ -157,7 +157,7 @@ ddddddddddddd                                                  dddddddddddddddd
                     <picture>
                         <img class="lazyload" loading="lazy" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20200%20207%22%3E%3C/svg%3E" width="193" height="200">
                     </picture>
-                    <span class="valign">{{ $text }}</span>
+                    <div class="valign">{{ $text }}</div>
                 </a>
             {{ end -}}
             </div>
@@ -234,7 +234,7 @@ ddddddddddddd                                                  dddddddddddddddd
             }
         }
         if (target.classList.contains('highlight')) {
-            target.querySelector('span').textContent = highlightTexts[highlightTexts.length * Math.random() << 0]
+            target.querySelector('.valign').textContent = highlightTexts[highlightTexts.length * Math.random() << 0]
         }
     }
 

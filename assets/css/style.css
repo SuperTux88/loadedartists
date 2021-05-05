@@ -512,7 +512,7 @@ footer {
 	color: transparent;
 	background: var(--bg-clr-highlighted);
 }
-.comic-thumb span {
+.comic-thumb .valign {
 	font-family: var(--font-family-heading);
 	font-weight: bold;
 	text-transform: uppercase;
@@ -525,7 +525,7 @@ footer {
 .comic-thumb.only-img-hover:hover img {
 	opacity: 0.8;
 }
-.comic-thumb.highlight span {
+.comic-thumb.highlight .valign {
 	color: var(--clr-text-inv);
 	background: var(--clr-primary);
 }
@@ -549,8 +549,8 @@ footer {
 .comic-thumbs .comic-thumb.wide {
 	width: 396.66666667px;
 }
-.comic-thumbs .comic-thumb.wide.highlight span::before,
-.comic-thumbs .comic-thumb.wide.highlight span::after {
+.comic-thumbs .comic-thumb.wide.highlight .valign::before,
+.comic-thumbs .comic-thumb.wide.highlight .valign::after {
 	margin: 0 50px;
 	content: "★";
 }
@@ -715,7 +715,8 @@ footer {
 	position: relative;
 }
 @media screen and (min-width: 1000px) {
-	.ribbon::before {
+	.ribbon.left::before,
+	.ribbon.right::after {
 		content: '';
 		background: url('/img/sprites/ribbon.png') 0 0 no-repeat;
 		height: 55px;
@@ -726,29 +727,34 @@ footer {
 	.ribbon.left::before {
 		left: -30px;
 	}
-	.ribbon.right::before {
+	.ribbon.right::after {
 		right: -30px;
 		background-position: -30px 0;
 	}
 }
 
 .actions .ribbon {
-	display: inline-block;
 	background: var(--clr-primary);
 	color: var(--clr-text-inv);
-	margin: 0 0 1em;
-	padding: 0 50px 0 43px;
 	font-size: 20px;
-	line-height: 50px;
 	font-family: var(--font-family-heading);
 	text-transform: uppercase;
 	text-decoration: none;
+}
+.actions.btn .ribbon {
+	display: inline-block;
+	margin: 0 0 1em;
+	padding: 0 50px;
+	line-height: 50px;
 }
 .actions .ribbon:hover {
 	opacity: 1;
 }
 .actions .ribbon.left::before {
 	background: var(--btn-sprite) -228px -10px;
+}
+.actions .ribbon.right::after {
+	background: var(--btn-sprite) -158px -80px;
 }
 
 /* || page layouts || */
@@ -839,32 +845,8 @@ footer {
 }
 
 /* || START comic navigation buttons */
-.page-comic-layout .prev,
-.page-comic-layout .next {
+.page-comic-layout .comic-sidebar .comic-thumb {
 	margin-top: 10px;
-}
-@media screen and (min-width: 1000px) {
-	.page-comic-layout .prev span,
-	.page-comic-layout .next span {
-		position: relative;
-	}
-	.page-comic-layout .prev span::before,
-	.page-comic-layout .next span::after {
-		content: '';
-		background: var(--clr-primary);
-		position: absolute;
-		top: 0;
-		height: 55px;
-		width: 30px;
-	}
-	.page-comic-layout .prev span::before {
-		right: 100%;
-		background: var(--btn-sprite) -228px -10px;
-	}
-	.page-comic-layout .next span::after {
-		left: 100%;
-		background: var(--btn-sprite) -158px -80px;
-	}
 }
 .comic-sidebar {
 	position: relative;
@@ -954,7 +936,7 @@ footer {
 	width: 200px;
 	margin: 0 10px 16px;
 }
-.archive-thumbs .comic-thumb span {
+.archive-thumbs .comic-thumb .valign {
 	font-size: 16px;
 	height: 70px;
 }
@@ -1088,7 +1070,7 @@ article .body iframe {
 .embed-placeholder.has-title::before {
 	width: 100%;
 	height: 100%;
-	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0) 100%);
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, transparent 40%);
 }
 .embed-placeholder::after {
 	top: calc(50% - 62.5px);
