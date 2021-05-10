@@ -1,5 +1,8 @@
 {{ define "head" }}
+{{- $paginator := .Paginate .RegularPages }}
+{{- if ne $paginator.PageNumber 1 }}
 <meta name="robots" content="noindex">
+{{- end }}
 {{ end }}
 {{ define "main" }}
 <div class="page-news-layout columns two-thirds">
