@@ -19,4 +19,4 @@ related:
 
 As known from this cooking show:
 
-{{< video src="https://ipfs.io/ipns/k51qzi5uqu5dkqy54v5iijoanbvwm9ao05vlyzlirb0c3gf2tdqb9lsa0phbrx/clips/2019/11/2/special_apron__EncouragingDarlingHerringCorgiDerp.mp4" >}}
+{{< video src="https://ipfs.io/ipns/k51qzi5uqu5dj04zw3h1hd426bb72ab8xbrvajjhrp03dm19txla2gxximzyfn/clips/2019/11/2/special_apron__EncouragingDarlingHerringCorgiDerp.mp4" >}}
