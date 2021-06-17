@@ -1,0 +1,120 @@
+/* || some more resets || */
+/* ---------------------- */
+
+/* keep image aspect ratios */
+img {
+	height: auto;
+}
+
+/* || variables || */
+/* --------------- */
+
+:root {
+	--clr-text: #000000;
+	--clr-nav: #828282;
+
+	--font-family-text: 'Libre Caslon Text', sans-serif;
+
+	--bg-clr-page: #FFFFFF;
+}
+
+/* || base style || */
+/* ---------------- */
+html {
+	background: var(--bg-clr-page);
+}
+body {
+	color: var(--clr-text);
+	font-family: var(--font-family-text);
+	font-style: italic;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+h1,
+h2,
+h3,
+h4 {
+	text-transform: uppercase;
+	line-height: 1.2;
+}
+
+/* || header || */
+/* ------------ */
+
+header {
+	border-bottom: 6px solid var(--clr-text);
+	height: 140px;
+	width: 100%;
+	margin-bottom: 20px;
+}
+#logo {
+	background: url('/img/the-new-gregor/logo.jpg') center center no-repeat;
+	margin: 20px auto;
+	width: 370px;
+	height: 100px;
+}
+
+/* || content || */
+/* ------------- */
+
+main {
+	max-width: 750px;
+	position: relative;
+	flex-grow: 1;
+}
+
+/* || navigation || */
+/* ---------------- */
+
+main nav {
+	color: var(--clr-nav);
+	display: flex;
+	justify-content: space-around;
+	margin: 20px 0;
+}
+
+main nav a {
+	font-size: 1.6rem;
+	flex-basis: 50%;
+	text-align: center;
+}
+
+main nav a::before {
+	content: '';
+	background-color: var(--clr-nav);
+	-webkit-mask-image: url('/img/the-new-gregor/arrow.svg');
+	mask-image: url('/img/the-new-gregor/arrow.svg');
+	display: block;
+	width: 40px;
+	height: 28px;
+	margin: 0 auto 20px;
+}
+
+main nav a.prev::before {
+	transform: scaleX(-1);
+}
+
+@media screen and (min-width: 1200px) {
+	main nav a {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		--nav-spacing: -12.5vw;
+	}
+
+	main nav a.prev {
+		left: var(--nav-spacing);
+		transform: translateX(-50%);
+	}
+
+	main nav a.next {
+		right: var(--nav-spacing);
+		transform: translateX(50%);
+	}
+}
+@media screen and (min-width: 1200px) and (max-width: 1350px) {
+	main nav a {
+		--nav-spacing: -10vw;
+	}
+}
