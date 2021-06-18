@@ -42,6 +42,7 @@
 <header>
     <div id="logo" aria-label="THE NEW YORKER"></div>
 </header>
+
 {{ $currentSection := "" -}}
 {{ with .Parent.File -}}
     {{ $currentDirs := split (replaceRE "/$" "" .Dir) "/" -}}
@@ -56,6 +57,14 @@
         <a class="next">next</a>
     </nav>
 </main>
+
+{{ with .Params.author -}}
+<footer>
+    <div id="author">
+        By {{ . }}
+    </div>
+</footer>
+{{ end -}}
 
 {{ $main_js := resources.Get "/js/main.js" | minify | fingerprint "sha512" }}
 <script src="{{ $main_js.RelPermalink }}" integrity="{{ $main_js.Data.Integrity }}" defer></script>
