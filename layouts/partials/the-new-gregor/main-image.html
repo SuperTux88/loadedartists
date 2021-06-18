@@ -1,0 +1,30 @@
+{{ if and (gt .image.Width 750) (not (eq .image.MediaType.SubType "gif")) -}}
+    {{ $mainImage := .image -}}
+    {{ if eq .image.MediaType.SubType "png" -}}
+        {{ $mainImage = .image.Resize (printf "%dx jpg" .image.Width) -}}
+    {{ end -}}
+    {{ $mainImage750 := .image.Resize "750x jpg" -}}
+
+    {{ $mainImageWebp := .image.Resize (printf "%dx webp" .image.Width) -}}
+    {{ $mainImageWebp750 := .image.Resize "750x webp" -}}
+
+    {{ $imgSize := .image -}}
+    {{ if eq .output "rss" -}}
+        {{ $imgSize = $mainImage750 -}}
+    {{ end -}}
+
+    {{ if eq .output "preload" -}}
+        <link rel="preload" as="image" href="{{ $mainImageWebp750.RelPermalink }}" imagesrcset="{{ $mainImageWebp750.RelPermalink }} 750w, {{ $mainImageWebp.RelPermalink }} {{ $mainImage.Width }}w" imagesizes="(max-width: 750px) 96vw, 750px" type="image/webp">
+    {{ else -}}
+        <picture>
+            <source type="image/webp" srcset="{{ $mainImageWebp750.RelPermalink }} 750w, {{ $mainImageWebp.RelPermalink }} {{ $mainImageWebp.Width }}w" sizes="(max-width: 750px) 96vw, 750px">
+            <img src="{{ $mainImage750.RelPermalink }}" alt="{{ .page.Title }}" title="{{ .title }}" width="{{ $imgSize.Width }}" height="{{ $imgSize.Height }}" srcset="{{ $mainImage750.RelPermalink }} 750w, {{ $mainImage.RelPermalink }} {{ $mainImage.Width }}w" sizes="(max-width: 750px) 96vw, 750px">
+        </picture>
+    {{ end -}}
+{{ else -}}
+    {{ if eq .output "preload" -}}
+        <link rel="preload" as="image" href="{{ .image.RelPermalink }}">
+    {{ else -}}
+        <img src="{{ .image.RelPermalink }}" alt="{{ .page.Title }}" title="{{ .title }}" width="{{ .image.Width }}" height="{{ .image.Height }}">
+    {{ end -}}
+{{ end -}}

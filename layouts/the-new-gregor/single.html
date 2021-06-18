@@ -1,0 +1,28 @@
+{{ define "head" }}
+    {{ $origMainImage := (.Resources.ByType "image").GetMatch (printf "%s.*" .File.ContentBaseName) -}}
+    {{ if $origMainImage -}}
+        {{ partial "the-new-gregor/main-image" (dict "image" $origMainImage "page" . "output" "preload") -}}
+    {{ end -}}
+{{ end }}
+{{ define "main" }}
+    {{ $origMainImage := (.Resources.ByType "image").GetMatch (printf "%s.*" .File.ContentBaseName) -}}
+    {{ if $origMainImage -}}
+        {{ $imageParams := (dict "image" $origMainImage "page" .) -}}
+        {{ if .Params.author -}}
+            {{ $imageParams = $imageParams | merge (dict "title" (printf "By %s" .Params.author)) -}}
+        {{ end -}}
+        <div class="main-image">
+            {{ partial "the-new-gregor/main-image" $imageParams -}}
+        </div>
+    {{ end -}}
+
+    {{ if .Parent.Params.showSectionTitle -}}
+        <h1>{{ .Parent.Title }}</h1>
+    {{ else if .Title -}}
+        <h1>{{ .Title }}</h1>
+    {{ end -}}
+
+    {{ with .Content }}
+        <div class="text"><div>{{ . }}</div></div>
+    {{ end -}}
+{{ end -}}

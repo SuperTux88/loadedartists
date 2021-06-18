@@ -42,7 +42,12 @@
 <header>
     <div id="logo" aria-label="THE NEW YORKER"></div>
 </header>
-<main>
+{{ $currentSection := "" -}}
+{{ with .Parent.File -}}
+    {{ $currentDirs := split (replaceRE "/$" "" .Dir) "/" -}}
+    {{ $currentSection = index $currentDirs (sub (len $currentDirs) 1) -}}
+{{ end -}}
+<main class="section-{{ $currentSection }}">
     <div id="content">
         {{- block "main" . }}{{- end }}
     </div>
