@@ -87,6 +87,10 @@ main {
 	flex-direction: column;
 	justify-content: center;
 }
+.text img {
+	display: inline;
+	vertical-align: middle;
+}
 
 /* || navigation || */
 /* ---------------- */

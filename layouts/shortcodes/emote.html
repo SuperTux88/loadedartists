@@ -1,6 +1,2 @@
 {{- $emote := .Get "name" | default (.Get 0) -}}
-{{- $emoteImg := $emote -}}
-{{- if and (eq now.Month 12) (fileExists (printf "static/img/emotes/%s_xmas_28.png" $emoteImg)) -}}
-    {{- $emoteImg = printf "%s_xmas" $emoteImg -}}
-{{- end -}}
-<img src="/img/emotes/{{ $emoteImg }}_28.png" width="28" height="28" alt=":{{ $emote }}:">
+<img src="/img/emotes/{{ $emote }}_28.png" width="28" height="28" srcset="/img/emotes/{{ $emote }}_28.png 1x, /img/emotes/{{ $emote }}_56.png 2x" alt=":{{ $emote }}:">
