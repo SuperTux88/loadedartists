@@ -1,12 +1,15 @@
 'use strict'
 
 // Show fixed nav on scroll
-let stickyHeaderObserver = new IntersectionObserver((entries, observer) => {
-  entries.forEach(entry => {
-    document.getElementById('menu-nav').classList.toggle('fixed', !entry.isIntersecting);
-  })
-}, {});
-stickyHeaderObserver.observe(document.querySelector('.main-header'));
+const stickyHeader = document.querySelector('.main-header');
+if (stickyHeader) {
+  const stickyHeaderObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      document.getElementById('menu-nav').classList.toggle('fixed', !entry.isIntersecting);
+    })
+  }, {});
+  stickyHeaderObserver.observe(stickyHeader);
+}
 
 // Keyboard Navigation
 document.addEventListener('keydown', event => {
