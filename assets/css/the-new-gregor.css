@@ -63,6 +63,7 @@ header {
 #logo {
 	background: url('/img/the-new-gregor/logo.png') center center no-repeat;
 	margin: 20px auto;
+	display: block;
 	width: 475px;
 	height: 100px;
 }
