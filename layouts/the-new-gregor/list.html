@@ -1,0 +1,10 @@
+{{ define "main" }}
+    <h1>{{ .Title }}</h1>
+
+    {{ if eq .Section (replaceRE "/$" "" .File.Dir) -}}
+        {{ partial "the-new-gregor/list-section" (.GetPage "/the-new-gregor/quote") }}
+        {{ partial "the-new-gregor/list-section" (.GetPage "/the-new-gregor/letter") }}
+    {{ else -}}
+        {{ partial "the-new-gregor/list-section" . }}
+    {{ end -}}
+{{ end }}

@@ -1,0 +1,8 @@
+<div class="section">
+    <div class="section-title">{{ .Title }}</div>
+    <div class="section-pages">
+        {{ range .RegularPages.ByParam (default "title" .Params.order) }}
+        <a href="{{ .RelPermalink }}">{{.Title}}</a>
+        {{ end }}
+    </div>
+</div>
