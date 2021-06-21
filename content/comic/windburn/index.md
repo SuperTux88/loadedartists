@@ -1,7 +1,7 @@
 ---
 title: "Windburn"
 date: 2018-06-07
-author: Tommytwocakes
+author: tommytwocakes
 ---
 
 Congratulations on 10 years of successfully pulling out brain turds and turning (most of) them into great comics!
