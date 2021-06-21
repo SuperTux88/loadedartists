@@ -77,6 +77,9 @@ main {
 	position: relative;
 	flex-grow: 1;
 }
+#content {
+	margin-bottom: 1rem;
+}
 @media screen and (min-width: 1200px) {
 	#content {
 		display: flex;
