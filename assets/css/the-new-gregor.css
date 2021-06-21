@@ -104,7 +104,7 @@ main nav {
 	color: var(--clr-nav);
 	display: flex;
 	justify-content: space-around;
-	margin: 20px 0;
+	margin: 2.5rem 0 1rem;
 }
 
 main nav a {
@@ -112,6 +112,7 @@ main nav a {
 	font-size: 1.6rem;
 	flex-basis: 50%;
 	text-align: center;
+	text-decoration: none;
 }
 
 main nav a::before {
@@ -122,7 +123,7 @@ main nav a::before {
 	display: block;
 	width: 40px;
 	height: 28px;
-	margin: 0 auto 20px;
+	margin: 0 auto 1rem;
 }
 
 main nav a.prev::before {

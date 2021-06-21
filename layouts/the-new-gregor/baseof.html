@@ -53,8 +53,69 @@
         {{- block "main" . }}{{- end }}
     </div>
     <nav>
-        <a class="prev">previous</a>
-        <a class="next">next</a>
+        {{ $pages := (.Parent.RegularPages.ByParam (default "title" .Parent.Params.order)).Reverse }}
+
+        {{ $prevParams := .Params.prev -}}
+        {{ $prevPage := false -}}
+        {{ $prevSection := false -}}
+        {{ $prevText := $prevParams.text -}}
+        {{ if $prevParams.page -}}
+            {{ $prevPage = .GetPage (replaceRE "/$" "" $prevParams.page) -}}
+        {{ else if $prevParams.section -}}
+            {{ $prevSection = .GetPage $prevParams.section -}}
+        {{ end -}}
+        {{ if not $prevPage -}}
+            {{ $prevPage = $pages.Prev . -}}
+            {{ if and (not $prevPage) .Parent.Params.prev -}}
+                {{ $parentPrevParams := .Parent.Params.prev -}}
+                {{ $prevText = $parentPrevParams.text -}}
+                {{ if $parentPrevParams.page -}}
+                    {{ $prevPage = .GetPage (replaceRE "/$" "" $parentPrevParams.page)  -}}
+                {{ end -}}
+                {{ if not $prevPage -}}
+                    {{ $prevSection = .GetPage $parentPrevParams.section -}}
+                {{ end -}}
+            {{ end -}}
+        {{ end -}}
+        {{ if $prevSection -}}
+            {{ range last 1 ($prevSection.RegularPages.ByParam (default "title" $prevSection.Params.order)) -}}
+                {{ $prevPage = . -}}
+            {{ end -}}
+        {{ end -}}
+        {{ if $prevPage -}}
+        <a href="{{ $prevPage.RelPermalink }}" class="prev" data-kb-nav-prev>{{ default "previous" $prevText }}</a>
+        {{ end -}}
+
+        {{ $nextParams := .Params.next -}}
+        {{ $nextPage := false -}}
+        {{ $nextSection := false -}}
+        {{ $nextText := $nextParams.text -}}
+        {{ if $nextParams.page -}}
+            {{ $nextPage = .GetPage (replaceRE "/$" "" $nextParams.page) -}}
+        {{ else if $nextParams.section -}}
+            {{ $nextSection = .GetPage $nextParams.section -}}
+        {{ end -}}
+        {{ if not $nextPage -}}
+            {{ $nextPage = $pages.Next . -}}
+            {{ if and (not $nextPage) .Parent.Params.next -}}
+                {{ $parentNextParams := .Parent.Params.next -}}
+                {{ $nextText = $parentNextParams.text -}}
+                {{ if $parentNextParams.page -}}
+                    {{ $nextPage = .GetPage (replaceRE "/$" "" $parentNextParams.page)  -}}
+                {{ end -}}
+                {{ if not $nextPage -}}
+                    {{ $nextSection = .GetPage $parentNextParams.section -}}
+                {{ end -}}
+            {{ end -}}
+        {{ end -}}
+        {{ if $nextSection -}}
+            {{ range first 1 ($nextSection.RegularPages.ByParam (default "title" $nextSection.Params.order)) -}}
+                {{ $nextPage = . -}}
+            {{ end -}}
+        {{ end -}}
+        {{ if $nextPage -}}
+        <a href="{{ $nextPage.RelPermalink }}" class="next" data-kb-nav-next>{{ default "next" $nextText }}</a>
+        {{ end -}}
     </nav>
 </main>
 
