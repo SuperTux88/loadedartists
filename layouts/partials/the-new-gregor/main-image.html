@@ -1,11 +1,14 @@
 {{ if and (gt .image.Width 750) (not (eq .image.MediaType.SubType "gif")) -}}
+    {{ $targetSize := (index (sort (slice .image.Width 1500)) 0) }}
     {{ $mainImage := .image -}}
     {{ if eq .image.MediaType.SubType "png" -}}
-        {{ $mainImage = .image.Resize (printf "%dx jpg" .image.Width) -}}
+        {{ $mainImage = .image.Resize (printf "%dx jpg" $targetSize) -}}
+    {{ else if gt .image.Width 1500 }}
+        {{ $mainImage = .image.Resize (printf "%dx jpg" 1500) -}}
     {{ end -}}
     {{ $mainImage750 := .image.Resize "750x jpg" -}}
 
-    {{ $mainImageWebp := .image.Resize (printf "%dx webp" .image.Width) -}}
+    {{ $mainImageWebp := .image.Resize (printf "%dx webp" $targetSize) -}}
     {{ $mainImageWebp750 := .image.Resize "750x webp" -}}
 
     {{ $imgSize := .image -}}
