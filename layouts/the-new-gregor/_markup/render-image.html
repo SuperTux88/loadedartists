@@ -1,0 +1,36 @@
+{{- $image := .Page.Resources.GetMatch .Destination -}}
+{{- if not $image -}}
+    {{- $page := .Page.GetPage (path.Dir .Destination) -}}
+    {{- $image = $page.Resources.GetMatch (path.Base .Destination) -}}
+{{- end -}}
+{{- if and (not $image) .Page.File -}}
+    {{- $path := path.Join .Page.File.Dir .Destination -}}
+    {{- $page := .Page.GetPage (path.Dir $path) -}}
+    {{- $image = $page.Resources.GetMatch (path.Base $path) -}}
+{{- end -}}
+{{- with $image -}}
+    <picture>
+        {{- $webp := "" -}}
+        {{- if or (eq .MediaType.SubType "png") -}}
+            {{- $webp = .Resize (printf "%dx webp" (index (sort (slice .Width 1500)) 0)) -}}
+        {{- end -}}
+        {{- if and (gt .Width 750)  (not (eq .MediaType.SubType "gif")) -}}
+            {{- $image750 := .Resize "750x" -}}
+            {{- if gt .Width 1500 -}}
+                {{- $image = .Resize "1500x" -}}
+            {{- end -}}
+            {{- if $webp -}}
+                {{- $webp750 := .Resize "750x webp" -}}
+                <source type="image/webp" srcset="{{ $webp750.RelPermalink }} 750w, {{ $webp.RelPermalink }} {{ $webp.Width }}w" sizes="(max-width: 750px) 96vw, 750px">
+            {{- end -}}
+            <img src="{{ $image750.RelPermalink }}" alt="{{ $.Text }}" {{- with $.Title }} title="{{ . }}"{{ end }} width="{{ .Width }}" height="{{ .Height }}" srcset="{{ $image750.RelPermalink }} 750w, {{ $image.RelPermalink }} {{ $image.Width }}w" sizes="(max-width: 750px) 96vw, 750px">
+        {{- else -}}
+            {{- if $webp -}}
+                <source type="image/webp" srcset="{{ $webp.RelPermalink }}">
+            {{- end -}}
+            <img src="{{ .RelPermalink }}" alt="{{ $.Text }}" {{- with $.Title }} title="{{ . }}"{{ end }} width="{{ .Width }}" height="{{ .Height }}">
+        {{- end -}}
+    </picture>
+{{- else -}}
+    <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{- with .Title }} title="{{ . }}"{{ end }}>
+{{- end -}}
