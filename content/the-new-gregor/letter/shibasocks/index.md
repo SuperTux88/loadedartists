@@ -11,3 +11,6 @@ Here's to many more units of time to enjoy.
 Have a great one!
 
 ShibaSocks
+
+Also here’s another thing since I have a lot of free time:
+![](gregor_birthday.png)
