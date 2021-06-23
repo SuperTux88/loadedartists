@@ -41,6 +41,24 @@
 <body>
 <header>
     <a href="/the-new-gregor/" id="logo" aria-label="THE NEW YORKER"></a>
+    <nav id="main-nav" aria-label="Primary">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true">
+        <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle Navigation">
+            <div></div>
+            <div></div>
+            <div></div>
+        </label>
+        <ul>
+            <li><a href="/">LoadedArtists Home</a></li>
+            <li>
+                THE NEW GREGOR
+                <ul>
+                    <li><a href="/the-new-gregor/">Cover</a></li>
+                    <li><a href="/the-new-gregor/contents/">Contents</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
 </header>
 
 {{ $currentSection := "" -}}
@@ -52,7 +70,7 @@
     <div id="content">
         {{- block "main" . }}{{- end }}
     </div>
-    <nav>
+    <nav aria-label="Pagination">
         {{ $pages := (.Parent.RegularPages.ByParam (default "title" .Parent.Params.order)).Reverse }}
 
         {{ $prevParams := .Params.prev -}}
