@@ -7,7 +7,7 @@
     {{ $siteTitle := "The New Gregor" -}}
     <title>{{ $siteTitle }}{{ with .Title }} &raquo; {{ . }}{{ end }}</title>
 
-    {{ $description := "TODO: quote" -}}
+    {{ $description := .Summary -}}
     {{- with $description }}
     <meta name="description" content="{{ . }}">
     {{- end }}
@@ -16,7 +16,7 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="{{ $siteTitle }}">
     <meta property="og:url" content="{{ .Permalink }}">
-    <meta property="og:title" content="{{ .Title }}">
+    <meta property="og:title" content="{{ default "The New Gregor" .Title }}">
     {{- with $description }}
     <meta property="og:description" content="{{ $description }}">
     {{- end }}
