@@ -1,16 +1,3 @@
-/* || some more resets || */
-/* ---------------------- */
-
-/* keep image/video aspect ratios */
-img,
-video {
-	height: auto;
-}
-video {
-	max-width: 100%;
-	display: block;
-}
-
 /* || variables || */
 /* --------------- */
 

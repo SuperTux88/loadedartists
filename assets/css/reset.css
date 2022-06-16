@@ -49,6 +49,16 @@ picture {
   display: block;
 }
 
+/* keep image/video aspect ratios */
+img,
+video {
+	height: auto;
+}
+video {
+	max-width: 100%;
+	display: block;
+}
+
 /* Inherit fonts for inputs and buttons */
 input,
 button,
