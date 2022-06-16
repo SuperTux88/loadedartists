@@ -1,15 +1,20 @@
 {{ define "main" }}
 <canvas id="map"></canvas>
 
-<div class="backdrop">
-    <div class="lightbox">
-        <img>
-        <a target="_blank" rel="noopener">
-            Open in new tab
-        </a>
-        <span class="close"></span>
+<template id="modal-template">
+    <div class="backdrop">
+        <div class="lightbox">
+            <img>
+            <div class="lightbox-footer">
+                <a class="img-link" target="_blank" rel="noopener">
+                    Open in new tab
+                </a>
+            </div>
+
+            <span class="close"></span>
+        </div>
     </div>
-</div>
+</template>
 
 <script type="text/javascript">
     {{ $pages := .RegularPages -}}
@@ -18,7 +23,7 @@
     {{ $mainImage := (.Resources.ByType "image").GetMatch "image.*" }}
     {{ $landmarkImage := (.Resources.ByType "image").GetMatch "landmark.*" }}
     {{ $reziedLandmarkImage := $landmarkImage.Fit "170x150" }}
-    {"title": {{ jsonify .Title }}, "author": {{ jsonify .Params.author }}, "pos": {{ .Params.pos }}, "image": "{{ $mainImage.RelPermalink }}", "landmark": "{{ $reziedLandmarkImage.RelPermalink }}"}{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
+    {"title": {{ .Title }}, "author": {{ .Params.author }}, "authorLink": {{ .Params.author_link }} , "pos": {{ .Params.pos }}, "image": "{{ $mainImage.RelPermalink }}", "landmark": "{{ $reziedLandmarkImage.RelPermalink }}"}{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
     {{- end }}
     ]
 </script>

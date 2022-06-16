@@ -12,6 +12,10 @@ games.forEach(function (game) {
   game.landmarkImg = loadImage(game.landmark);
 });
 
+let state = {
+  modal: false
+};
+
 //
 // Keyboard handler
 //
@@ -168,7 +172,7 @@ Game.run = function (canvas) {
 
 Game.tick = function (elapsed) {
   window.requestAnimationFrame(this.tick);
-  if (backdrop.classList.contains('open')) { return; }
+  if (state.modal) { return; }
 
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -237,7 +241,7 @@ Game.resize = function () {
 }
 
 Game._openGame = function () {
-  if (backdrop.classList.contains('open')) { return; }
+  if (state.modal) { return; }
 
   const x = this.gregor.x, y = this.gregor.y;
   const game = games.find((game) => {
@@ -245,14 +249,7 @@ Game._openGame = function () {
       game.pos.y - 200 < y && y < game.pos.y + 60;
   })
   if (game) {
-    const img = backdrop.querySelector('img');
-    const link = backdrop.querySelector('a');
-    img.src = game.image;
-    link.href = game.image;
-
-    document.addEventListener('keydown', lightboxKeyboardListener);
-    backdrop.addEventListener('click', closeLightbox);
-    backdrop.classList.add('open');
+    addModal(game);
   }
 }
 
@@ -279,15 +276,46 @@ function onImageLoad() {
 // Lightbox
 //
 
-const backdrop = document.querySelector('.backdrop');
+const body = document.querySelector('body');
+const modalTemplate = document.getElementById('modal-template').content.firstElementChild;
 
-const lightboxKeyboardListener = event => {
-  if (event.key === 'Escape') {
-    closeLightbox(event);
+function addModal(game) {
+  const backdrop = document.importNode(modalTemplate, true);
+  const lightbox = backdrop.querySelector('.lightbox');
+
+  const title = document.createElement('h1');
+  title.textContent = game.title;
+  lightbox.prepend(title);
+
+  backdrop.querySelector('img').src = game.image;
+  backdrop.querySelector('a.img-link').href = game.image;
+
+  let author;
+  if (game.authorLink) {
+    author = document.createElement('a');
+    author.setAttribute("href", game.authorLink);
+    author.setAttribute("target", "_blank");
+    author.setAttribute("rel", "noopener");
+  } else {
+    author = document.createElement('span');
   }
-}
-const closeLightbox = event => {
-  if (event.ctrlKey || event.metaKey) { return; }
-  backdrop.classList.remove('open');
-  document.removeEventListener('keydown', lightboxKeyboardListener);
+  author.textContent = `By ${game.author}`;
+  lightbox.querySelector('.lightbox-footer').appendChild(author);
+
+  const lightboxKeyboardListener = event => {
+    if (event.key === 'Escape') {
+      closeLightbox(event);
+    }
+  }
+  const closeLightbox = event => {
+    if (event.ctrlKey || event.metaKey) { return; }
+    body.removeChild(backdrop);
+    state.modal = false;
+    document.removeEventListener('keydown', lightboxKeyboardListener);
+  }
+
+  document.addEventListener('keydown', lightboxKeyboardListener);
+  backdrop.addEventListener('click', closeLightbox);
+  state.modal = true;
+  body.append(backdrop);
 }

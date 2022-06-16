@@ -19,7 +19,6 @@ body {
 /* ----------------- */
 
 .backdrop {
-	display: none;
 	position: fixed;
 	top: 0;
 	bottom: 0;
@@ -29,17 +28,15 @@ body {
 	color: var(--clr-modal);
 	font-family: "Open Sans", sans-serif;
 	z-index: 200;
+	display: flex;
 	justify-content: center;
 	align-items: center;
-}
-.backdrop.open {
-	display: flex;
 }
 .lightbox {
 	margin: 10px;
 }
 .lightbox img {
-	max-height: calc(100vh - 50px);
+	max-height: calc(100vh - 100px);
 	margin-bottom: 5px;
 }
 .lightbox a {
@@ -55,4 +52,8 @@ body {
 	border-radius: 50%;
 	background: url('/img/sprites/buttons.png') /* always white X */ -2px -148px var(--bg-clr-modal);
 	cursor: pointer;
+}
+.lightbox .lightbox-footer {
+	display: flex;
+	justify-content: space-between;
 }
