@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" charset="UTF-8" content="text/html">
+    <meta name="viewport" content="width=device-width">
+
+    {{ $siteTitle := "Game Map" -}}
+    <title>{{ $siteTitle }}{{ with .Title }} &raquo; {{ . }}{{ end }}</title>
+
+    {{ $description := .Summary -}}
+    {{- with $description }}
+    <meta name="description" content="{{ . }}">
+    {{- end }}
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ $siteTitle }}">
+    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:title" content="{{ default "Loaded Artists - Game Map" .Title }}">
+    {{- with $description }}
+    <meta property="og:description" content="{{ $description }}">
+    {{- end }}
+    {{- with .Resources.GetMatch (printf "%s.*" .File.ContentBaseName) }}
+    <meta property="og:image" content="{{ .Permalink }}">
+    {{- end }}
+
+    {{- block "head" . }}{{- end -}}
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    {{ $css_reset := resources.Get "/css/reset.css" -}}
+    {{ $css_additional := resources.Get "/css/gamemap.css" -}}
+    {{ $css_all := slice $css_reset $css_additional | resources.Concat "/css/gamemap.css" | minify | fingerprint "sha512" -}}
+    <link rel="stylesheet" href="{{ $css_all.RelPermalink }}" integrity="{{ $css_all.Data.Integrity }}" media="screen">
+
+    <link rel="canonical" href="{{ .Permalink }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} Feed" href="{{ "index.xml" | absURL }}">
+</head>
+<body>
+    <canvas id="map"></canvas>
+
+    {{ $main_js := resources.Get "/js/gamemap.js" | minify | fingerprint "sha512" }}
+    <script src="{{ $main_js.RelPermalink }}" integrity="{{ $main_js.Data.Integrity }}" defer></script>
+</body>
+</html>
+
