@@ -3,10 +3,14 @@ map.width = document.body.clientWidth;
 map.height = document.body.clientHeight;
 
 let imagesLoaded = 0;
-let totalImages = 2;
+let totalImages = 2 + games.length;
 
 const mapImg = loadImage('/img/gamemap/map.png');
 const gregorImg = loadImage('/img/gamemap/gregor.png');
+
+games.forEach(function (game) {
+  game.landmarkImg = loadImage(game.landmark);
+});
 
 //
 // Keyboard handler
@@ -19,7 +23,10 @@ Keyboard.RIGHT = ['ArrowRight', 'd'];
 Keyboard.UP = ['ArrowUp', 'w'];
 Keyboard.DOWN = ['ArrowDown', 's'];
 
+Keyboard.OPEN = [' ', 'Enter'];
+
 Keyboard._keys = {};
+Keyboard._callbacks = {};
 
 Keyboard.listenForEvents = function (keys) {
   window.addEventListener('keydown', this._onKeyDown.bind(this));
@@ -30,11 +37,20 @@ Keyboard.listenForEvents = function (keys) {
   }.bind(this));
 }
 
+Keyboard.addCallback = function (keys, callback) {
+  keys.forEach(function (key) {
+    this._callbacks[key] = callback;
+  }.bind(this));
+}
+
 Keyboard._onKeyDown = function (event) {
   const key = event.key;
   if (key in this._keys) {
     event.preventDefault();
     this._keys[key] = true;
+  }
+  if (key in this._callbacks) {
+    this._callbacks[key]();
   }
 };
 
@@ -152,6 +168,7 @@ Game.run = function (canvas) {
 
 Game.tick = function (elapsed) {
   window.requestAnimationFrame(this.tick);
+  if (backdrop.classList.contains('open')) { return; }
 
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -166,6 +183,7 @@ Game.tick = function (elapsed) {
 
 Game.init = function () {
   Keyboard.listenForEvents([Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN]);
+  Keyboard.addCallback(Keyboard.OPEN, () => Game._openGame());
 
   this.gregor = new Gregor(gregorImg, mapImg, 224, 689);
   this.camera = new Camera(mapImg, this.canvas.width, this.canvas.height);
@@ -193,7 +211,8 @@ Game.update = function (delta) {
 };
 
 Game.render = function () {
-  this.ctx.drawImage(mapImg, -this.camera.x, -this.camera.y, mapImg.width, mapImg.height);
+  this.ctx.drawImage(mapImg, -this.camera.x, -this.camera.y);
+  this._renderLandmarks();
 
   this.ctx.drawImage(
     this.gregor.image,
@@ -201,10 +220,40 @@ Game.render = function () {
     this.gregor.screenY - this.gregor.height / 2);
 };
 
+Game._renderLandmarks = function () {
+  games.forEach((game) => {
+    const img = game.landmarkImg;
+    this.ctx.drawImage(
+      img,
+      game.pos.x - img.width / 2 - this.camera.x,
+      game.pos.y - img.height - 60 - this.camera.y);
+  });
+}
+
 Game.resize = function () {
   this.canvas.width = document.body.clientWidth;
   this.canvas.height = document.body.clientHeight;
   this.camera.resize(this.canvas.width, this.canvas.height);
+}
+
+Game._openGame = function () {
+  if (backdrop.classList.contains('open')) { return; }
+
+  const x = this.gregor.x, y = this.gregor.y;
+  const game = games.find((game) => {
+    return game.pos.x - 100 < x && x < game.pos.x + 100 &&
+      game.pos.y - 200 < y && y < game.pos.y + 60;
+  })
+  if (game) {
+    const img = backdrop.querySelector('img');
+    const link = backdrop.querySelector('a');
+    img.src = game.image;
+    link.href = game.image;
+
+    document.addEventListener('keydown', lightboxKeyboardListener);
+    backdrop.addEventListener('click', closeLightbox);
+    backdrop.classList.add('open');
+  }
 }
 
 function startGame() {
@@ -224,4 +273,21 @@ function onImageLoad() {
   if (imagesLoaded === totalImages) {
     startGame();
   }
+}
+
+//
+// Lightbox
+//
+
+const backdrop = document.querySelector('.backdrop');
+
+const lightboxKeyboardListener = event => {
+  if (event.key === 'Escape') {
+    closeLightbox(event);
+  }
+}
+const closeLightbox = event => {
+  if (event.ctrlKey || event.metaKey) { return; }
+  backdrop.classList.remove('open');
+  document.removeEventListener('keydown', lightboxKeyboardListener);
 }

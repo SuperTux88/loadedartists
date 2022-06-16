@@ -1,0 +1,27 @@
+{{ define "main" }}
+<canvas id="map"></canvas>
+
+<div class="backdrop">
+    <div class="lightbox">
+        <img>
+        <a target="_blank" rel="noopener">
+            Open in new tab
+        </a>
+        <span class="close"></span>
+    </div>
+</div>
+
+<script type="text/javascript">
+    {{ $pages := .RegularPages -}}
+    const games = [
+        {{- range $index, $element := $pages }}
+    {{ $mainImage := (.Resources.ByType "image").GetMatch "image.*" }}
+    {{ $landmarkImage := (.Resources.ByType "image").GetMatch "landmark.*" }}
+    {{ $reziedLandmarkImage := $landmarkImage.Fit "170x150" }}
+    {"title": {{ jsonify .Title }}, "author": {{ jsonify .Params.author }}, "pos": {{ .Params.pos }}, "image": "{{ $mainImage.RelPermalink }}", "landmark": "{{ $reziedLandmarkImage.RelPermalink }}"}{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
+    {{- end }}
+    ]
+</script>
+{{ $main_js := resources.Get "/js/gamemap.js" | minify | fingerprint "sha512" }}
+<script src="{{ $main_js.RelPermalink }}" integrity="{{ $main_js.Data.Integrity }}" defer></script>
+{{ end -}}

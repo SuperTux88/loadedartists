@@ -1,6 +1,58 @@
+/* || variables || */
+/* --------------- */
+
+:root {
+	--clr-modal: #ffffff;
+
+	--bg-clr-page: #ecd7aa;
+	--bg-clr-modal: rgba(0, 0, 0, 0.8);
+}
+
 body {
 	height: 100vh;
 	width: 100vw;
 	overflow: hidden;
-	background: #ecd7aa;
+	background: var(--bg-clr-page);
+}
+
+/* || image modal || */
+/* ----------------- */
+
+.backdrop {
+	display: none;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	background: var(--bg-clr-modal);
+	color: var(--clr-modal);
+	font-family: "Open Sans", sans-serif;
+	z-index: 200;
+	justify-content: center;
+	align-items: center;
+}
+.backdrop.open {
+	display: flex;
+}
+.lightbox {
+	margin: 10px;
+}
+.lightbox img {
+	max-height: calc(100vh - 50px);
+	margin-bottom: 5px;
+}
+.lightbox a {
+	color: var(--clr-modal);
+	text-decoration: none;
+}
+.lightbox .close {
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	top: 15px;
+	right: 15px;
+	border-radius: 50%;
+	background: url('/img/sprites/buttons.png') /* always white X */ -2px -148px var(--bg-clr-modal);
+	cursor: pointer;
 }

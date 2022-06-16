@@ -36,10 +36,7 @@
     <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} Feed" href="{{ "index.xml" | absURL }}">
 </head>
 <body>
-    <canvas id="map"></canvas>
-
-    {{ $main_js := resources.Get "/js/gamemap.js" | minify | fingerprint "sha512" }}
-    <script src="{{ $main_js.RelPermalink }}" integrity="{{ $main_js.Data.Integrity }}" defer></script>
+    {{- block "main" . }}{{- end }}
 </body>
 </html>
 
