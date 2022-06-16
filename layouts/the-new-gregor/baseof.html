@@ -27,8 +27,7 @@
     {{- block "head" . }}{{- end -}}
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital@1&display=swap" as="style">
-    <link rel="stylesheet" media="print" onload="this.onload=null;this.removeAttribute('media');" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital@1&display=swap">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital@1&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital@1&display=swap"></noscript>
     {{ $css_reset := resources.Get "/css/reset.css" -}}
     {{ $css_additional := resources.Get "/css/the-new-gregor.css" -}}
