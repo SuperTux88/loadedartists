@@ -4,7 +4,6 @@
 <template id="modal-template">
     <div class="backdrop">
         <div class="lightbox">
-            <img>
             <div class="lightbox-footer">
                 <a class="img-link" target="_blank" rel="noopener">
                     Open in new tab
@@ -22,16 +21,31 @@
     {{ $pages := .RegularPages -}}
     const games = [
         {{- range $index, $element := $pages }}
-            {{ $mainImage := (.Resources.ByType "image").GetMatch "image.*" }}
-            {{ $landmarkImage := (.Resources.ByType "image").GetMatch "landmark.*" }}
-            {{ $reziedLandmarkImage := $landmarkImage.Fit "170x150" }}
-            {{ $reziedLandmarkImageWebp := $landmarkImage.Fit "170x150 webp" }}
+            {{- $imageOrig := (.Resources.ByType "image").GetMatch "image.*" }}
+
+            {{- $image1500 := "" -}}
+            {{- if gt $imageOrig.Width 1500 -}}
+                {{- $image1500 = $imageOrig.Resize "1500x" -}}
+            {{- end -}}
+
+            {{- $imageWebp := "" -}}
+            {{- $imageWebp1500 := "" -}}
+            {{- if or (eq $imageOrig.MediaType.SubType "png") -}}
+                {{- $imageWebp = $imageOrig.Resize (printf "%dx webp" $imageOrig.Width) -}}
+                {{- if gt $imageOrig.Width 1500 -}}
+                    {{- $imageWebp1500 = $imageOrig.Resize "1500x webp" -}}
+                {{- end -}}
+            {{- end -}}
+
+            {{- $landmarkImage := (.Resources.ByType "image").GetMatch "landmark.*" }}
+            {{- $reziedLandmarkImage := $landmarkImage.Fit "170x150" }}
+            {{- $reziedLandmarkImageWebp := $landmarkImage.Fit "170x150 webp" }}
         {
             "title": {{ .Title }},
             "author": {{ .Params.author }},
             "authorLink": {{ .Params.author_link }},
             "pos": {{ .Params.pos }},
-            "image": "{{ $mainImage.RelPermalink }}",
+            "image": {"img": {{ $imageOrig.RelPermalink }}, "srcset": "{{ with $image1500 }}{{ .RelPermalink }} 1500w, {{ end }}{{ $imageOrig.RelPermalink }} {{ $imageOrig.Width }}w" {{- if $imageWebp }}, "webpSrcset": "{{ with $imageWebp1500 }}{{ .RelPermalink }} 1500w, {{ end }}{{ $imageWebp.RelPermalink }} {{ $imageWebp.Width }}w" {{ end }}},
             "landmark": {"png": "{{ $reziedLandmarkImage.RelPermalink }}", "webp": "{{ $reziedLandmarkImageWebp.RelPermalink }}"},
         }{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
         {{- end }}

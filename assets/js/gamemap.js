@@ -3,12 +3,13 @@ map.width = document.body.clientWidth;
 map.height = document.body.clientHeight;
 
 let imagesLoaded = 0;
-let totalImages = 2 + games.length;
+let totalImages = 2 + games.length * 2;
 
 const mapImg = loadImage('/img/gamemap/map.png');
 const gregorImg = loadImage(gregorPaths.png, gregorPaths.webp);
 
 games.forEach(function (game) {
+  game.gameImg = loadGameImageSrcSet(game.image.img, game.image.srcset, game.image.webpSrcset);
   game.landmarkImg = loadImage(game.landmark.png, game.landmark.webp);
 });
 
@@ -295,6 +296,27 @@ function loadImage(path, webpPath) {
   return img;
 }
 
+function loadGameImageSrcSet(path, srcset, webpSrcset) {
+  const picture = document.createElement('picture')
+
+  if (webpSrcset !== undefined) {
+    const webpSource = document.createElement('source');
+    webpSource.type = 'image/webp';
+    webpSource.srcset = webpSrcset;
+    webpSource.sizes = '90vw';
+    picture.append(webpSource);
+  }
+
+  const img = new Image();
+  img.srcset = srcset;
+  img.sizes = '90vw';
+  img.src = path;
+  img.onload = onImageLoad
+
+  picture.append(img)
+  return picture;
+}
+
 function onImageLoad() {
   imagesLoaded++;
   if (imagesLoaded === totalImages) {
@@ -313,12 +335,13 @@ function addModal(game) {
   const backdrop = document.importNode(modalTemplate, true);
   const lightbox = backdrop.querySelector('.lightbox');
 
+  lightbox.prepend(game.gameImg)
+
   const title = document.createElement('h1');
   title.textContent = game.title;
   lightbox.prepend(title);
 
-  backdrop.querySelector('img').src = game.image;
-  backdrop.querySelector('a.img-link').href = game.image;
+  backdrop.querySelector('a.img-link').href = game.image.img;
 
   let author;
   if (game.authorLink) {
