@@ -2,18 +2,139 @@
 /* --------------- */
 
 :root {
+	--clr-primary: #39261a;
 	--clr-modal: #ffffff;
+
+	--font-family-text: 'Indie Flower', sans-serif;
 
 	--bg-clr-page: #ecd7aa;
 	--bg-clr-modal: rgba(0, 0, 0, 0.8);
 }
 
 body {
+	background: var(--bg-clr-page);
+	color: var(--clr-primary);
+	font-family: var(--font-family-text);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+body.running {
 	height: 100vh;
 	width: 100vw;
 	overflow: hidden;
-	background: var(--bg-clr-page);
 }
+
+body .hidden {
+	display: none;
+}
+
+/* || loading screen || */
+/* -------------------- */
+
+.loading-screen {
+	margin: 0.5em;
+	font-size: 32px;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.loading-screen h1 {
+	font-size: 40px;
+}
+
+.loading, .loaded {
+	height: 250px;
+}
+
+.loaded {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.start-game {
+	font-size: 32px;
+	padding: 0.2em 1em;
+	border: 2px solid var(--clr-primary);
+	border-radius: 10px;
+	color: var(--clr-primary);
+}
+
+/* || loader || */
+/* ------------ */
+
+.loader,
+.loader:before,
+.loader:after {
+	border-radius: 50%;
+}
+.loader {
+	color: var(--clr-primary);
+	font-size: 11px;
+	text-indent: -99999em;
+	margin: 20px auto;
+	position: relative;
+	width: 10em;
+	height: 10em;
+	box-shadow: inset 0 0 0 1em;
+	-webkit-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	transform: translateZ(0);
+}
+.loader:before,
+.loader:after {
+	position: absolute;
+	content: '';
+}
+.loader:before {
+	width: 5.2em;
+	height: 10.2em;
+	background: var(--bg-clr-page);
+	border-radius: 10.2em 0 0 10.2em;
+	top: -0.1em;
+	left: -0.1em;
+	-webkit-transform-origin: 5.1em 5.1em;
+	transform-origin: 5.1em 5.1em;
+	-webkit-animation: load2 2s infinite ease 1.5s;
+	animation: load2 2s infinite ease 1.5s;
+}
+.loader:after {
+	width: 5.2em;
+	height: 10.2em;
+	background: var(--bg-clr-page);
+	border-radius: 0 10.2em 10.2em 0;
+	top: -0.1em;
+	left: 4.9em;
+	-webkit-transform-origin: 0.1em 5.1em;
+	transform-origin: 0.1em 5.1em;
+	-webkit-animation: load2 2s infinite ease;
+	animation: load2 2s infinite ease;
+}
+@-webkit-keyframes load2 {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+@keyframes load2 {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
 
 /* || image modal || */
 /* ----------------- */

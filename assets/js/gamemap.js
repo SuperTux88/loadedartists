@@ -1,6 +1,5 @@
-const map = document.getElementById('map');
-map.width = document.body.clientWidth;
-map.height = document.body.clientHeight;
+const body = document.querySelector('body');
+const canvas = document.getElementById('map');
 
 let imagesLoaded = 0;
 let totalImages = 2 + games.length * 2;
@@ -211,6 +210,8 @@ Game.init = function () {
   this.gregor = new Gregor(gregorImg, mapImg, 200, 665);
   this.camera = new Camera(mapImg, this.canvas.width, this.canvas.height);
   this.camera.follow(this.gregor);
+
+  this.resize();
 };
 
 Game.update = function (delta) {
@@ -256,8 +257,8 @@ Game._renderLandmarks = function () {
 }
 
 Game.resize = function () {
-  this.canvas.width = document.body.clientWidth;
-  this.canvas.height = document.body.clientHeight;
+  this.canvas.width = Math.min(mapImg.width, document.body.clientWidth);
+  this.canvas.height = Math.min(mapImg.height, document.body.clientHeight);
   this.camera.resize(this.canvas.width, this.canvas.height);
 }
 
@@ -276,7 +277,10 @@ Game._openGame = function () {
 
 function startGame() {
   window.addEventListener('resize', () => Game.resize(), false);
-  Game.run(map);
+  body.querySelector('.loading-screen').remove();
+  body.classList.add('running');
+  canvas.classList.remove('hidden');
+  Game.run(canvas);
 }
 
 function loadImage(path, webpPath) {
@@ -320,15 +324,15 @@ function loadGameImageSrcSet(path, srcset, webpSrcset) {
 function onImageLoad() {
   imagesLoaded++;
   if (imagesLoaded === totalImages) {
-    startGame();
+    document.querySelector('.loading').remove();
+    document.querySelector('.loaded').classList.remove('hidden');
+    document.querySelector('.start-game').addEventListener('click', startGame);
   }
 }
 
 //
 // Lightbox
 //
-
-const body = document.querySelector('body');
 const modalTemplate = document.getElementById('modal-template').content.firstElementChild;
 
 function addModal(game) {

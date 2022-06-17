@@ -1,5 +1,21 @@
 {{ define "main" }}
-<canvas id="map"></canvas>
+<div class="loading-screen">
+    <div class="loading">
+        <h1>Loading...</h1>
+        <div class="loader"></div>
+    </div>
+    <div class="loaded hidden">
+        <button class="start-game">Start</button>
+    </div>
+    <div>
+        Controls:<br>
+        Move: WASD or arrow keys<br>
+        Open: Spacebar or Enter<br>
+        Close: Esc
+    </div>
+</div>
+
+<canvas id="map" class="hidden"></canvas>
 
 <template id="modal-template">
     <div class="backdrop">
