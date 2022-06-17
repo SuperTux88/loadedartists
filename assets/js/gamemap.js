@@ -326,7 +326,19 @@ function onImageLoad() {
   if (imagesLoaded === totalImages) {
     document.querySelector('.loading').remove();
     document.querySelector('.loaded').classList.remove('hidden');
-    document.querySelector('.start-game').addEventListener('click', startGame);
+
+    const startKeyboardListener = event => {
+      if ([' ', 'Enter'].includes(event.key)) {
+        start();
+      }
+    }
+    const start = () => {
+      document.removeEventListener('keydown', startKeyboardListener);
+      startGame();
+    }
+
+    document.querySelector('.start-game').addEventListener('click', start);
+    document.addEventListener('keydown', startKeyboardListener);
   }
 }
 
@@ -360,7 +372,8 @@ function addModal(game) {
   lightbox.querySelector('.lightbox-footer').appendChild(author);
 
   const lightboxKeyboardListener = event => {
-    if (event.key === 'Escape') {
+    if ([' ', 'Enter', 'Escape'].includes(event.key)) {
+      event.stopPropagation();
       closeLightbox(event);
     }
   }
