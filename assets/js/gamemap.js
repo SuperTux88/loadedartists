@@ -76,6 +76,50 @@ Keyboard.isDown = function (keys) {
 };
 
 //
+// Touch handler
+//
+
+const Touch = {};
+
+Touch._touching = false;
+Touch._initial = {x: 0, y: 0};
+Touch._current = {x: 0, y: 0};
+
+Touch.listenForEvents = function () {
+  window.addEventListener('touchstart', this._onTouchStart.bind(this));
+  window.addEventListener('touchmove', this._onTouchMove.bind(this));
+  window.addEventListener('touchend', this._onTouchEnd.bind(this));
+};
+
+Touch._onTouchStart = function (event) {
+  this._touching = true;
+  this._initial = {x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY};
+  this._current = this._initial;
+};
+
+Touch._onTouchMove = function (event) {
+  this._current = {x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY};
+};
+
+Touch._onTouchEnd = function (event) {
+  this._touching = false;
+};
+
+Touch.isTouching = function () {
+  return this._touching;
+};
+
+Touch.getX = function () {
+  const diffX = this._current.x - this._initial.x;
+  return Math.abs(diffX) > 20 ? diffX * 2 : 0;
+};
+
+Touch.getY = function () {
+  const diffY = this._current.y - this._initial.y;
+  return Math.abs(diffY) > 20 ? diffY * 2 : 0;
+};
+
+//
 // Camera object
 //
 
@@ -143,12 +187,12 @@ function Gregor(image, map, x, y) {
 
 Gregor.SPEED = 256; // pixels per second
 
-Gregor.prototype.move = function (delta, dirx, diry) {
+Gregor.prototype.move = function (delta, dirX, dirY) {
   // move hero
-  this.x += dirx * Gregor.SPEED * delta;
-  this.y += diry * Gregor.SPEED * delta;
-  if (dirx < 0 && !this.flipped) this.flipped = true;
-  if (dirx > 0 && this.flipped) this.flipped = false;
+  this.x += dirX * delta;
+  this.y += dirY * delta;
+  if (dirX < 0 && !this.flipped) this.flipped = true;
+  if (dirX > 0 && this.flipped) this.flipped = false;
 
   // clamp values
   const maxX = this.map.width - this.width / 2 - 10; // extra offset for shadow
@@ -206,6 +250,8 @@ Game.tick = function (elapsed) {
 Game.init = function () {
   Keyboard.listenForEvents([Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN]);
   Keyboard.addCallback(Keyboard.OPEN, () => Game._openGame());
+  Touch.listenForEvents();
+  document.addEventListener('click', (event) => Game._openGame());
 
   this.gregor = new Gregor(gregorImg, mapImg, 200, 665);
   this.camera = new Camera(mapImg, this.canvas.width, this.canvas.height);
@@ -215,22 +261,29 @@ Game.init = function () {
 };
 
 Game.update = function (delta) {
-  let dirx = 0;
-  let diry = 0;
+  let dirX = 0;
+  let dirY = 0;
   if (Keyboard.isDown(Keyboard.LEFT)) {
-    dirx += -1;
+    dirX -= Gregor.SPEED;
   }
   if (Keyboard.isDown(Keyboard.RIGHT)) {
-    dirx += 1;
+    dirX += Gregor.SPEED;
   }
   if (Keyboard.isDown(Keyboard.UP)) {
-    diry += -1;
+    dirY -= Gregor.SPEED;
   }
   if (Keyboard.isDown(Keyboard.DOWN)) {
-    diry += 1;
+    dirY += Gregor.SPEED;
+  }
+  if (Touch.isTouching()) {
+    dirX += Touch.getX();
+    dirY += Touch.getY();
   }
 
-  this.gregor.move(delta, dirx, diry);
+  dirX = Math.min(Gregor.SPEED, Math.max(-Gregor.SPEED, dirX));
+  dirY = Math.min(Gregor.SPEED, Math.max(-Gregor.SPEED, dirY));
+
+  this.gregor.move(delta, dirX, dirY);
   this.camera.update();
 };
 
@@ -373,12 +426,12 @@ function addModal(game) {
 
   const lightboxKeyboardListener = event => {
     if ([' ', 'Enter', 'Escape'].includes(event.key)) {
-      event.stopPropagation();
       closeLightbox(event);
     }
   }
   const closeLightbox = event => {
     if (event.ctrlKey || event.metaKey) { return; }
+    event.stopPropagation();
     body.removeChild(backdrop);
     state.modal = false;
     document.removeEventListener('keydown', lightboxKeyboardListener);
