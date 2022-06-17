@@ -233,6 +233,10 @@ Game.update = function (delta) {
 };
 
 Game.render = function () {
+  this.ctx.font = '24px Indie Flower, sans-serif';
+  this.ctx.textAlign = 'center';
+  this.ctx.fillStyle = '#39261a';
+
   this.ctx.drawImage(mapImg, -this.camera.x, -this.camera.y);
   this._renderLandmarks();
 
@@ -246,6 +250,7 @@ Game._renderLandmarks = function () {
       img,
       game.pos.x - img.width / 2 - this.camera.x,
       game.pos.y - img.height - 60 - this.camera.y);
+    this.ctx.fillText(game.title, game.pos.x, game.pos.y - 30);
   });
 }
 
