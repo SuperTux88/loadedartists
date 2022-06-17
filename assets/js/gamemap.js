@@ -6,10 +6,10 @@ let imagesLoaded = 0;
 let totalImages = 2 + games.length;
 
 const mapImg = loadImage('/img/gamemap/map.png');
-const gregorImg = loadImage('/img/gamemap/gregor.png');
+const gregorImg = loadImage(gregorPaths.png, gregorPaths.webp);
 
 games.forEach(function (game) {
-  game.landmarkImg = loadImage(game.landmark);
+  game.landmarkImg = loadImage(game.landmark.png, game.landmark.webp);
 });
 
 let state = {
@@ -278,10 +278,20 @@ function startGame() {
   Game.run(map);
 }
 
-function loadImage(path) {
+function loadImage(path, webpPath) {
+  const picture = document.createElement('picture')
+
+  if (webpPath !== undefined) {
+    const webpSource = document.createElement('source');
+    webpSource.type = 'image/webp';
+    webpSource.srcset = webpPath;
+    picture.append(webpSource);
+  }
+
   const img = new Image();
   img.src = path;
   img.onload = onImageLoad
+  picture.append(img)
   return img;
 }
 
