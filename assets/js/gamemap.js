@@ -252,7 +252,7 @@ Game._renderLandmarks = function () {
       img,
       game.pos.x - img.width / 2 - this.camera.x,
       game.pos.y - img.height - 60 - this.camera.y);
-    this.ctx.fillText(game.title, game.pos.x, game.pos.y - 30);
+    this.ctx.fillText(game.title, game.pos.x - this.camera.x, game.pos.y - 30 - this.camera.y);
   });
 }
 
