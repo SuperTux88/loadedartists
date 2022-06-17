@@ -1,3 +1,44 @@
 {{ define "main" }}
-Nothing to see here. Go to <a href="/gamemap/">here</a> for the map.
+<div class="single-game">
+    <div class="title">
+        <h1>{{ .Title }}</h1>
+        <span class="author">
+            (by
+            {{ if (.Params.author_link) -}}
+                <a href="{{ .Params.author_link }}" target="_blank" rel="noopener">
+                    {{- .Params.author -}}
+                </a>
+            {{- else -}}
+                {{- .Params.author -}}
+            {{- end -}}
+            )
+        </span>
+
+        <a href="{{ .Parent.RelPermalink }}" class="map-link">
+            Back to map
+        </a>
+    </div>
+
+    {{- $imageOrig := (.Resources.ByType "image").GetMatch "image.*" }}
+
+    {{- $image1500 := "" -}}
+    {{- if gt $imageOrig.Width 1500 -}}
+        {{- $image1500 = $imageOrig.Resize "1500x" -}}
+    {{- end -}}
+
+    {{- $imageWebp := "" -}}
+    {{- $imageWebp1500 := "" -}}
+    {{- if or (eq $imageOrig.MediaType.SubType "png") -}}
+        {{- $imageWebp = $imageOrig.Resize (printf "%dx webp" $imageOrig.Width) -}}
+        {{- if gt $imageOrig.Width 1500 -}}
+            {{- $imageWebp1500 = $imageOrig.Resize "1500x webp" -}}
+        {{- end -}}
+    {{- end -}}
+    <picture>
+        {{- if $imageWebp }}
+        <source type="image/webp" srcset="{{ with $imageWebp1500 }}{{ .RelPermalink }} 1500w, {{ end }}{{ $imageWebp.RelPermalink }} {{ $imageWebp.Width }}w" sizes="100vw">
+        {{- end }}
+        <img src="{{ $imageOrig.RelPermalink }}" alt="{{ .Title }}" srcset="{{ with $image1500 }}{{ .RelPermalink }} 1500w, {{ end }}{{ $imageOrig.RelPermalink }} {{ $imageOrig.Width }}w">
+    </picture>
+</div>
 {{ end -}}

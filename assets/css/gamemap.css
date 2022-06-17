@@ -18,6 +18,7 @@ body {
 	font-family: var(--font-family-text);
 
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 }
@@ -185,4 +186,31 @@ body .hidden {
 .lightbox .lightbox-footer {
 	display: flex;
 	justify-content: space-between;
+}
+
+/* || single game page || */
+/* ---------------------- */
+
+.single-game {
+	margin: 0.5em;
+	font-size: 20px;
+}
+.single-game a {
+	color: var(--clr-primary);
+}
+
+.single-game .title {
+	margin: 0 0 0.5em;
+	display: flex;
+	align-items: baseline;
+}
+.single-game .title .author {
+	margin: 0 1em;
+}
+.single-game .title .map-link {
+	margin-left: auto;
+}
+
+.single-game img {
+	max-height: calc(100vh - 100px);
 }
