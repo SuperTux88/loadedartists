@@ -1,0 +1,57 @@
+{{ $mainImage := .page.Resources.GetMatch (printf "%s.png" .page.File.ContentBaseName) -}}
+{{ if not $mainImage -}}
+    {{ $mainImage = .page.Resources.GetMatch (printf "%s.gif" .page.File.ContentBaseName) -}}
+{{ end -}}
+{{ if not $mainImage -}}
+    {{ $mainImage = .page.Resources.GetMatch (printf "%s.jpg" .page.File.ContentBaseName) -}}
+{{ end -}}
+{{ if and (gt $mainImage.Width 1500) (not (eq $mainImage.MediaType.SubType "gif")) -}}
+    {{ $image := $mainImage -}}
+    {{ $image800 := $mainImage.Resize "800x jpg" -}}
+    {{ $image1500 := "" -}}
+    {{ if gt $mainImage.Width 1500 -}}
+        {{ $image1500 = $mainImage.Resize "1500x jpg" -}}
+    {{ end -}}
+    {{ $imageWebp := "" -}}
+    {{ $imageWebp800 := "" -}}
+    {{ $imageWebp1500 := "" -}}
+    {{ if eq $mainImage.MediaType.SubType "png" -}}
+        {{ $image = $mainImage.Resize (printf "%dx jpg" $mainImage.Width) -}}
+        {{ $imageWebp = $mainImage.Resize (printf "%dx webp" $mainImage.Width) -}}
+        {{ $imageWebp800 = $mainImage.Resize "800x webp" -}}
+        {{ if gt $mainImage.Width 1500 -}}
+            {{ $imageWebp1500 = $mainImage.Resize "1500x webp" -}}
+        {{ end -}}
+    {{ end -}}
+    {{ $imgSize := $mainImage -}}
+    {{ if eq .output "rss" -}}
+        {{ $imgSize = $image800 -}}
+    {{ end -}}
+    {{ if eq .output "preload" -}}
+        <link rel="preload" as="image" href="{{ ($imageWebp800 | default $image800).RelPermalink }}" imagesrcset="{{ ($imageWebp800 | default $image800).RelPermalink }} 800w, {{ if $image1500 }}{{ ($imageWebp1500 | default $image1500).RelPermalink }} 1500w, {{ end }}{{ ($imageWebp | default $image).RelPermalink }} {{ $image.Width }}w" imagesizes="100vw" {{- if $imageWebp }} type="image/webp"{{ end -}}>
+    {{ else if eq .output "json" -}}
+        "image": {"img": "{{ $mainImage.RelPermalink }}", "srcset": "{{ $image800.RelPermalink }} 800w, {{ with $image1500 }}{{ .RelPermalink }} 1500w,{{ end }} {{ $image.RelPermalink }} {{ $image.Width }}w" {{- if $imageWebp }}, "webpSrcset": "{{ $imageWebp800.RelPermalink }} 800w, {{- with $imageWebp1500 }}{{ .RelPermalink }} 1500w,{{ end }} {{ $imageWebp.RelPermalink }} {{ $imageWebp.Width }}w" {{ end }}},
+    {{ else -}}
+        <picture>
+            {{ if $imageWebp -}}
+            <source type="image/webp" srcset="{{ $imageWebp800.RelPermalink }} 800w, {{- with $imageWebp1500 }}{{ .RelPermalink }} 1500w,{{ end }} {{ $imageWebp.RelPermalink }} {{ $imageWebp.Width }}w" sizes="100vw">
+            {{ end -}}
+            <img src="{{ $image800.RelPermalink }}" alt="{{ .page.Title }}" title="{{ .page.Title }}" width="{{ $imgSize.Width }}" height="{{ $imgSize.Height }}" srcset="{{ $image800.RelPermalink }} 800w, {{ with $image1500 }}{{ .RelPermalink }} 1500w,{{ end }} {{ $image.RelPermalink }} {{ $image.Width }}w" sizes="100vw">
+        </picture>
+    {{ end -}}
+{{ else -}}
+    {{ $image := $mainImage -}}
+    {{ $imageWebp := .page.Resources.GetMatch (printf "%s.webp" .page.File.ContentBaseName) -}}
+    {{ if eq .output "preload" -}}
+        <link rel="preload" as="image" href="{{ ($imageWebp | default $image).RelPermalink }}" {{- if $imageWebp }} type="image/webp"{{ end -}}>
+    {{ else if eq .output "json" -}}
+        "image": {"img": "{{ $mainImage.RelPermalink }}", "srcset": "{{ $image.RelPermalink }}" {{- if $imageWebp }}, "webpSrcset": "{{ $imageWebp.RelPermalink }}" {{ end }}},
+    {{ else -}}
+        <picture>
+            {{ if $imageWebp -}}
+            <source type="image/webp" srcset="{{ $imageWebp.RelPermalink }}">
+            {{ end -}}
+            <img src="{{ $image.RelPermalink }}" alt="{{ .page.Title }}" title="{{ .page.Title }}" width="{{ $image.Width }}" height="{{ $image.Height }}">
+        </picture>
+    {{ end -}}
+{{ end -}}

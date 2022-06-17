@@ -47,6 +47,10 @@
                     {{- printf "<p><a href=%q>" .Permalink -}}
                         {{- partial "main-image" (dict "page" . "output" "rss") | html -}}
                     {{- printf "</a></p>" -}}
+                {{- else if eq .Section "gamemap" -}}
+                    {{- printf "<p><a href=%q>" .Permalink -}}
+                        {{- partial "gamemap/main-image" (dict "page" . "output" "rss") | html -}}
+                    {{- printf "</a></p>" -}}
                 {{- end -}}
                 {{- .Content | html -}}
             </content:encoded>
