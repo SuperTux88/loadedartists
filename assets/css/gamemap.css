@@ -2,12 +2,13 @@
 /* --------------- */
 
 :root {
-	--clr-primary: #39261a;
+	--clr-primary: #3d291c;
 	--clr-modal: #ffffff;
 
 	--font-family-text: 'Indie Flower', sans-serif;
 
-	--bg-clr-page: #ecd7aa;
+	--bg-clr-page: #d6ba88;
+	--bg-clr-button: #ecd8aa;
 	--bg-clr-modal: rgba(0, 0, 0, 0.8);
 }
 
@@ -62,6 +63,13 @@ body .hidden {
 	border: 2px solid var(--clr-primary);
 	border-radius: 10px;
 	color: var(--clr-primary);
+	background-color: var(--bg-clr-button);
+}
+.start-game:hover {
+	filter: brightness(90%);
+}
+.start-game:active {
+	filter: brightness(80%);
 }
 
 /* || loader || */
