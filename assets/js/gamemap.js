@@ -136,8 +136,9 @@ function Gregor(image, map, x, y) {
   this.map = map;
   this.x = x;
   this.y = y;
-  this.width = image.width;
-  this.height = image.height;
+  this.width = image.width / 2;
+  this.height = image.height / 2;
+  this.flipped = false;
 }
 
 Gregor.SPEED = 256; // pixels per second
@@ -146,14 +147,31 @@ Gregor.prototype.move = function (delta, dirx, diry) {
   // move hero
   this.x += dirx * Gregor.SPEED * delta;
   this.y += diry * Gregor.SPEED * delta;
+  if (dirx < 0 && !this.flipped) this.flipped = true;
+  if (dirx > 0 && this.flipped) this.flipped = false;
 
   // clamp values
-  const maxX = this.map.width;
-  const maxY = this.map.height;
-
-  this.x = Math.max(0, Math.min(this.x, maxX));
-  this.y = Math.max(0, Math.min(this.y, maxY));
+  const maxX = this.map.width - this.width / 2 - 10; // extra offset for shadow
+  const maxY = this.map.height - this.height / 2;
+  this.x = Math.max(this.width / 2, Math.min(this.x, maxX));
+  this.y = Math.max(this.height / 2, Math.min(this.y, maxY));
 };
+
+Gregor.prototype.render = function (ctx) {
+  ctx.save();
+
+  ctx.shadowOffsetX = 12;
+  ctx.shadowOffsetY = 8;
+  ctx.shadowBlur = 1;
+  ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
+
+  ctx.translate(this.screenX, this.screenY);
+  ctx.scale(this.flipped ? -1 : 1, 1);
+
+  ctx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height);
+
+  ctx.restore();
+}
 
 //
 // Game object
@@ -189,7 +207,7 @@ Game.init = function () {
   Keyboard.listenForEvents([Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN]);
   Keyboard.addCallback(Keyboard.OPEN, () => Game._openGame());
 
-  this.gregor = new Gregor(gregorImg, mapImg, 224, 689);
+  this.gregor = new Gregor(gregorImg, mapImg, 200, 665);
   this.camera = new Camera(mapImg, this.canvas.width, this.canvas.height);
   this.camera.follow(this.gregor);
 };
@@ -218,10 +236,7 @@ Game.render = function () {
   this.ctx.drawImage(mapImg, -this.camera.x, -this.camera.y);
   this._renderLandmarks();
 
-  this.ctx.drawImage(
-    this.gregor.image,
-    this.gregor.screenX - this.gregor.width / 2,
-    this.gregor.screenY - this.gregor.height / 2);
+  this.gregor.render(this.ctx);
 };
 
 Game._renderLandmarks = function () {
