@@ -290,7 +290,7 @@ Game.update = function (delta) {
 Game.render = function () {
   this.ctx.font = '24px Indie Flower, sans-serif';
   this.ctx.textAlign = 'center';
-  this.ctx.fillStyle = '#39261a';
+  this.ctx.fillStyle = window.getComputedStyle(body,null).getPropertyValue("color");
 
   this.ctx.drawImage(mapImg, -this.camera.x, -this.camera.y);
   this._renderLandmarks();
@@ -329,8 +329,10 @@ Game._openGame = function () {
 }
 
 function startGame() {
+  if (body.classList.contains('running')) { return; }
+
   window.addEventListener('resize', () => Game.resize(), false);
-  body.querySelector('.loading-screen').remove();
+  body.querySelector('.loading-screen').classList.add('hide');
   body.classList.add('running');
   canvas.classList.remove('hidden');
   Game.run(canvas);
@@ -377,8 +379,10 @@ function loadGameImageSrcSet(path, srcset, webpSrcset) {
 function onImageLoad() {
   imagesLoaded++;
   if (imagesLoaded === totalImages) {
-    document.querySelector('.loading').remove();
-    document.querySelector('.loaded').classList.remove('hidden');
+    const loading = document.querySelector('.loading-screen');
+    loading.querySelector('h1').textContent = "Click seal to open!";
+    loading.querySelector('.lds-ring').classList.add('hide');
+    loading.querySelector('.start-game').classList.remove('hidden');
 
     const startKeyboardListener = event => {
       if ([' ', 'Enter'].includes(event.key)) {

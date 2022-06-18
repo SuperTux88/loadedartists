@@ -1,13 +1,9 @@
 {{ define "main" }}
 <div class="loading-screen">
-    <div class="loading">
-        <h1>Loading...</h1>
-        <div class="loader"></div>
-    </div>
-    <div class="loaded hidden">
-        <button class="start-game">Start</button>
-    </div>
-    <div>
+    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    <h1>Loading...</h1>
+    <button class="start-game hidden"></button>
+    <div class="controls">
         Controls:<br>
         Move: WASD or arrow keys or touch/move<br>
         Open/Close: Spacebar or Enter or click/touch
