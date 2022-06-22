@@ -4,7 +4,7 @@ const canvas = document.getElementById('map');
 let imagesLoaded = 0;
 let totalImages = 0;
 
-const mapImg = loadImage('/img/gamemap/map.png');
+const mapImgs = Object.fromEntries(Object.entries(mapPaths).map(([k, img]) => [k, loadImage(img.png, img.webp)]));
 const gregorImgs = Object.fromEntries(Object.entries(gregorPaths).map(([k, img]) => [k, loadImage(img.png, img.webp)]));
 
 games.forEach(function (game) {
@@ -124,11 +124,9 @@ Touch.getY = function () {
 // Camera object
 //
 
-function Camera(map, width, height) {
+function Camera() {
   this.x = 0;
   this.y = 0;
-  this.map = map;
-  this.resize(width, height);
 }
 
 Camera.prototype.follow = function (sprite) {
@@ -165,11 +163,11 @@ Camera.prototype.update = function () {
   }
 };
 
-Camera.prototype.resize = function (width, height) {
-  this.width = width;
-  this.height = height;
-  this.maxX = this.map.width - width;
-  this.maxY = this.map.height - height;
+Camera.prototype.resize = function (canvas, width, height) {
+  this.width = canvas.width;
+  this.height = canvas.height;
+  this.maxX = width - this.width;
+  this.maxY = height - this.height;
 }
 
 //
@@ -190,7 +188,7 @@ function Gregor(images, map, x, y) {
   this.currentImg = this.images.land;
 }
 
-Gregor.SPEED = 256; // pixels per second
+Gregor.SPEED = 360; // pixels per second
 
 Gregor.prototype.move = function (delta, dirX, dirY) {
   // move hero
@@ -258,8 +256,12 @@ Game.init = function () {
   Touch.listenForEvents();
   document.addEventListener('click', () => Game._openImg());
 
-  this.gregor = new Gregor(gregorImgs, mapImg, 200, 665);
-  this.camera = new Camera(mapImg, this.canvas.width, this.canvas.height);
+  this.width = mapImgs.overlay.width;
+  this.height = mapImgs.overlay.height;
+
+  this.gregor = new Gregor(gregorImgs, mapImgs.overlay, 400, 2050);
+  this.camera = new Camera();
+  this.camera.resize(this.canvas, this.width, this.height);
   this.camera.follow(this.gregor);
 
   this.resize();
@@ -293,7 +295,7 @@ Game.update = function (delta) {
 };
 
 Game.render = function () {
-  this.ctx.drawImage(mapImg, -this.camera.x, -this.camera.y);
+  this.ctx.drawImage(mapImgs.map, -this.camera.x, -this.camera.y);
   this._renderLandmarks();
 
   this.gregor.render(this.ctx);
@@ -309,9 +311,9 @@ Game._renderLandmarks = function () {
 }
 
 Game.resize = function () {
-  this.canvas.width = Math.min(mapImg.width, document.body.clientWidth);
-  this.canvas.height = Math.min(mapImg.height, document.body.clientHeight);
-  this.camera.resize(this.canvas.width, this.canvas.height);
+  this.canvas.width = Math.min(this.width, document.body.clientWidth);
+  this.canvas.height = Math.min(this.height, document.body.clientHeight);
+  this.camera.resize(this.canvas, this.width, this.height);
 }
 
 Game._openImg = function () {
