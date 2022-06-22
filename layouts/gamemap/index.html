@@ -42,6 +42,6 @@
         {{- end }}
     ]
 </script>
-{{ $main_js := resources.Get "/js/gamemap.js" | minify | fingerprint "sha512" }}
+{{ $main_js := resources.Get "/js/gamemap.js" | fingerprint "sha512" }}
 <script src="{{ $main_js.RelPermalink }}" integrity="{{ $main_js.Data.Integrity }}" defer></script>
 {{ end -}}

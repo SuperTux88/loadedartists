@@ -1,8 +1,6 @@
 const body = document.querySelector('body');
 const canvas = document.getElementById('map');
 
-let debug = false;
-
 let imagesLoaded = 0;
 let totalImages = 2 + games.length;
 
@@ -14,7 +12,8 @@ games.forEach(function (game) {
 });
 
 let state = {
-  modal: false
+  modal: false,
+  debug: false
 };
 
 //
@@ -29,6 +28,7 @@ Keyboard.UP = ['ArrowUp', 'w'];
 Keyboard.DOWN = ['ArrowDown', 's'];
 
 Keyboard.OPEN = [' ', 'Enter'];
+Keyboard.DEBUG = ['`'];
 
 Keyboard._keys = {};
 Keyboard._callbacks = {};
@@ -55,7 +55,7 @@ Keyboard._onKeyDown = function (event) {
     this._keys[key] = true;
   }
   if (key in this._callbacks) {
-    this._callbacks[key]();
+    this._callbacks[key](event);
   }
 };
 
@@ -250,9 +250,10 @@ Game.tick = function (elapsed) {
 
 Game.init = function () {
   Keyboard.listenForEvents([Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN]);
-  Keyboard.addCallback(Keyboard.OPEN, () => Game._openGame());
+  Keyboard.addCallback(Keyboard.OPEN, () => Game._openImg());
+  Keyboard.addCallback(Keyboard.DEBUG, (event) => Game._toggleDebug(event));
   Touch.listenForEvents();
-  document.addEventListener('click', (event) => Game._openGame());
+  document.addEventListener('click', () => Game._openImg());
 
   this.gregor = new Gregor(gregorImg, mapImg, 200, 665);
   this.camera = new Camera(mapImg, this.canvas.width, this.canvas.height);
@@ -296,7 +297,7 @@ Game.render = function () {
 };
 
 Game._renderLandmarks = function () {
-  if (debug) {
+  if (state.debug) {
     this.ctx.strokeStyle = '#00ff00';
     games.forEach((game) => {
       this.ctx.strokeRect(game.pos.x - this.camera.x,game.pos.y - this.camera.y, game.pos.w, game.pos.h);
@@ -310,7 +311,7 @@ Game.resize = function () {
   this.camera.resize(this.canvas.width, this.canvas.height);
 }
 
-Game._openGame = function () {
+Game._openImg = function () {
   if (state.modal) { return; }
 
   const x = this.gregor.x, y = this.gregor.y;
@@ -323,11 +324,21 @@ Game._openGame = function () {
   }
 }
 
+Game._toggleDebug = function (event) {
+  if (event.ctrlKey) {
+    state.debug = !state.debug;
+  }
+}
+
 function startGame() {
   if (body.classList.contains('running')) { return; }
 
   window.addEventListener('resize', () => Game.resize(), false);
-  body.querySelector('.loading-screen').classList.add('hide');
+
+  const loadingScreen = body.querySelector('.loading-screen');
+  loadingScreen.classList.add('hide');
+  window.setTimeout(() => { body.removeChild(loadingScreen) }, 1000);
+
   body.classList.add('running');
   canvas.classList.remove('hidden');
   Game.run(canvas);
@@ -381,11 +392,15 @@ function onImageLoad() {
 
     const startKeyboardListener = event => {
       if ([' ', 'Enter'].includes(event.key)) {
-        start();
+        start(event);
       }
     }
-    const start = () => {
+    const start = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
       document.removeEventListener('keydown', startKeyboardListener);
+
       startGame();
     }
 
