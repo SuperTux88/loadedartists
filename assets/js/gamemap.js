@@ -229,6 +229,12 @@ Gregor.prototype.render = function (ctx) {
   ctx.drawImage(this.currentImg.img, Game.scale(-this.currentImg.offset.x), Game.scale(-this.currentImg.offset.y),
     Game.scale(this.currentImg.img.width), Game.scale(this.currentImg.img.height));
 
+  if (state.debug) {
+    ctx.fillStyle = '#ff0000';
+    ctx.shadowColor = 'transparent';
+    ctx.fillRect(0, 0, Game.scale(4), Game.scale(4));
+  }
+
   ctx.restore();
 }
 
@@ -355,7 +361,8 @@ Game.render = function () {
 Game._renderLandmarks = function () {
   this.ctx.strokeStyle = '#00ff00';
   games.forEach((game) => {
-    this.ctx.strokeRect(game.pos.x - this.camera.x,game.pos.y - this.camera.y, game.pos.w, game.pos.h);
+    this.ctx.strokeRect(Game.scale(game.pos.x) - this.camera.x, Game.scale(game.pos.y) - this.camera.y,
+      Game.scale(game.pos.w), Game.scale(game.pos.h));
   });
 }
 
