@@ -299,7 +299,7 @@ Game._renderLandmarks = function () {
   if (debug) {
     this.ctx.strokeStyle = '#00ff00';
     games.forEach((game) => {
-      this.ctx.strokeRect(game.pos.x - 100 - this.camera.x,game.pos.y - 200 - this.camera.y, 200,260);
+      this.ctx.strokeRect(game.pos.x - this.camera.x,game.pos.y - this.camera.y, game.pos.w, game.pos.h);
     });
   }
 }
@@ -315,8 +315,8 @@ Game._openGame = function () {
 
   const x = this.gregor.x, y = this.gregor.y;
   const game = games.find((game) => {
-    return game.pos.x - 100 < x && x < game.pos.x + 100 &&
-      game.pos.y - 200 < y && y < game.pos.y + 60;
+    return game.pos.x < x && x < game.pos.x + game.pos.w &&
+      game.pos.y < y && y < game.pos.y + game.pos.h;
   })
   if (game) {
     addModal(game);
