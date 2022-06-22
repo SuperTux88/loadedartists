@@ -142,8 +142,9 @@ Camera.prototype.update = function () {
   this.following.screenY = this.height / 2;
 
   // make the camera follow the sprite
-  this.x = this.following.x - this.width / 2;
-  this.y = this.following.y - this.height / 2;
+  this.scaledPos = {x: Game.scale(this.following.x), y: Game.scale(this.following.y)};
+  this.x = this.scaledPos.x - this.width / 2;
+  this.y = this.scaledPos.y - this.height / 2;
   // clamp values
   this.x = Math.max(0, Math.min(this.x, this.maxX));
   this.y = Math.max(0, Math.min(this.y, this.maxY));
@@ -152,14 +153,14 @@ Camera.prototype.update = function () {
   // and we have to change its screen coordinates
 
   // left and right sides
-  if (this.following.x < this.width / 2 ||
-    this.following.x > this.maxX + this.width / 2) {
-    this.following.screenX = this.following.x - this.x;
+  if (this.scaledPos.x < this.width / 2 ||
+    this.scaledPos.x > this.maxX + this.width / 2) {
+    this.following.screenX = this.scaledPos.x - this.x;
   }
   // top and bottom sides
-  if (this.following.y < this.height / 2 ||
-    this.following.y > this.maxY + this.height / 2) {
-    this.following.screenY = this.following.y - this.y;
+  if (this.scaledPos.y < this.height / 2 ||
+    this.scaledPos.y > this.maxY + this.height / 2) {
+    this.following.screenY = this.scaledPos.y - this.y;
   }
 };
 
@@ -174,13 +175,13 @@ Camera.prototype.resize = function (canvas, width, height) {
 // Gregor object
 //
 
-function Gregor(images, map, x, y) {
+function Gregor(images, overlay, x, y) {
   this.images = {
     land: {img: images.land, offset: {x: 183, y: 239}},
     water: {img: images.water, offset: {x: 245, y: 250}},
   };
   this.max = {x: 300, top: 240, bottom: 175};
-  this.map = map;
+  this.overlay = overlay;
   this.x = x;
   this.y = y;
 
@@ -191,32 +192,76 @@ function Gregor(images, map, x, y) {
 Gregor.SPEED = 360; // pixels per second
 
 Gregor.prototype.move = function (delta, dirX, dirY) {
-  // move hero
-  this.x += dirX * delta;
-  this.y += dirY * delta;
+  let x = this.x + dirX * delta;
+  let y = this.y + dirY * delta;
+
   if (dirX < 0 && !this.flipped) this.flipped = true;
   if (dirX > 0 && this.flipped) this.flipped = false;
 
   // clamp values
-  this.x = Math.max(this.max.x, Math.min(this.x, this.map.width - this.max.x));
-  this.y = Math.max(this.max.top, Math.min(this.y, this.map.height - this.max.bottom));
+  x = Math.max(this.max.x, Math.min(x, this.overlay.width - this.max.x));
+  y = Math.max(this.max.top, Math.min(y, this.overlay.height - this.max.bottom));
+
+  const newLocation = this.overlay.getMapDataAtLocation(x, y);
+  if (newLocation === Overlay.WATER) {
+    this.currentImg = this.images.water;
+  } else if (newLocation === Overlay.LAND) {
+    this.currentImg = this.images.land;
+  } else if (newLocation === Overlay.BLOCKED) {
+    return; // Don't move
+  }
+
+  this.x = x;
+  this.y = y;
 };
 
 Gregor.prototype.render = function (ctx) {
   ctx.save();
 
-  ctx.shadowOffsetX = 12;
-  ctx.shadowOffsetY = 8;
+  ctx.shadowOffsetX = Game.scale(12);
+  ctx.shadowOffsetY = Game.scale(8);
   ctx.shadowBlur = 1;
   ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
 
   ctx.translate(this.screenX, this.screenY);
   ctx.scale(this.flipped ? -1 : 1, 1);
 
-  ctx.drawImage(this.currentImg.img, -this.currentImg.offset.x, -this.currentImg.offset.y,
-    this.currentImg.img.width, this.currentImg.img.height);
+  ctx.drawImage(this.currentImg.img, Game.scale(-this.currentImg.offset.x), Game.scale(-this.currentImg.offset.y),
+    Game.scale(this.currentImg.img.width), Game.scale(this.currentImg.img.height));
 
   ctx.restore();
+}
+
+//
+// Overlay object
+//
+
+function Overlay(overlayImg) {
+  this.width = overlayImg.width;
+  this.height = overlayImg.height;
+
+  const overlayCanvas = document.createElement('canvas');
+  overlayCanvas.width = this.width;
+  overlayCanvas.height = this.height;
+  this.overlay = overlayCanvas.getContext('2d');
+  this.overlay.drawImage(overlayImg, 0, 0);
+}
+
+Overlay.LAND = 'LAND';
+Overlay.WATER = 'WATER';
+Overlay.BLOCKED = 'BLOCKED';
+
+Overlay.prototype.getMapDataAtLocation = function (x, y) {
+  const [r, g, b, a] = this.overlay.getImageData(x, y, 1, 1).data;
+  if (a <= 50) {
+    return Overlay.LAND;
+  } else if (b >= 200) {
+    return Overlay.WATER;
+  } else if (r >= 200) {
+    return Overlay.BLOCKED;
+  } else {
+    console.log('unknown overlay color', x, y, r, g, b, a);
+  }
 }
 
 //
@@ -256,10 +301,11 @@ Game.init = function () {
   Touch.listenForEvents();
   document.addEventListener('click', () => Game._openImg());
 
-  this.width = mapImgs.overlay.width;
-  this.height = mapImgs.overlay.height;
+  this.overlay = new Overlay(mapImgs.overlay);
+  this.width = this.overlay.width;
+  this.height = this.overlay.height;
 
-  this.gregor = new Gregor(gregorImgs, mapImgs.overlay, 400, 2050);
+  this.gregor = new Gregor(gregorImgs, this.overlay, 400, 2050);
   this.camera = new Camera();
   this.camera.resize(this.canvas, this.width, this.height);
   this.camera.follow(this.gregor);
@@ -295,25 +341,33 @@ Game.update = function (delta) {
 };
 
 Game.render = function () {
-  this.ctx.drawImage(mapImgs.map, -this.camera.x, -this.camera.y);
-  this._renderLandmarks();
+  this.ctx.drawImage(mapImgs.map, -this.camera.x, -this.camera.y, Game.scale(this.width), Game.scale(this.height));
+  if (state.debug) {
+    this.ctx.globalAlpha = 0.2;
+    this.ctx.drawImage(mapImgs.overlay, -this.camera.x, -this.camera.y, Game.scale(this.width), Game.scale(this.height));
+    this.ctx.globalAlpha = 1;
+    this._renderLandmarks();
+  }
 
   this.gregor.render(this.ctx);
 };
 
 Game._renderLandmarks = function () {
-  if (state.debug) {
-    this.ctx.strokeStyle = '#00ff00';
-    games.forEach((game) => {
-      this.ctx.strokeRect(game.pos.x - this.camera.x,game.pos.y - this.camera.y, game.pos.w, game.pos.h);
-    });
-  }
+  this.ctx.strokeStyle = '#00ff00';
+  games.forEach((game) => {
+    this.ctx.strokeRect(game.pos.x - this.camera.x,game.pos.y - this.camera.y, game.pos.w, game.pos.h);
+  });
 }
 
 Game.resize = function () {
-  this.canvas.width = Math.min(this.width, document.body.clientWidth);
-  this.canvas.height = Math.min(this.height, document.body.clientHeight);
-  this.camera.resize(this.canvas, this.width, this.height);
+  this.currentScale = 0.8;
+  this.canvas.width = Math.min(Game.scale(this.width), document.body.clientWidth);
+  this.canvas.height = Math.min(Game.scale(this.height), document.body.clientHeight);
+  this.camera.resize(this.canvas, Game.scale(this.width), Game.scale(this.height));
+}
+
+Game.scale = function (number) {
+  return this.currentScale * number;
 }
 
 Game._openImg = function () {
