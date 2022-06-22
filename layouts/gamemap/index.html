@@ -28,7 +28,11 @@
 
 <script type="text/javascript">
     {{ $gregor := .Page.Resources.GetMatch "gregor.png" }}
-    const gregorPaths = {"png": {{ $gregor.RelPermalink }}, "webp": {{ ($gregor.Resize "450x webp").RelPermalink }}};
+    {{ $gregorBoat := .Page.Resources.GetMatch "gregor_boat.png" }}
+    const gregorPaths = {
+        land: {png: {{ $gregor.RelPermalink }}, "webp": {{ ($gregor.Resize "450x webp").RelPermalink }}},
+        water: {png: {{ $gregorBoat.RelPermalink }}, "webp": {{ ($gregorBoat.Resize "550x webp").RelPermalink }}}
+    };
     {{ $pages := .RegularPages -}}
     const games = [
         {{- range $index, $element := $pages }}
@@ -40,8 +44,8 @@
             {{ partial "gamemap/main-image" (dict "page" . "output" "json") | safeJS -}}
         }{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
         {{- end }}
-    ]
+    ];
 </script>
-{{ $main_js := resources.Get "/js/gamemap.js" | fingerprint "sha512" }}
+{{ $main_js := resources.Get "/js/gamemap.js" | minify |fingerprint "sha512" }}
 <script src="{{ $main_js.RelPermalink }}" integrity="{{ $main_js.Data.Integrity }}" defer></script>
 {{ end -}}

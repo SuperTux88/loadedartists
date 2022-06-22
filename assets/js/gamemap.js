@@ -2,10 +2,10 @@ const body = document.querySelector('body');
 const canvas = document.getElementById('map');
 
 let imagesLoaded = 0;
-let totalImages = 2 + games.length;
+let totalImages = 0;
 
 const mapImg = loadImage('/img/gamemap/map.png');
-const gregorImg = loadImage(gregorPaths.png, gregorPaths.webp);
+const gregorImgs = Object.fromEntries(Object.entries(gregorPaths).map(([k, img]) => [k, loadImage(img.png, img.webp)]));
 
 games.forEach(function (game) {
   game.gameImg = loadGameImageSrcSet(game.image.img, game.image.srcset, game.image.webpSrcset);
@@ -176,14 +176,18 @@ Camera.prototype.resize = function (width, height) {
 // Gregor object
 //
 
-function Gregor(image, map, x, y) {
-  this.image = image;
+function Gregor(images, map, x, y) {
+  this.images = {
+    land: {img: images.land, offset: {x: 183, y: 239}},
+    water: {img: images.water, offset: {x: 245, y: 250}},
+  };
+  this.max = {x: 300, top: 240, bottom: 175};
   this.map = map;
   this.x = x;
   this.y = y;
-  this.width = image.width / 2;
-  this.height = image.height / 2;
+
   this.flipped = false;
+  this.currentImg = this.images.land;
 }
 
 Gregor.SPEED = 256; // pixels per second
@@ -196,10 +200,8 @@ Gregor.prototype.move = function (delta, dirX, dirY) {
   if (dirX > 0 && this.flipped) this.flipped = false;
 
   // clamp values
-  const maxX = this.map.width - this.width / 2 - 10; // extra offset for shadow
-  const maxY = this.map.height - this.height / 2;
-  this.x = Math.max(this.width / 2, Math.min(this.x, maxX));
-  this.y = Math.max(this.height / 2, Math.min(this.y, maxY));
+  this.x = Math.max(this.max.x, Math.min(this.x, this.map.width - this.max.x));
+  this.y = Math.max(this.max.top, Math.min(this.y, this.map.height - this.max.bottom));
 };
 
 Gregor.prototype.render = function (ctx) {
@@ -213,7 +215,8 @@ Gregor.prototype.render = function (ctx) {
   ctx.translate(this.screenX, this.screenY);
   ctx.scale(this.flipped ? -1 : 1, 1);
 
-  ctx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height);
+  ctx.drawImage(this.currentImg.img, -this.currentImg.offset.x, -this.currentImg.offset.y,
+    this.currentImg.img.width, this.currentImg.img.height);
 
   ctx.restore();
 }
@@ -255,7 +258,7 @@ Game.init = function () {
   Touch.listenForEvents();
   document.addEventListener('click', () => Game._openImg());
 
-  this.gregor = new Gregor(gregorImg, mapImg, 200, 665);
+  this.gregor = new Gregor(gregorImgs, mapImg, 200, 665);
   this.camera = new Camera(mapImg, this.canvas.width, this.canvas.height);
   this.camera.follow(this.gregor);
 
@@ -345,6 +348,8 @@ function startGame() {
 }
 
 function loadImage(path, webpPath) {
+  totalImages++;
+
   const picture = document.createElement('picture')
 
   if (webpPath !== undefined) {
@@ -362,6 +367,8 @@ function loadImage(path, webpPath) {
 }
 
 function loadGameImageSrcSet(path, srcset, webpSrcset) {
+  totalImages++;
+
   const picture = document.createElement('picture')
 
   if (webpSrcset !== undefined) {
