@@ -32,16 +32,12 @@
     {{ $pages := .RegularPages -}}
     const games = [
         {{- range $index, $element := $pages }}
-            {{- $landmarkImage := (.Resources.ByType "image").GetMatch "landmark.*" }}
-            {{- $reziedLandmarkImage := $landmarkImage.Fit "170x150" }}
-            {{- $reziedLandmarkImageWebp := $landmarkImage.Fit "170x150 webp" }}
         {
             "title": {{ .Title }},
             "author": {{ .Params.author }},
             "authorLink": {{ .Params.author_link }},
             "pos": {{ .Params.pos }},
             {{ partial "gamemap/main-image" (dict "page" . "output" "json") | safeJS -}}
-            "landmark": {"png": {{ $reziedLandmarkImage.RelPermalink }}, "webp": {{ $reziedLandmarkImageWebp.RelPermalink }}},
         }{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
         {{- end }}
     ]

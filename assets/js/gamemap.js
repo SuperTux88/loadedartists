@@ -1,15 +1,16 @@
 const body = document.querySelector('body');
 const canvas = document.getElementById('map');
 
+let debug = false;
+
 let imagesLoaded = 0;
-let totalImages = 2 + games.length * 2;
+let totalImages = 2 + games.length;
 
 const mapImg = loadImage('/img/gamemap/map.png');
 const gregorImg = loadImage(gregorPaths.png, gregorPaths.webp);
 
 games.forEach(function (game) {
   game.gameImg = loadGameImageSrcSet(game.image.img, game.image.srcset, game.image.webpSrcset);
-  game.landmarkImg = loadImage(game.landmark.png, game.landmark.webp);
 });
 
 let state = {
@@ -288,10 +289,6 @@ Game.update = function (delta) {
 };
 
 Game.render = function () {
-  this.ctx.font = '24px Indie Flower, sans-serif';
-  this.ctx.textAlign = 'center';
-  this.ctx.fillStyle = window.getComputedStyle(body,null).getPropertyValue("color");
-
   this.ctx.drawImage(mapImg, -this.camera.x, -this.camera.y);
   this._renderLandmarks();
 
@@ -299,14 +296,12 @@ Game.render = function () {
 };
 
 Game._renderLandmarks = function () {
-  games.forEach((game) => {
-    const img = game.landmarkImg;
-    this.ctx.drawImage(
-      img,
-      game.pos.x - img.width / 2 - this.camera.x,
-      game.pos.y - img.height - 60 - this.camera.y);
-    this.ctx.fillText(game.title, game.pos.x - this.camera.x, game.pos.y - 30 - this.camera.y);
-  });
+  if (debug) {
+    this.ctx.strokeStyle = '#00ff00';
+    games.forEach((game) => {
+      this.ctx.strokeRect(game.pos.x - 100 - this.camera.x,game.pos.y - 200 - this.camera.y, 200,260);
+    });
+  }
 }
 
 Game.resize = function () {
