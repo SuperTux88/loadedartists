@@ -372,9 +372,20 @@ Game._renderLandmarks = function () {
 }
 
 Game.resize = function () {
-  this.currentScale = 0.8;
-  this.canvas.width = Math.min(Game.scale(this.width), document.body.clientWidth);
-  this.canvas.height = Math.min(Game.scale(this.height), document.body.clientHeight);
+  const minSize = Math.min(document.documentElement.clientWidth, document.documentElement.clientHeight);
+  if (minSize > 1600) {
+    this.currentScale = 1;
+  } else if (minSize > 1200) {
+    this.currentScale = 0.9;
+  } else if (minSize > 800) {
+    this.currentScale = 0.8;
+  } else if (minSize > 400) {
+    this.currentScale = 0.6;
+  } else {
+    this.currentScale = 0.5;
+  }
+  this.canvas.width = Math.min(Game.scale(this.width), document.documentElement.clientWidth);
+  this.canvas.height = Math.min(Game.scale(this.height), document.documentElement.clientHeight);
   this.camera.resize(this.canvas, Game.scale(this.width), Game.scale(this.height));
 }
 
