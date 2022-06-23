@@ -13,7 +13,8 @@ games.forEach(function (game) {
 
 let state = {
   modal: false,
-  debug: false
+  debug: false,
+  mode: 1
 };
 
 //
@@ -29,6 +30,7 @@ Keyboard.DOWN = ['ArrowDown', 's'];
 
 Keyboard.OPEN = [' ', 'Enter'];
 Keyboard.DEBUG = ['`'];
+Keyboard.MODE = ['1', '2', '3'];
 
 Keyboard._keys = {};
 Keyboard._callbacks = {};
@@ -208,7 +210,9 @@ Gregor.prototype.move = function (delta, dirX, dirY) {
   } else if (newLocation === Overlay.LAND) {
     this.currentImg = this.images.land;
   } else if (newLocation === Overlay.BLOCKED) {
-    return; // Don't move
+    if (state.mode !== 3) {
+      return; // Don't move
+    }
   }
 
   this.x = x;
@@ -304,6 +308,7 @@ Game.init = function () {
   Keyboard.listenForEvents([Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN]);
   Keyboard.addCallback(Keyboard.OPEN, () => Game._openImg());
   Keyboard.addCallback(Keyboard.DEBUG, (event) => Game._toggleDebug(event));
+  Keyboard.addCallback(Keyboard.MODE, (event) => Game._switchMode(event));
   Touch.listenForEvents();
   document.addEventListener('click', () => Game._openImg());
 
@@ -347,7 +352,7 @@ Game.update = function (delta) {
 };
 
 Game.render = function () {
-  this.ctx.drawImage(mapImgs.map, -this.camera.x, -this.camera.y, Game.scale(this.width), Game.scale(this.height));
+  this.ctx.drawImage(state.mode === 1 ? mapImgs.map : mapImgs.line, -this.camera.x, -this.camera.y, Game.scale(this.width), Game.scale(this.height));
   if (state.debug) {
     this.ctx.globalAlpha = 0.2;
     this.ctx.drawImage(mapImgs.overlay, -this.camera.x, -this.camera.y, Game.scale(this.width), Game.scale(this.height));
@@ -393,6 +398,12 @@ Game._openImg = function () {
 Game._toggleDebug = function (event) {
   if (event.ctrlKey) {
     state.debug = !state.debug;
+  }
+}
+
+Game._switchMode = function (event) {
+  if (event.ctrlKey) {
+    state.mode = parseInt(event.key);
   }
 }
 
