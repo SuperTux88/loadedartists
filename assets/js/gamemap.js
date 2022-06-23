@@ -9,6 +9,9 @@ const gregorImgs = Object.fromEntries(Object.entries(gregorPaths).map(([k, img])
 
 games.forEach(function (game) {
   game.gameImg = loadGameImageSrcSet(game.image.img, game.image.srcset, game.image.webpSrcset);
+  if (game.extra) {
+    game.extraImg = loadImage(game.extra.png, game.extra.webp);
+  }
 });
 
 let state = {
@@ -437,7 +440,7 @@ Game._openImg = function (event) {
   const game = games.find((game) => {
     return game.pos.x < x && x < game.pos.x + game.pos.w &&
       game.pos.y < y && y < game.pos.y + game.pos.h;
-  })
+  });
   if (game) {
     addModal(game);
   }
@@ -474,7 +477,7 @@ function startGame() {
 function loadImage(path, webpPath) {
   totalImages++;
 
-  const picture = document.createElement('picture')
+  const picture = document.createElement('picture');
 
   if (webpPath !== undefined) {
     const webpSource = document.createElement('source');
@@ -486,14 +489,14 @@ function loadImage(path, webpPath) {
   const img = new Image();
   img.src = path;
   img.onload = onImageLoad
-  picture.append(img)
+  picture.append(img);
   return img;
 }
 
 function loadGameImageSrcSet(path, srcset, webpSrcset) {
   totalImages++;
 
-  const picture = document.createElement('picture')
+  const picture = document.createElement('picture');
 
   if (webpSrcset !== undefined) {
     const webpSource = document.createElement('source');
@@ -509,7 +512,7 @@ function loadGameImageSrcSet(path, srcset, webpSrcset) {
   img.src = path;
   img.onload = onImageLoad
 
-  picture.append(img)
+  picture.append(img);
   return picture;
 }
 
@@ -549,7 +552,8 @@ function addModal(game) {
   const backdrop = document.importNode(modalTemplate, true);
   const lightbox = backdrop.querySelector('.lightbox');
 
-  lightbox.prepend(game.gameImg)
+  let extra = false;
+  lightbox.prepend(game.gameImg);
 
   const title = document.createElement('h1');
   title.textContent = game.title;
@@ -576,7 +580,15 @@ function addModal(game) {
   }
   const closeLightbox = event => {
     if (event.ctrlKey || event.metaKey) { return; }
+    event.preventDefault();
     event.stopPropagation();
+
+    if (game.extra && !extra) {
+      extra = true;
+      lightbox.replaceChild(game.extraImg, game.gameImg);
+      return;
+    }
+
     mapContainer.removeChild(backdrop);
     state.modal = false;
     document.removeEventListener('keydown', lightboxKeyboardListener);

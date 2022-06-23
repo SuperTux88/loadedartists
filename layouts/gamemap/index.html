@@ -37,25 +37,29 @@
     {{ $mapOverlay := .Page.Resources.GetMatch "map_overlay.png" }}
     {{ $mapHole := .Page.Resources.GetMatch "map_hole.png" }}
     const mapPaths = {
-        map: {png: {{ $map.RelPermalink }}, "webp": {{ ($map.Resize (printf "%dx webp" $map.Width)).RelPermalink }}},
-        line: {png: {{ $mapLine.RelPermalink }}, "webp": {{ ($mapLine.Resize (printf "%dx webp" $map.Width)).RelPermalink }}},
-        overlay: {png: {{ $mapOverlay.RelPermalink }}, "webp": {{ ($mapOverlay.Resize (printf "%dx webp" $map.Width)).RelPermalink }}},
-        hole: {png: {{ $mapHole.RelPermalink }}, "webp": {{ ($mapHole.Resize "300x webp").RelPermalink }}},
+        map: {png: {{ $map.RelPermalink }}, webp: {{ ($map.Resize (printf "%dx webp" $map.Width)).RelPermalink }}},
+        line: {png: {{ $mapLine.RelPermalink }}, webp: {{ ($mapLine.Resize (printf "%dx webp" $map.Width)).RelPermalink }}},
+        overlay: {png: {{ $mapOverlay.RelPermalink }}, webp: {{ ($mapOverlay.Resize (printf "%dx webp" $map.Width)).RelPermalink }}},
+        hole: {png: {{ $mapHole.RelPermalink }}, webp: {{ ($mapHole.Resize "300x webp").RelPermalink }}},
     };
     {{ $gregor := .Page.Resources.GetMatch "gregor.png" }}
     {{ $gregorBoat := .Page.Resources.GetMatch "gregor_boat.png" }}
     const gregorPaths = {
-        land: {png: {{ $gregor.RelPermalink }}, "webp": {{ ($gregor.Resize "450x webp").RelPermalink }}},
-        water: {png: {{ $gregorBoat.RelPermalink }}, "webp": {{ ($gregorBoat.Resize "550x webp").RelPermalink }}}
+        land: {png: {{ $gregor.RelPermalink }}, webp: {{ ($gregor.Resize "450x webp").RelPermalink }}},
+        water: {png: {{ $gregorBoat.RelPermalink }}, webp: {{ ($gregorBoat.Resize "550x webp").RelPermalink }}}
     };
     {{ $pages := .RegularPages -}}
     const games = [
         {{- range $index, $element := $pages }}
         {
-            "title": {{ .Title }},
-            "author": {{ .Params.author }},
-            "authorLink": {{ .Params.author_link }},
-            "pos": {{ .Params.pos }},
+            title: {{ .Title }},
+            author: {{ .Params.author }},
+            authorLink: {{ .Params.author_link }},
+            pos: {{ .Params.pos }},
+            {{- if .Params.extra }}
+                {{- $extra := .Resources.GetMatch .Params.extra }}
+            extra: {png: {{ $extra.RelPermalink }}, webp: {{ ($extra.Resize (printf "%dx webp" $extra.Width)).RelPermalink }}},
+            {{- end }}
             {{ partial "gamemap/main-image" (dict "page" . "output" "json") | safeJS -}}
         }{{ if not (eq (add $index 1) (len $pages)) }},{{ end }}
         {{- end }}

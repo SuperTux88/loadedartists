@@ -28,7 +28,7 @@
     {{ if eq .output "preload" -}}
         <link rel="preload" as="image" href="{{ $imageWebp800.RelPermalink }}" imagesrcset="{{ $imageWebp800.RelPermalink }} 800w, {{ if $imageWebp1500 }}{{ $imageWebp1500.RelPermalink }} 1500w, {{ end }}{{ $imageWebp.RelPermalink }} {{ $imageWebp.Width }}w" imagesizes="100vw" type="image/webp">
     {{ else if eq .output "json" -}}
-        "image": {"img": "{{ $mainImage.RelPermalink }}", "srcset": "{{ $image800.RelPermalink }} 800w, {{ with $image1500 }}{{ .RelPermalink }} 1500w,{{ end }} {{ $image.RelPermalink }} {{ $image.Width }}w", "webpSrcset": "{{ $imageWebp800.RelPermalink }} 800w, {{- with $imageWebp1500 }}{{ .RelPermalink }} 1500w,{{ end }} {{ $imageWebp.RelPermalink }} {{ $imageWebp.Width }}w"},
+        image: {img: "{{ $mainImage.RelPermalink }}", srcset: "{{ $image800.RelPermalink }} 800w, {{ with $image1500 }}{{ .RelPermalink }} 1500w,{{ end }} {{ $image.RelPermalink }} {{ $image.Width }}w", webpSrcset: "{{ $imageWebp800.RelPermalink }} 800w, {{- with $imageWebp1500 }}{{ .RelPermalink }} 1500w,{{ end }} {{ $imageWebp.RelPermalink }} {{ $imageWebp.Width }}w"},
     {{ else -}}
         <picture>
             <source type="image/webp" srcset="{{ $imageWebp800.RelPermalink }} 800w, {{- with $imageWebp1500 }}{{ .RelPermalink }} 1500w,{{ end }} {{ $imageWebp.RelPermalink }} {{ $imageWebp.Width }}w" sizes="100vw">
@@ -41,7 +41,7 @@
     {{ if eq .output "preload" -}}
         <link rel="preload" as="image" href="{{ ($imageWebp | default $image).RelPermalink }}" {{- if $imageWebp }} type="image/webp"{{ end -}}>
     {{ else if eq .output "json" -}}
-        "image": {"img": "{{ $mainImage.RelPermalink }}", "srcset": "{{ $image.RelPermalink }}" {{- if $imageWebp }}, "webpSrcset": "{{ $imageWebp.RelPermalink }}" {{ end }}},
+        image: {img: "{{ $mainImage.RelPermalink }}", srcset: "{{ $image.RelPermalink }}" {{- if $imageWebp }}, webpSrcset: "{{ $imageWebp.RelPermalink }}" {{ end }}},
     {{ else -}}
         <picture>
             {{ if $imageWebp -}}

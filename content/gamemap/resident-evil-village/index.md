@@ -1,6 +1,7 @@
 ---
 title: "Resident Evil Village"
 author: Guitarpiper
+extra: gregor-scare.png
 
 pos:
   'x': 1000
