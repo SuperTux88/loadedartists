@@ -2,12 +2,13 @@
 /* --------------- */
 
 :root {
-	--clr-primary: #3d291c;
+	--clr-primary: #ffffff;
+	--clr-sealed: #3d291c;
 	--clr-modal: #ffffff;
 
 	--font-family-text: 'Indie Flower', sans-serif;
 
-	--bg-clr-page: #d6ba88;
+	--bg-clr-page: #34211e;
 	--bg-clr-button: #ecd8aa;
 	--bg-clr-modal: rgba(0, 0, 0, 0.8);
 }
@@ -35,7 +36,11 @@ body .hide {
 	 visibility: hidden;
 	 opacity: 0;
 	 transition: visibility 0s 1s, opacity 1s linear;
- }
+}
+
+#gamemap {
+	color: var(--clr-sealed);
+}
 
 /* || loading screen || */
 /* -------------------- */

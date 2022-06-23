@@ -1,30 +1,32 @@
 {{ define "main" }}
-<div class="loading-screen">
-    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
-    <h1>Loading...</h1>
-    <button class="start-game hidden"></button>
-    <div class="controls">
-        Controls:<br>
-        Move: WASD or arrow keys or touch/move<br>
-        Open/Close: Spacebar or Enter or click/touch
-    </div>
-</div>
-
-<canvas id="map" class="hidden"></canvas>
-
-<template id="modal-template">
-    <div class="backdrop">
-        <div class="lightbox">
-            <div class="lightbox-footer">
-                <a class="img-link" target="_blank" rel="noopener">
-                    Open in new tab
-                </a>
-            </div>
-
-            <span class="close"></span>
+<div id="gamemap">
+    <div class="loading-screen">
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        <h1>Loading...</h1>
+        <button class="start-game hidden"></button>
+        <div class="controls">
+            Controls:<br>
+            Move: WASD or arrow keys or touch/move<br>
+            Open/Close: Spacebar or Enter or click/touch
         </div>
     </div>
-</template>
+
+    <canvas id="map" class="hidden"></canvas>
+
+    <template id="modal-template">
+        <div class="backdrop">
+            <div class="lightbox">
+                <div class="lightbox-footer">
+                    <a class="img-link" target="_blank" rel="noopener">
+                        Open in new tab
+                    </a>
+                </div>
+
+                <span class="close"></span>
+            </div>
+        </div>
+    </template>
+</div>
 
 <script type="text/javascript">
     {{ $map := .Page.Resources.GetMatch "map.png" }}

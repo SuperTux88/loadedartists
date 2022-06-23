@@ -1,4 +1,4 @@
-const body = document.querySelector('body');
+const mapContainer = document.getElementById('gamemap');
 const canvas = document.getElementById('map');
 
 let imagesLoaded = 0;
@@ -408,15 +408,15 @@ Game._switchMode = function (event) {
 }
 
 function startGame() {
-  if (body.classList.contains('running')) { return; }
+  if (mapContainer.classList.contains('running')) { return; }
 
   window.addEventListener('resize', () => Game.resize(), false);
 
-  const loadingScreen = body.querySelector('.loading-screen');
+  const loadingScreen = mapContainer.querySelector('.loading-screen');
   loadingScreen.classList.add('hide');
-  window.setTimeout(() => { body.removeChild(loadingScreen) }, 1000);
+  window.setTimeout(() => { mapContainer.removeChild(loadingScreen) }, 1000);
 
-  body.classList.add('running');
+  mapContainer.classList.add('running');
   canvas.classList.remove('hidden');
   Game.run(canvas);
 }
@@ -527,7 +527,7 @@ function addModal(game) {
   const closeLightbox = event => {
     if (event.ctrlKey || event.metaKey) { return; }
     event.stopPropagation();
-    body.removeChild(backdrop);
+    mapContainer.removeChild(backdrop);
     state.modal = false;
     document.removeEventListener('keydown', lightboxKeyboardListener);
   }
@@ -535,5 +535,5 @@ function addModal(game) {
   document.addEventListener('keydown', lightboxKeyboardListener);
   backdrop.addEventListener('click', closeLightbox);
   state.modal = true;
-  body.append(backdrop);
+  mapContainer.append(backdrop);
 }
