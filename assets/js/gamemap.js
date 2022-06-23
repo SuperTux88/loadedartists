@@ -14,7 +14,8 @@ games.forEach(function (game) {
 let state = {
   modal: false,
   debug: false,
-  mode: 1
+  mode: 1,
+  hole: null,
 };
 
 //
@@ -184,8 +185,13 @@ function Gregor(images, overlay, x, y) {
   };
   this.max = {x: 300, top: 240, bottom: 175};
   this.overlay = overlay;
-  this.x = x;
-  this.y = y;
+
+  this.start = {x: x, y: y};
+  this.x = this.start.x;
+  this.y = this.start.y;
+
+  this.falling = false;
+  this.scale = 1.0;
 
   this.flipped = false;
   this.currentImg = this.images.land;
@@ -194,6 +200,18 @@ function Gregor(images, overlay, x, y) {
 Gregor.SPEED = 360; // pixels per second
 
 Gregor.prototype.move = function (delta, dirX, dirY) {
+  if (this.falling) {
+    if (this.scale > 0.05) {
+      this.scale -= 0.015;
+    } else { // respawn
+      this.falling = false;
+      this.scale = 1.0;
+      this.x = this.start.x;
+      this.y = this.start.y;
+    }
+    return;
+  }
+
   let x = this.x + dirX * delta;
   let y = this.y + dirY * delta;
 
@@ -213,6 +231,14 @@ Gregor.prototype.move = function (delta, dirX, dirY) {
     if (state.mode !== 3) {
       return; // Don't move
     }
+  } else if (newLocation === Overlay.HOLE) {
+    if (state.hole) {
+      this.falling = state.hole.x - 300 < x && x < state.hole.x + 300 &&
+        state.hole.y - 100 < y && y < state.hole.y + 300;
+    } else {
+      state.hole = {x: x, y: y};
+      this.falling = true;
+    }
   }
 
   this.x = x;
@@ -230,13 +256,14 @@ Gregor.prototype.render = function (ctx) {
   ctx.translate(this.screenX, this.screenY);
   ctx.scale(this.flipped ? -1 : 1, 1);
 
-  ctx.drawImage(this.currentImg.img, Game.scale(-this.currentImg.offset.x), Game.scale(-this.currentImg.offset.y),
-    Game.scale(this.currentImg.img.width), Game.scale(this.currentImg.img.height));
+  ctx.drawImage(this.currentImg.img,
+    Game.scale(-this.currentImg.offset.x) * this.scale, Game.scale(-this.currentImg.offset.y) * this.scale,
+    Game.scale(this.currentImg.img.width) * this.scale, Game.scale(this.currentImg.img.height) * this.scale);
 
   if (state.debug) {
     ctx.fillStyle = '#ff0000';
     ctx.shadowColor = 'transparent';
-    ctx.fillRect(0, 0, Game.scale(4), Game.scale(4));
+    ctx.fillRect(-2, -2, Game.scale(4), Game.scale(4));
   }
 
   ctx.restore();
@@ -260,6 +287,7 @@ function Overlay(overlayImg) {
 Overlay.LAND = 'LAND';
 Overlay.WATER = 'WATER';
 Overlay.BLOCKED = 'BLOCKED';
+Overlay.HOLE = 'HOLE';
 
 Overlay.prototype.getMapDataAtLocation = function (x, y) {
   const [r, g, b, a] = this.overlay.getImageData(x, y, 1, 1).data;
@@ -267,8 +295,10 @@ Overlay.prototype.getMapDataAtLocation = function (x, y) {
     return Overlay.LAND;
   } else if (b >= 200) {
     return Overlay.WATER;
-  } else if (r >= 200) {
+  } else if (r >= 200 && g <= 50 && b <= 50) {
     return Overlay.BLOCKED;
+  } if (r >= 200 && g >= 200 && b <= 50) {
+    return Overlay.HOLE;
   } else {
     console.log('unknown overlay color', x, y, r, g, b, a);
   }
@@ -353,6 +383,12 @@ Game.update = function (delta) {
 
 Game.render = function () {
   this.ctx.drawImage(state.mode === 1 ? mapImgs.map : mapImgs.line, -this.camera.x, -this.camera.y, Game.scale(this.width), Game.scale(this.height));
+  if (state.hole) {
+    this.ctx.drawImage(mapImgs.hole,
+      Game.scale(state.hole.x - mapImgs.hole.width / 2) - this.camera.x,
+      Game.scale(state.hole.y - mapImgs.hole.height / 2) - this.camera.y,
+      Game.scale(mapImgs.hole.width), Game.scale(mapImgs.hole.height));
+  }
   if (state.debug) {
     this.ctx.globalAlpha = 0.2;
     this.ctx.drawImage(mapImgs.overlay, -this.camera.x, -this.camera.y, Game.scale(this.width), Game.scale(this.height));
