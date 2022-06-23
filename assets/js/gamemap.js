@@ -396,13 +396,15 @@ Game._openImg = function () {
 }
 
 Game._toggleDebug = function (event) {
-  if (event.ctrlKey) {
+  if (event.ctrlKey || event.altKey) {
+    event.preventDefault();
     state.debug = !state.debug;
   }
 }
 
 Game._switchMode = function (event) {
-  if (event.ctrlKey) {
+  if (event.ctrlKey || event.altKey) {
+    event.preventDefault();
     state.mode = parseInt(event.key);
   }
 }
