@@ -310,7 +310,7 @@ Game.init = function () {
   Keyboard.addCallback(Keyboard.DEBUG, (event) => Game._toggleDebug(event));
   Keyboard.addCallback(Keyboard.MODE, (event) => Game._switchMode(event));
   Touch.listenForEvents();
-  document.addEventListener('click', () => Game._openImg());
+  document.addEventListener('click', (event) => Game._openImg(event));
 
   this.overlay = new Overlay(mapImgs.overlay);
   this.width = this.overlay.width;
