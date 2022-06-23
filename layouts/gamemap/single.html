@@ -6,15 +6,7 @@
     <div class="title">
         <h1>{{ .Title }}</h1>
         <span class="author">
-            (by
-            {{ if (.Params.author_link) -}}
-                <a href="{{ .Params.author_link }}" target="_blank" rel="noopener">
-                    {{- .Params.author -}}
-                </a>
-            {{- else -}}
-                {{- .Params.author -}}
-            {{- end -}}
-            )
+            (by {{ partial "gamemap/author" . }})
         </span>
 
         <a href="{{ .Parent.RelPermalink }}" class="map-link">
@@ -23,5 +15,19 @@
     </div>
 
     {{- partial "gamemap/main-image" (dict "page" .) -}}
+
+    <div class="img-footer">
+        by {{ partial "gamemap/author" . }}
+    </div>
 </div>
 {{ end -}}
+
+{{ define "partials/gamemap/author" }}
+    {{ if (.Params.author_link) -}}
+        <a href="{{ .Params.author_link }}" target="_blank" rel="noopener">
+            {{- .Params.author -}}
+        </a>
+    {{- else -}}
+        {{- .Params.author -}}
+    {{- end -}}
+{{ end }}
