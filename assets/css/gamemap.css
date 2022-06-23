@@ -40,6 +40,7 @@ body .hide {
 
 #gamemap {
 	color: var(--clr-sealed);
+	position: fixed;
 }
 
 /* || loading screen || */
