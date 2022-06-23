@@ -306,7 +306,7 @@ Game.tick = function (elapsed) {
 
 Game.init = function () {
   Keyboard.listenForEvents([Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN]);
-  Keyboard.addCallback(Keyboard.OPEN, () => Game._openImg());
+  Keyboard.addCallback(Keyboard.OPEN, (event) => Game._openImg(event));
   Keyboard.addCallback(Keyboard.DEBUG, (event) => Game._toggleDebug(event));
   Keyboard.addCallback(Keyboard.MODE, (event) => Game._switchMode(event));
   Touch.listenForEvents();
@@ -382,8 +382,9 @@ Game.scale = function (number) {
   return this.currentScale * number;
 }
 
-Game._openImg = function () {
+Game._openImg = function (event) {
   if (state.modal) { return; }
+  event.preventDefault();
 
   const x = this.gregor.x, y = this.gregor.y;
   const game = games.find((game) => {
