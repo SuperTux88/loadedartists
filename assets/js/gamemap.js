@@ -269,6 +269,9 @@ Gregor.prototype.render = function (ctx) {
     ctx.fillRect(-2, -2, Game.scale(4), Game.scale(4));
   }
 
+  // draw the current image to the canvas at x,y
+
+
   ctx.restore();
 }
 

@@ -5,7 +5,7 @@
 {{ if not $mainImage -}}
     {{ $mainImage = .page.Resources.GetMatch (printf "%s.jpg" .page.File.ContentBaseName) -}}
 {{ end -}}
-{{ if and (gt $mainImage.Width 1500) (not (eq $mainImage.MediaType.SubType "gif")) -}}
+{{ if and (ge $mainImage.Width 800) (not (eq $mainImage.MediaType.SubType "gif")) -}}
     {{ $image := $mainImage -}}
     {{ if eq $mainImage.MediaType.SubType "png" -}}
         {{ $image = $mainImage.Resize (printf "%dx jpg" $mainImage.Width) -}}
