@@ -33,12 +33,10 @@
 
 <script type="text/javascript">
     {{ $map := .Page.Resources.GetMatch "map.png" }}
-    {{ $mapLine := .Page.Resources.GetMatch "map_line.png" }}
     {{ $mapOverlay := .Page.Resources.GetMatch "map_overlay.png" }}
     {{ $mapHole := .Page.Resources.GetMatch "map_hole.png" }}
     const mapPaths = {
         map: {png: {{ $map.RelPermalink }}, webp: {{ ($map.Resize (printf "%dx webp" $map.Width)).RelPermalink }}},
-        line: {png: {{ $mapLine.RelPermalink }}, webp: {{ ($mapLine.Resize (printf "%dx webp" $map.Width)).RelPermalink }}},
         overlay: {png: {{ $mapOverlay.RelPermalink }}, webp: {{ ($mapOverlay.Resize (printf "%dx webp" $map.Width)).RelPermalink }}},
         hole: {png: {{ $mapHole.RelPermalink }}, webp: {{ ($mapHole.Resize "300x webp").RelPermalink }}},
     };

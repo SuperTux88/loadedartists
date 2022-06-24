@@ -17,7 +17,6 @@ games.forEach(function (game) {
 let state = {
   modal: false,
   debug: false,
-  mode: 1,
   hole: null,
 };
 
@@ -34,7 +33,6 @@ Keyboard.DOWN = ['ArrowDown', 's'];
 
 Keyboard.OPEN = [' ', 'Enter'];
 Keyboard.DEBUG = ['`'];
-Keyboard.MODE = ['1', '2', '3'];
 
 Keyboard._keys = {};
 Keyboard._callbacks = {};
@@ -231,9 +229,7 @@ Gregor.prototype.move = function (delta, dirX, dirY) {
   } else if (newLocation === Overlay.LAND) {
     this.currentImg = this.images.land;
   } else if (newLocation === Overlay.BLOCKED) {
-    if (state.mode !== 3) {
-      return; // Don't move
-    }
+    return; // Don't move
   } else if (newLocation === Overlay.HOLE) {
     if (state.hole) {
       this.falling = state.hole.x - 300 < x && x < state.hole.x + 300 &&
@@ -344,7 +340,6 @@ Game.init = function () {
   Keyboard.listenForEvents([Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN]);
   Keyboard.addCallback(Keyboard.OPEN, (event) => Game._openImg(event));
   Keyboard.addCallback(Keyboard.DEBUG, (event) => Game._toggleDebug(event));
-  Keyboard.addCallback(Keyboard.MODE, (event) => Game._switchMode(event));
   Touch.listenForEvents();
   document.addEventListener('click', (event) => Game._openImg(event));
 
@@ -388,7 +383,7 @@ Game.update = function (delta) {
 };
 
 Game.render = function () {
-  this.ctx.drawImage(state.mode === 1 ? mapImgs.map : mapImgs.line, -this.camera.x, -this.camera.y, Game.scale(this.width), Game.scale(this.height));
+  this.ctx.drawImage(mapImgs.map, -this.camera.x, -this.camera.y, Game.scale(this.width), Game.scale(this.height));
   if (state.hole) {
     this.ctx.drawImage(mapImgs.hole,
       Game.scale(state.hole.x - mapImgs.hole.width / 2) - this.camera.x,
@@ -453,13 +448,6 @@ Game._toggleDebug = function (event) {
   if (event.ctrlKey || event.altKey) {
     event.preventDefault();
     state.debug = !state.debug;
-  }
-}
-
-Game._switchMode = function (event) {
-  if (event.ctrlKey || event.altKey) {
-    event.preventDefault();
-    state.mode = parseInt(event.key);
   }
 }
 
