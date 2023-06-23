@@ -8,7 +8,7 @@ aliases:
 ---
 
 This years birthday surprise is gaming themed! {{< emote loadJ >}}
-We created an interactive map with drawings about some games Gregor has played and some other eastereggs. {{< emote loadLurk >}}
+We created [an interactive map](/gamemap/) with drawings about some games Gregor has played and some other eastereggs. {{< emote loadLurk >}}
 
 [![](map-sealed.png)](/gamemap/)
 
