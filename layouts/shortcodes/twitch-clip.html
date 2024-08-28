@@ -1,9 +1,14 @@
-{{ $clip := getJSON (printf "twitch/clips/%s.json" (.Get 0)) -}}
+{{ $clipPath := printf "/twitch/clips/%s.json" (.Get 0) -}}
+{{ $clip := resources.Get $clipPath -}}
 {{ with $clip -}}
-<div class="embed-wrapper">
-    <a class="embed-placeholder has-title" href="{{ .url }}" data-embed-url="https://clips.twitch.tv/embed?clip={{ .id }}&parent={{ (urls.Parse $.Site.BaseURL).Host }}&autoplay=true" target="_blank" rel="noopener">
-        <div class="embed-title">{{ .title }}</div>
-        <img src="{{ .thumbnail_url }}" alt="" width="600" height="336">
-    </a>
-</div>
+    {{ with . | transform.Unmarshal -}}
+    <div class="embed-wrapper">
+        <a class="embed-placeholder has-title" href="{{ .url }}" data-embed-url="https://clips.twitch.tv/embed?clip={{ .id }}&parent={{ (urls.Parse $.Site.BaseURL).Host }}&autoplay=true" target="_blank" rel="noopener">
+            <div class="embed-title">{{ .title }}</div>
+            <img src="{{ .thumbnail_url }}" alt="" width="600" height="336">
+        </a>
+    </div>
+    {{ end -}}
+{{ else }}
+    {{ errorf "Unable to get clip resource %q" $clipPath }}
 {{ end -}}

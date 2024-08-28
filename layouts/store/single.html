@@ -44,7 +44,7 @@
                 </div>
                 <div class="summary entry-summary"><h1 class="product_title entry-title">{{ .Title }}</h1>
                     <p class="price"><span class="woocommerce-Price-amount amount"><bdi><span
-                        class="woocommerce-Price-currencySymbol">&#36;</span>{{ .Params.price | lang.NumFmt 2 }}</bdi></span>
+                        class="woocommerce-Price-currencySymbol">&#36;</span>{{ .Params.price | lang.FormatNumberCustom 2 }}</bdi></span>
                     </p>
                     <div class="woocommerce-product-details__short-description"><p>{{ .Params.short_description }}</p></div>
                     <p class="stock in-stock">Preorder now!</p>

@@ -138,7 +138,7 @@ ddddddddddddd                                                  dddddddddddddddd
                 {{ $comics = after 3 $comics -}}
             {{ else -}}
                 {{ with .File -}}
-                    {{ $comics = where $comics "File.ContentBaseName" "!=" .File.ContentBaseName -}}
+                    {{ $comics = where $comics "File.ContentBaseName" "!=" .ContentBaseName -}}
                 {{ end -}}
             {{ end -}}
             {{ range $index, $element := first 6 (shuffle $comics) -}}
