@@ -37,7 +37,7 @@
         {{ $pageScratch.Set "kind" .Kind -}}
         {{ $pageSize := 5 -}}
         {{ range $index, $element := first $pageSize $pages -}}
-            {{ if lt $index 2 -}}
+            {{ if lt $index .Site.Params.fullPostsOnHomePage -}}
                 {{ partial "news-post" (dict "pageScratch" $pageScratch "page" . "site" .Site ) }}
             {{ else -}}
                 <article>

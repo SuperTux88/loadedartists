@@ -8,6 +8,7 @@ paginate = 5
 [params]
 mainSections = ["comic"]
 twitchApiHost = "https://twitch.loadingartist.com"
+fullPostsOnHomePage = 0 # TODO: set this to 1 or 2 again when the draw-them-words post isn't included anymore
 
 [params.author]
 fullName = "Gregor Czaykowski & Community"
