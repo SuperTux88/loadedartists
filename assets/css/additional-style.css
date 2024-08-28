@@ -89,3 +89,16 @@ footer .columns {
 .hatguys-thumbs span {
 	height: 70px;
 }
+
+code {
+	padding: 0 .2em;
+	margin: -.2em 0;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	background-color: var(--bg-clr-highlighted);
+}
+
+blockquote {
+	border-left: 4px solid var(--clr-primary);
+	padding-left: 1em;
+}
