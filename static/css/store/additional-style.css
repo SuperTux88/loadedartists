@@ -4,3 +4,55 @@
 article div#tab-description div {
 	margin-bottom: 1.5em;
 }
+
+/* || embedded videos || */
+/* --------------------- */
+
+.embed-wrapper {
+	position: relative;
+	padding-bottom: 56.25%;
+	height: 0;
+	overflow: hidden;
+	contain: strict;
+}
+.embed-wrapper .embed-placeholder,
+.embed-wrapper iframe {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+.embed-placeholder {
+	cursor: pointer;
+	background-position: center;
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+.embed-placeholder::before,
+.embed-placeholder::after {
+	content: '';
+	display: block;
+	position: absolute;
+}
+.embed-placeholder.has-title::before {
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, transparent 40%);
+}
+.embed-placeholder::after {
+	top: calc(50% - 62.5px);
+	left: calc(50% - 62.5px);
+	width: 115px;
+	height: 115px;
+	background: url('/img/buttons/clip_overlay.png') center center no-repeat;
+}
+.embed-placeholder .embed-title {
+	font-family: var(--font-family-heading);
+	text-transform: uppercase;
+	color: white;
+	font-size: 16px;
+	position: absolute;
+	padding: 20px;
+}
+.embed-placeholder img {
+	width: 100%;
+}
